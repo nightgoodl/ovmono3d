@@ -4,7 +4,7 @@
 
 [Jin Yao][jy], [Hao Gu][hg], [Xuweiyi Chen][xc], [Jiayun Wang][jw], [Zezhou Cheng][zc]
 
-[[`Project Page`](https://uva-computer-vision-lab.github.io/ovmono3d/)] [[`arXiv`]()] 
+[[`Project Page`](https://uva-computer-vision-lab.github.io/ovmono3d/)] [[`arXiv`](https://arxiv.org/abs/2411.16833)] 
 <!-- [[`BibTeX`](#citing)] -->
 
 <table style="border-collapse: collapse; border: none;">
