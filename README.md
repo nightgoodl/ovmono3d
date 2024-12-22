@@ -65,7 +65,7 @@ to get the results for the example COCO images.
 You can also try your own images and prompted category labels. See the format of the label file in [`labels.json`](datasets/coco_examples/labels.json). If you know the camera intrinsics you could input them as arguments with the convention `--focal-length <float>` and `--principal-point <float> <float>`. Check [`demo.py`](demo/demo.py) for more details.
 
 
-## Data and Checkpoints <a name="data"></a>
+## Data <a name="data"></a>
 Please follow the instructions in [Omni3D](https://github.com/facebookresearch/omni3d/blob/main/DATA.md) to set up the datasets.  
 Run
 ```bash
