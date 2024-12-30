@@ -295,33 +295,24 @@ def register_and_store_model_metadata(datasets, output_dir, filter_settings=None
 
     output_file = os.path.join(output_dir, 'category_meta.json')
 
-    if os.path.exists(output_file):
-        metadata = util.load_json(output_file)
-        thing_classes = metadata['thing_classes']
-        id_map = metadata['thing_dataset_id_to_contiguous_id']
+    omni3d_stats = util.load_json(os.path.join('datasets', 'Omni3D', 'stats.json'))
+    thing_classes = filter_settings['category_names']
 
-        # json saves id map as strings rather than ints
-        id_map = {int(idA):idB for idA, idB in id_map.items()}
+    cat_ids = []
+    for cat in thing_classes:
+        cat_idx = omni3d_stats['category_names'].index(cat)
+        cat_id = omni3d_stats['categories'][cat_idx]['id']
+        cat_ids.append(cat_id)
 
-    else:
-        omni3d_stats = util.load_json(os.path.join('datasets', 'Omni3D', 'stats.json'))
-        thing_classes = filter_settings['category_names']
-
-        cat_ids = []
-        for cat in thing_classes:
-            cat_idx = omni3d_stats['category_names'].index(cat)
-            cat_id = omni3d_stats['categories'][cat_idx]['id']
-            cat_ids.append(cat_id)
-
-        cat_order = np.argsort(cat_ids)
-        cat_ids = [cat_ids[i] for i in cat_order]
-        thing_classes = [thing_classes[i] for i in cat_order]
-        id_map = {id: i for i, id in enumerate(cat_ids)}
-        
-        util.save_json(output_file, {
-            'thing_classes': thing_classes,
-            'thing_dataset_id_to_contiguous_id': id_map,
-        })
+    cat_order = np.argsort(cat_ids)
+    cat_ids = [cat_ids[i] for i in cat_order]
+    thing_classes = [thing_classes[i] for i in cat_order]
+    id_map = {id: i for i, id in enumerate(cat_ids)}
+    
+    util.save_json(output_file, {
+        'thing_classes': thing_classes,
+        'thing_dataset_id_to_contiguous_id': id_map,
+    })
 
     MetadataCatalog.get('omni3d_model').thing_classes = thing_classes
     MetadataCatalog.get('omni3d_model').thing_dataset_id_to_contiguous_id  = id_map
