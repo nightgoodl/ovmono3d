@@ -531,7 +531,7 @@ class Omni3DEvaluationHelper:
         overall_NHD = np.mean(self.evals_nhd_accumulators3D["overall"])
         disent_xy_nhd = np.mean(self.evals_nhd_accumulators3D["xy"])
         disent_z_nhd = np.mean(self.evals_nhd_accumulators3D["z"])
-        disent_dims_nhd = np.mean(self.evals_nhd_accumulators3D["dims"])
+        disent_dims_nhd = np.mean(self.evals_nhd_accumulators3D["dimensions"])
         disent_pose_nhd = np.mean(self.evals_nhd_accumulators3D["pose"])
 
         # Omni3D Outdoor performance
@@ -887,7 +887,7 @@ class Omni3DEvaluator(COCOEvaluator):
             for idx, metric in enumerate(metrics)
         }
         if mode == "3D":
-            addtional_metrics = ["overall", "xy", "z", "dims", "pose"]
+            addtional_metrics = ["overall", "xy", "z", "dimensions", "pose"]
             for metric in addtional_metrics:
                 if metric == "overall":
                     results[metric + "_NHD"] = float(omni_eval.eval["average_nhd"][metric] if omni_eval.eval["average_nhd"][metric] >= 0 else "nan")
@@ -1967,7 +1967,7 @@ class Omni3DevalWithNHD(Omni3Deval):
         if self.mode == "2D":
             return 
         # Initialize accumulators for NHD metrics
-        self.eval["nhd_accumulators"] = {"overall": [], "xy": [], "z": [], "dims": [], "pose": []}
+        self.eval["nhd_accumulators"] = {"overall": [], "xy": [], "z": [], "dimensions": [], "pose": []}
 
         # Iterate over the evaluated images to collect NHD metrics
         for eval_img in self.evalImgs:
