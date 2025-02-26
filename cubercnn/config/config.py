@@ -33,10 +33,10 @@ def get_cfg_defaults(cfg):
     # or if the 3D full projected boxes should be used.
     cfg.DATASETS.TRUNC_2D_BOXES = True
 
-    cfg.DATASETS.TEST_BASE = ('SUNRGBD_test', 'Hypersim_test', 'ARKitScenes_test', 'Objectron_test', 'KITTI_test', 'nuScenes_test') 
-    cfg.DATASETS.TEST_NOVEL = ('SUNRGBD_test_novel','ARKitScenes_test_novel', 'KITTI_test_novel') 
+    cfg.DATASETS.TEST_BASE = ('Objectron_test',) 
+    cfg.DATASETS.TEST_NOVEL = () 
     cfg.DATASETS.CATEGORY_NAMES_BASE = ('chair', 'table', 'cabinet', 'car', 'lamp', 'books', 'sofa', 'pedestrian', 'picture', 'window', 'pillow', 'truck', 'door', 'blinds', 'sink', 'shelves', 'television', 'shoes', 'cup', 'bottle', 'bookcase', 'laptop', 'desk', 'cereal box', 'floor mat', 'traffic cone', 'mirror', 'barrier', 'counter', 'camera', 'bicycle', 'toilet', 'bus', 'bed', 'refrigerator', 'trailer', 'box', 'oven', 'clothes', 'van', 'towel', 'motorcycle', 'night stand', 'stove', 'machine', 'stationery', 'bathtub', 'cyclist', 'curtain', 'bin')
-    cfg.DATASETS.CATEGORY_NAMES_NOVEL = ('monitor', 'bag', 'dresser', 'board', 'printer', 'keyboard', 'painting', 'drawers', 'microwave', 'computer', 'kitchen pan', 'potted plant', 'tissues', 'rack', 'tray', 'toys', 'phone', 'podium', 'cart', 'soundsystem', 'fireplace', 'tram')
+    cfg.DATASETS.CATEGORY_NAMES_NOVEL = ()
 
     # Oracle 2D files for evaluation
     cfg.DATASETS.ORACLE2D_FILES = CN()
@@ -50,30 +50,30 @@ def get_cfg_defaults(cfg):
 
         # Oracle 2D file for the Novel class dataset
         novel_datasets = {
-            'SUNRGBD_test_novel': 'sunrgbd',
-            'ARKitScenes_test_novel': 'arkitscenes', 
-            'KITTI_test_novel': 'kitti'
+            #'SUNRGBD_test_novel': 'sunrgbd',
+            #'ARKitScenes_test_novel': 'arkitscenes', 
+            #'KITTI_test_novel': 'kitti'
         }
         
         # Oracle 2D file for the Base class dataset
         base_datasets = {
-            'SUNRGBD_test': 'sunrgbd',
-            'Hypersim_test': 'hypersim',
-            'ARKitScenes_test': 'arkitscenes',
+            #'SUNRGBD_test': 'sunrgbd',
+            #'Hypersim_test': 'hypersim',
+            #'ARKitScenes_test': 'arkitscenes',
             'Objectron_test': 'objectron',
-            'KITTI_test': 'kitti',
-            'nuScenes_test': 'nuscenes'
+            #'KITTI_test': 'kitti',
+            #'nuScenes_test': 'nuscenes'
         }
 
         # Set the file path for the novel class
         for dataset, dataset_name in novel_datasets.items():
             prefix = 'gdino_novel_previous_metric' if mode == 'previous_metric' else 'gdino'
-            cfg.DATASETS.ORACLE2D_FILES[mode].novel[dataset] = f'datasets/Omni3D/{prefix}_{dataset_name}_novel_oracle_2d.json'
+            cfg.DATASETS.ORACLE2D_FILES[mode].novel[dataset] = f'/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/{prefix}_{dataset_name}_novel_oracle_2d.json'
 
         # Set the file path for the base class
         for dataset, dataset_name in base_datasets.items():
             prefix = 'gdino_previous_eval' if mode == 'previous_metric' else 'gdino'
-            cfg.DATASETS.ORACLE2D_FILES[mode].base[dataset] = f'datasets/Omni3D/{prefix}_{dataset_name}_base_oracle_2d.json'
+            cfg.DATASETS.ORACLE2D_FILES[mode].base[dataset] = f'/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/{prefix}_{dataset_name}_base_oracle_2d.json'
 
     cfg.MODEL.FPN.IN_FEATURE = None
     cfg.MODEL.FPN.SQUARE_PAD = 0

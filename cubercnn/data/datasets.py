@@ -125,7 +125,7 @@ def is_ignore(anno, filter_settings, image_height):
 def simple_register(dataset_name, filter_settings, filter_empty=False, datasets_root_path=None):
 
     if datasets_root_path is None:
-        datasets_root_path = path_to_json = os.path.join('datasets', 'Omni3D',)
+        datasets_root_path = path_to_json = os.path.join('/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets', 'Omni3D',)
     
     path_to_json = os.path.join(datasets_root_path, dataset_name + '.json')
     path_to_image_root = 'datasets'
@@ -295,7 +295,7 @@ def register_and_store_model_metadata(datasets, output_dir, filter_settings=None
 
     output_file = os.path.join(output_dir, 'category_meta.json')
 
-    omni3d_stats = util.load_json(os.path.join('datasets', 'Omni3D', 'stats.json'))
+    omni3d_stats = util.load_json(os.path.join('/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets', 'Omni3D', 'stats.json'))
     thing_classes = filter_settings['category_names']
 
     cat_ids = []

@@ -54,7 +54,7 @@ import cubercnn.vis.logperf as utils_logperf
 MAX_TRAINING_ATTEMPTS = 10
 
 
-def do_test(cfg, model, iteration='final', storage=None, mode="novel"):
+def do_test(cfg, model, iteration='final', storage=None, mode="base"):
         
     filter_settings = data.get_filter_settings_from_cfg(cfg)    
     filter_settings['visibility_thres'] = cfg.TEST.VISIBILITY_THRES
@@ -308,8 +308,8 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
                 (do_eval and ((iteration + 1) % cfg.TEST.EVAL_PERIOD) == 0 and iteration != (max_iter - 1)):
 
                 logger.info('Starting test for iteration {}'.format(iteration+1))
-                do_test(cfg, model, iteration=iteration+1, storage=storage, mode='novel')
-                # do_test(cfg, model, iteration=iteration+1, storage=storage, mode='base')
+                #do_test(cfg, model, iteration=iteration+1, storage=storage, mode='novel')
+                do_test(cfg, model, iteration=iteration+1, storage=storage, mode='base')
                 comm.synchronize()
                 
                 if not cfg.MODEL.USE_BN: 
@@ -449,7 +449,7 @@ def main(args):
         # Exit if the model could not finish without diverging. 
         raise ValueError('Training failed')
         
-    do_test(cfg, model, mode='novel')
+    #do_test(cfg, model, mode='novel')
     do_test(cfg, model, mode='base')
     return 
 
@@ -484,7 +484,7 @@ def allreduce_dict(input_dict, average=True):
 
 def setup_training_dataset(cfg, filter_settings):
     # setup and join the data.
-    dataset_paths = [os.path.join('datasets', 'Omni3D', name + '.json') for name in cfg.DATASETS.TRAIN]
+    dataset_paths = [os.path.join('/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets', 'Omni3D', name + '.json') for name in cfg.DATASETS.TRAIN]
     datasets = data.Omni3D(dataset_paths, filter_settings=filter_settings)
 
     # determine the meta data given the datasets used. 
