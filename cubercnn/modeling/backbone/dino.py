@@ -83,10 +83,13 @@ class DINOBackbone(Backbone):
         embeds = []
         for i, blk in enumerate(self.vit.blocks):
             x = blk(x)
+            if self.use_depth_fusion and i == len(self.vit.blocks) - 1:
+                    cls_token = x[:, :1]  # [B, 1, C]
+                    patch_tokens = x[:, 1:]  # [B, H*W, C]
+                    patch_tokens = torch.cat([patch_tokens, depth_tokens], dim=-1)  # [B, H*W, C+1]
+                    patch_tokens = self.depth_fusion(patch_tokens.permute(0, 2, 1)).permute(0, 2, 1)  # [B, H*W, C]
+                    x = torch.cat([cls_token, patch_tokens], dim=1)  # [B, 1 + H*W, C]
             if i in self.multilayers:
-                if self.use_depth_fusion and i == self.multilayers[-1]:
-                    x = torch.cat([x[:, 1:], depth_tokens], dim=-1)
-                    x = self.depth_fusion(x.permute(0, 2, 1)).permute(0, 2, 1)
                 embeds.append(x)
                 if len(embeds) == len(self.multilayers):
                     break
