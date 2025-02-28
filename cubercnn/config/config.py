@@ -75,6 +75,8 @@ def get_cfg_defaults(cfg):
             prefix = 'gdino_previous_eval' if mode == 'previous_metric' else 'gdino'
             cfg.DATASETS.ORACLE2D_FILES[mode].base[dataset] = f'/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/{prefix}_{dataset_name}_base_oracle_2d.json'
 
+
+    cfg.MODEL.DINO.USE_DEPTH_FUSION = True
     cfg.MODEL.FPN.IN_FEATURE = None
     cfg.MODEL.FPN.SQUARE_PAD = 0
     # Threshold used for matching and filtering boxes

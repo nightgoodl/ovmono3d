@@ -29,7 +29,7 @@ class DINOBackbone(Backbone):
         dino_vit = torch.hub.load(f"facebookresearch/{dino_name}", self.checkpoint_name)
         self.vit = dino_vit
         self.has_registers = "_reg" in model_name
-
+        self.use_depth_fusion = cfg.MODEL.DINO.USE_DEPTH_FUSION
         assert output in ["cls", "gap", "dense", "dense-cls"]
         self.output = output
         self.patch_size = self.vit.patch_embed.proj.kernel_size[0]
@@ -37,6 +37,13 @@ class DINOBackbone(Backbone):
         feat_dim = feat_dims[model_name]
         feat_dim = feat_dim * 2 if output == "dense-cls" else feat_dim
 
+        if self.use_depth_fusion:
+            
+            self.depth_fusion = nn.Conv2d(
+                in_channels=feat_dim + 1,
+                out_channels=feat_dim,
+                kernel_size=1
+            )
         num_layers = len(self.vit.blocks)
         multilayers = [
             num_layers // 4 - 1,
@@ -60,7 +67,7 @@ class DINOBackbone(Backbone):
         self._out_feature_strides = {out_feature: self.patch_size}
         self._out_features = [out_feature]
 
-    def forward(self, images):
+    def forward(self, images, prompt_depth=None):
         h, w = images.shape[-2:]
         h, w = h // self.patch_size, w // self.patch_size
 
@@ -68,11 +75,18 @@ class DINOBackbone(Backbone):
             x = self.vit.prepare_tokens_with_masks(images, None)
         else:
             x = self.vit.prepare_tokens(images)
-
+        # depth fusion
+        if self.use_depth_fusion and prompt_depth is not None:
+            # prompt_depth: [B, 1, H, W] -> upsample to H*W
+            depth_resized = F.interpolate(prompt_depth, size=(h, w), mode='bilinear')
+            depth_tokens = depth_resized.flatten(2).permute(0, 2, 1)  # [B, H*W, 1]
         embeds = []
         for i, blk in enumerate(self.vit.blocks):
             x = blk(x)
             if i in self.multilayers:
+                if self.use_depth_fusion and i == self.multilayers[-1]:
+                    x = torch.cat([x[:, 1:], depth_tokens], dim=-1)
+                    x = self.depth_fusion(x.permute(0, 2, 1)).permute(0, 2, 1)
                 embeds.append(x)
                 if len(embeds) == len(self.multilayers):
                     break
