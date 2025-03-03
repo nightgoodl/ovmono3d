@@ -219,12 +219,41 @@ def build_detection_train_loader(dataset, *, mapper, sampler=None, total_batch_s
     if sampler is None:
         sampler = TrainingSampler(len(dataset))
     assert isinstance(sampler, torch.utils.data.sampler.Sampler)
+
+    def collate_fn(batch):
+        """
+        Custom collate function to handle both images and depth maps
+        """
+        batched_inputs = []
+        for per_image in batch:
+
+            data = {
+                "image": per_image["image"],
+                "height": per_image["height"],
+                "width": per_image["width"],
+            }
+
+            if "depth" in per_image:
+                data["depth"] = per_image["depth"]
+            
+            if "instances" in per_image:
+                data["instances"] = per_image["instances"]
+            if "dataset_id" in per_image:
+                data["dataset_id"] = per_image["dataset_id"]
+            if "K" in per_image:
+                data["K"] = per_image["K"]
+                
+            batched_inputs.append(data)
+            
+        return batched_inputs
+
     return build_batch_data_loader(
         dataset,
         sampler,
         total_batch_size,
         aspect_ratio_grouping=aspect_ratio_grouping,
-        num_workers=num_workers
+        num_workers=num_workers,
+        collate_fn=collate_fn,
     )
 
 def _test_loader_from_config(cfg, dataset_name, mode, mapper=None):
@@ -251,7 +280,6 @@ def _test_loader_from_config(cfg, dataset_name, mode, mapper=None):
 
 @configurable(from_config=_test_loader_from_config)
 def build_detection_test_loader(dataset, *, mapper, sampler=None, num_workers=0):
-    
     if isinstance(dataset, list):
         dataset = DatasetFromList(dataset, copy=False)
     if mapper is not None:
@@ -259,14 +287,37 @@ def build_detection_test_loader(dataset, *, mapper, sampler=None, num_workers=0)
     if sampler is None:
         sampler = InferenceSampler(len(dataset))
 
-    # Always use 1 image per worker during inference since this is the
-    # standard when reporting inference time in papers.
+    def collate_fn(batch):
+        """
+        Custom collate function for testing
+        """
+        batched_inputs = []
+        for per_image in batch:
+            data = {
+                "image": per_image["image"],
+                "height": per_image["height"],
+                "width": per_image["width"],
+            }
+            
+            if "depth" in per_image:
+                data["depth"] = per_image["depth"]
+
+            if "file_name" in per_image:
+                data["file_name"] = per_image["file_name"]
+            if "dataset_id" in per_image:
+                data["dataset_id"] = per_image["dataset_id"]
+            if "K" in per_image:
+                data["K"] = per_image["K"]
+                
+            batched_inputs.append(data)
+            
+        return batched_inputs
+
     batch_sampler = torch.utils.data.sampler.BatchSampler(sampler, 1, drop_last=False)
     data_loader = torch.utils.data.DataLoader(
         dataset,
         num_workers=num_workers,
         batch_sampler=batch_sampler,
-        collate_fn=trivial_batch_collator,
+        collate_fn=collate_fn,
     )
     return data_loader
-

@@ -196,7 +196,11 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
             storage.iter = iteration
 
             # forward
-            loss_dict = model(data)
+            if "depth" in data[0]:
+                depth = torch.stack([x["depth"] for x in data])
+                loss_dict = model(data, prompt_depth=depth)
+            else:
+                loss_dict = model(data)
             losses = sum(loss_dict.values())
 
             # reduce
