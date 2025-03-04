@@ -75,20 +75,31 @@ class DINOBackbone(Backbone):
             x = self.vit.prepare_tokens_with_masks(images, None)
         else:
             x = self.vit.prepare_tokens(images)
+
         # depth fusion
         if self.use_depth_fusion and prompt_depth is not None:
-            # prompt_depth: [B, 1, H, W] -> upsample to H*W
+            # prompt_depth: [B, 1, H, W] -> upsample to patch size
             depth_resized = F.interpolate(prompt_depth, size=(h, w), mode='bilinear')
             depth_tokens = depth_resized.flatten(2).permute(0, 2, 1)  # [B, H*W, 1]
         embeds = []
         for i, blk in enumerate(self.vit.blocks):
             x = blk(x)
             if self.use_depth_fusion and i == len(self.vit.blocks) - 1:
-                    cls_token = x[:, :1]  # [B, 1, C]
-                    patch_tokens = x[:, 1:]  # [B, H*W, C]
-                    patch_tokens = torch.cat([patch_tokens, depth_tokens], dim=-1)  # [B, H*W, C+1]
-                    patch_tokens = self.depth_fusion(patch_tokens.permute(0, 2, 1)).permute(0, 2, 1)  # [B, H*W, C]
-                    x = torch.cat([cls_token, patch_tokens], dim=1)  # [B, 1 + H*W, C]
+                cls_token = x[:, :1]  # [B, 1, C]
+                patch_tokens = x[:, 1:]  # [B, H*W, C]
+                
+                patch_tokens = patch_tokens.permute(0, 2, 1)  # [B, C, H*W]
+                depth_tokens = depth_tokens.permute(0, 2, 1)  # [B, 1, H*W]
+                fused_tokens = torch.cat([patch_tokens, depth_tokens], dim=1)  # [B, C+1, H*W]
+                
+                fused_tokens = fused_tokens.view(fused_tokens.shape[0], -1, h, w)  # [B, C+1, H, W]
+                fused_tokens = self.depth_fusion(fused_tokens)  # [B, C, H, W]
+                
+                fused_tokens = fused_tokens.flatten(2)  # [B, C, H*W]
+                patch_tokens = fused_tokens.permute(0, 2, 1)  # [B, H*W, C]
+                
+                x = torch.cat([cls_token, patch_tokens], dim=1)  # [B, 1 + H*W, C]
+            
             if i in self.multilayers:
                 embeds.append(x)
                 if len(embeds) == len(self.multilayers):
@@ -126,7 +137,7 @@ def build_dino_backbone(cfg, input_shape: ShapeSpec, priors=None):
     in_feature = cfg.MODEL.FPN.IN_FEATURE
     out_channels = cfg.MODEL.FPN.OUT_CHANNELS
     scale_factors = (2.0, 1.0, 0.5)
-    backbone = SimpleFeaturePyramid(
+    backbone = SimpleFeaturePyramidWithDepth(
         net=bottom_up,
         in_feature=in_feature,
         out_channels=out_channels,
@@ -188,6 +199,25 @@ class TestDINOBackbone(unittest.TestCase):
             print(key, output.shape)
 
         # print(backbone.net.vit)
+
+
+class SimpleFeaturePyramidWithDepth(SimpleFeaturePyramid):
+    def forward(self, x, prompt_depth=None):
+        bottom_up_features = self.net(x, prompt_depth=prompt_depth)
+        features = bottom_up_features[self.in_feature]
+        results = []
+
+        for stage in self.stages:
+            results.append(stage(features))
+
+        if self.top_block is not None:
+            if self.top_block.in_feature in bottom_up_features:
+                top_block_in_feature = bottom_up_features[self.top_block.in_feature]
+            else:
+                top_block_in_feature = results[self._out_features.index(self.top_block.in_feature)]
+            results.extend(self.top_block(top_block_in_feature))
+        assert len(self._out_features) == len(results)
+        return {f: res for f, res in zip(self._out_features, results)}
 
 
 if __name__ == "__main__":

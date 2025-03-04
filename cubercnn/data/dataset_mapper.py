@@ -21,7 +21,7 @@ class DatasetMapper3D(DatasetMapper):
         self.depth_dir = "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/objectron_depth"
         self.use_depth = cfg.MODEL.DINO.USE_DEPTH_FUSION
         #self.image_format = cfg.INPUT.FORMAT
-
+        self.target_depth_size = cfg.INPUT.DEPTH_SIZE
     def __call__(self, dataset_dict):
         """
         Args:
@@ -37,11 +37,10 @@ class DatasetMapper3D(DatasetMapper):
 
         # read depth
         if self.use_depth:
-            rel_path = os.path.relpath(dataset_dict["file_name"], 
-                "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/objectron")
+            file_name = os.path.basename(dataset_dict["file_name"])
+            base_name = os.path.splitext(file_name)[0]
             split = "train" if self.is_train else "test"
-            depth_path = os.path.join(self.depth_dir, split, 
-                os.path.splitext(rel_path)[0] + '.npz')
+            depth_path = os.path.join(self.depth_dir, split, base_name + '.npz')
             
             try:
                 depth_data = np.load(depth_path)['depth']
@@ -67,15 +66,15 @@ class DatasetMapper3D(DatasetMapper):
 
         image_shape = image.shape[:2]  # h, w
 
-        if depth is not None:
-            depth = transforms.apply_image(depth.numpy())
-            depth = torch.as_tensor(depth)
     
         # Pytorch's dataloader is efficient on torch.Tensor due to shared-memory,
         # but not efficient on large generic data structures due to the use of pickle & mp.Queue.
         # Therefore it's important to use torch.Tensor.
         dataset_dict["image"] = torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1)))
         if depth is not None:
+            depth = transforms.apply_image(depth.numpy())
+            depth = np.ascontiguousarray(depth) 
+            depth = torch.as_tensor(depth)
             dataset_dict["depth"] = depth.unsqueeze(0)  # Add channel dimension [1, H, W]
 
         if not self.is_train:

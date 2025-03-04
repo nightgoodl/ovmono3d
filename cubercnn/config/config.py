@@ -76,7 +76,7 @@ def get_cfg_defaults(cfg):
             cfg.DATASETS.ORACLE2D_FILES[mode].base[dataset] = f'/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/{prefix}_{dataset_name}_base_oracle_2d.json'
 
 
-    cfg.MODEL.DINO.USE_DEPTH_FUSION = True
+    
     cfg.MODEL.FPN.IN_FEATURE = None
     cfg.MODEL.FPN.SQUARE_PAD = 0
     # Threshold used for matching and filtering boxes
@@ -89,6 +89,7 @@ def get_cfg_defaults(cfg):
     cfg.MODEL.DINO.OUTPUT = 'dense'
     cfg.MODEL.DINO.LAYER = -1
     cfg.MODEL.DINO.RETURN_MULTILAYER = False
+    cfg.MODEL.DINO.USE_DEPTH_FUSION = True
 
     cfg.MODEL.MAE = CN()
     cfg.MODEL.MAE.CHECKPOINT = 'facebook/vit-mae-base'
@@ -227,6 +228,7 @@ def get_cfg_defaults(cfg):
 
     cfg.INPUT.RANDOM_FLIP = "horizontal"
     cfg.INPUT.TRAIN_SET_PERCENTAGE = 1.0
+    cfg.INPUT.DEPTH_SIZE = (800, 600)
     # When True, we will use localization uncertainty
     # as the new IoUness score in the RPN.
     cfg.MODEL.RPN.OBJECTNESS_UNCERTAINTY = 'IoUness'

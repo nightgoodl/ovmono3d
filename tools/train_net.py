@@ -197,8 +197,21 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
 
             # forward
             if "depth" in data[0]:
-                depth = torch.stack([x["depth"] for x in data])
-                loss_dict = model(data, prompt_depth=depth)
+                # Get batch size and max dimensions
+                batch_size = len(data)
+                max_h = max([x["depth"].shape[1] for x in data])
+                max_w = max([x["depth"].shape[2] for x in data])
+            
+                # Create padded depth tensor
+                depths = torch.zeros((batch_size, 1, max_h, max_w), device=data[0]["depth"].device)
+            
+                # Fill in the depth values
+                for idx, x in enumerate(data):
+                    depth = x["depth"]  # shape: [1, H, W]
+                    h, w = depth.shape[1:]
+                    depths[idx, :, :h, :w] = depth
+
+                loss_dict = model(data, prompt_depth=depths)
             else:
                 loss_dict = model(data)
             losses = sum(loss_dict.values())
