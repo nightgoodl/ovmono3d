@@ -636,7 +636,6 @@ def inference_on_dataset(model, data_loader):
     logger.info("Start inference on {} batches".format(len(data_loader)))
 
     total = len(data_loader)  # inference data loader must have a fixed length
-
     num_warmup = min(5, total - 1)
     start_time = time.perf_counter()
     total_data_time = 0
@@ -674,9 +673,8 @@ def inference_on_dataset(model, data_loader):
             start_eval_time = time.perf_counter()
 
             for input, output in zip(inputs, outputs):
-
                 prediction = {
-                    "image_id": input["image_id"],
+                    "image_id": input.get("image_id", input.get("file_name", str(idx))),  # 添加备选ID
                     "K": input["K"],
                     "width": input["width"],
                     "height": input["height"],
@@ -684,7 +682,7 @@ def inference_on_dataset(model, data_loader):
 
                 # convert to json format
                 instances = output["instances"].to('cpu')
-                prediction["instances"] = instances_to_coco_json(instances, input["image_id"])
+                prediction["instances"] = instances_to_coco_json(instances, prediction["image_id"])
 
                 # store in overall predictions
                 inference_json.append(prediction)

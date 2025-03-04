@@ -34,8 +34,7 @@ class DatasetMapper3D(DatasetMapper):
         # read image
         image = detection_utils.read_image(dataset_dict["file_name"], format=self.image_format)
         detection_utils.check_image_size(dataset_dict, image)
-
-        # read depth
+        
         if self.use_depth:
             file_name = os.path.basename(dataset_dict["file_name"])
             base_name = os.path.splitext(file_name)[0]

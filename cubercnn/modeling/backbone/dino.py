@@ -76,15 +76,19 @@ class DINOBackbone(Backbone):
         else:
             x = self.vit.prepare_tokens(images)
 
+        # Initialize depth_tokens as None
+        depth_tokens = None
+        
         # depth fusion
         if self.use_depth_fusion and prompt_depth is not None:
             # prompt_depth: [B, 1, H, W] -> upsample to patch size
             depth_resized = F.interpolate(prompt_depth, size=(h, w), mode='bilinear')
             depth_tokens = depth_resized.flatten(2).permute(0, 2, 1)  # [B, H*W, 1]
+
         embeds = []
         for i, blk in enumerate(self.vit.blocks):
             x = blk(x)
-            if self.use_depth_fusion and i == len(self.vit.blocks) - 1:
+            if self.use_depth_fusion and depth_tokens is not None and i == len(self.vit.blocks) - 1:
                 cls_token = x[:, :1]  # [B, 1, C]
                 patch_tokens = x[:, 1:]  # [B, H*W, C]
                 
