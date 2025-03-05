@@ -100,13 +100,7 @@ python tools/eval_ovmono3d_geo.py
 
 To run training of OVMono3D-LIFT, use the following command:
 ```bash
-python tools/train_net.py --config-file configs/OVMono3D_dinov2_SFP.yaml --num-gpus 8 \
-    OUTPUT_DIR  output/ovmono3d_lift \
-    VIS_PERIOD 500 TEST.EVAL_PERIOD 2000 \
-    MODEL.STABILIZE  0.03 \
-    SOLVER.BASE_LR 0.012 \
-    SOLVER.CHECKPOINT_PERIOD 1000 \
-    SOLVER.IMS_PER_BATCH 64 
+nohup python tools/train_net.py  --config-file configs/OVMono3D_dinov2_SFP.yaml     --num-gpus 2     OUTPUT_DIR ../../output/ovmono3d_depth     VIS_PERIOD 10000     TEST.EVAL_PERIOD 10000    MODEL.STABILIZE 0.03     SOLVER.BASE_LR 0.012     SOLVER.CHECKPOINT_PERIOD 10000     SOLVER.IMS_PER_BATCH 16     > nohup.out 2>&1 &
 ```
 
 The training hyperparameters above are used in our experiments. While these parameters can be customized to suit your specific requirements, please note that performance may vary across different configurations.
