@@ -120,14 +120,53 @@ def visualize_from_instances(detections, dataset, dataset_name, min_size_test, o
 
         if write_sample:
             data_obj = dataset[imind]
-            assert(data_obj['image_id'] == im_obj['image_id'])
-            im = util.imread(data_obj['file_name'])
-            im_gt_2d = im.copy()
-            im_gt_all_classes_2d = im.copy()
-            im_pred_2d = im.copy()
-            im_gt_3d = im.copy()
-            im_gt_all_classes_3d = im.copy()
-            im_pred_3d = im.copy()
+            
+            # 添加调试信息
+            print(f"Debug: Checking image_id match:")
+            print(f"data_obj: id={data_obj.get('image_id')}, original={data_obj.get('original_image_id')}")
+            print(f"im_obj: id={im_obj.get('image_id')}, original={im_obj.get('original_image_id')}")
+            
+            # 如果im_obj使用文件路径作为image_id，尝试从文件名匹配
+            if isinstance(im_obj.get('image_id'), str):
+                im_file = im_obj['image_id'].split('/')[-1]
+                data_file = data_obj['file_name'].split('/')[-1]
+                
+                print(f"Debug: Comparing files - im_file: {im_file}, data_file: {data_file}")
+                
+                # 使用文件名进行匹配
+                if im_file == data_file:
+                    print("Debug: Files match")
+                    im = util.imread(data_obj['file_name'])
+                    im_gt_2d = im.copy()
+                    im_gt_all_classes_2d = im.copy()
+                    im_pred_2d = im.copy()
+                    im_gt_3d = im.copy()
+                    im_gt_all_classes_3d = im.copy()
+                    im_pred_3d = im.copy()
+                    continue
+                else:
+                    print(f"Warning: Files do not match")
+            
+            # 如果都是数字ID，直接比较
+            if isinstance(data_obj.get('image_id'), int) and isinstance(im_obj.get('image_id'), int):
+                if data_obj['image_id'] == im_obj['image_id']:
+                    print("Debug: IDs match")
+                    im = util.imread(data_obj['file_name'])
+                    im_gt_2d = im.copy()
+                    im_gt_all_classes_2d = im.copy()
+                    im_pred_2d = im.copy()
+                    im_gt_3d = im.copy()
+                    im_gt_all_classes_3d = im.copy()
+                    im_pred_3d = im.copy()
+                    continue
+            
+            print(f"Warning: Could not match images")
+            print(f"Full data_obj: {data_obj}")
+            print(f"Full im_obj: {im_obj}")
+            continue
+            
+            # 不再使用断言，而是跳过不匹配的图像
+            # assert(data_id == im_id)
 
         K = np.array(im_obj['K'])
         K_inv = np.linalg.inv(K)

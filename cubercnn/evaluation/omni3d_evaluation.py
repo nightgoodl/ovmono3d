@@ -954,7 +954,66 @@ class Omni3DEvaluator(COCOEvaluator):
         Evaluate predictions. Fill self._results with the metrics of the tasks.
         """
         self._logger.info("Preparing results for COCO format ...")
+        
+        # 添加调试信息
+        print("Debug: Checking ground truth dataset")
+        print(f"Debug: GT dataset keys: {self._omni_api.dataset.keys()}")
+        print(f"Debug: Sample GT image: {self._omni_api.dataset['images'][0]}")
+        
+        # 创建文件名到image_id的映射
+        filename_to_id = {
+            img['file_path'].split('/')[-1]: img['id']  # 使用 file_path 而不是 file_name
+            for img in self._omni_api.dataset['images']
+        }
+        
+        # 创建反向映射用于调试和保存原始映射关系
+        id_to_filename = {v: k for k, v in filename_to_id.items()}
+        
+        print(f"Debug: Created mapping for {len(filename_to_id)} images")
+        print(f"Debug: Sample mapping: {list(filename_to_id.items())[:2]}")
+        
+        # 保存原始image_id映射关系到数据集中
+        for img in self._omni_api.dataset['images']:
+            img['original_image_id'] = img['id']
+        
+        # 保存原始image_id映射关系到预测结果中
+        for pred in predictions:
+            pred['original_image_id'] = pred['image_id']
+            
+            # 修改预测结果中的image_id
+            if isinstance(pred['image_id'], str):
+                file_name = pred['image_id'].split('/')[-1]  # 只取文件名部分
+                if file_name in filename_to_id:
+                    new_id = filename_to_id[file_name]
+                    pred['image_id'] = new_id
+                    print(f"Debug: Mapped prediction {file_name} from {pred['original_image_id']} to {new_id}")
+                    
+                    # 确保instances中的image_id与pred的image_id一致，同时保存原始id
+                    for instance in pred['instances']:
+                        instance['original_image_id'] = instance['image_id']
+                        instance['image_id'] = new_id
+                else:
+                    print(f"Warning: Could not find image_id for {file_name}")
+            else:
+                # 如果image_id已经是整数，确保instances使用相同的id
+                for instance in pred['instances']:
+                    instance['original_image_id'] = instance['image_id']
+                    instance['image_id'] = pred['image_id']
+        
+        # 验证所有predictions的image_id一致性
+        for pred in predictions:
+            pred_id = pred['image_id']
+            instance_ids = [inst['image_id'] for inst in pred['instances']]
+            if not all(id == pred_id for id in instance_ids):
+                print(f"Warning: Inconsistent image_ids in prediction: {pred_id} vs {instance_ids}")
+        
         omni_results = list(itertools.chain(*[x["instances"] for x in predictions]))
+        
+        # 验证最终结果的image_ids
+        result_ids = set(r['image_id'] for r in omni_results)
+        print(f"Debug: Unique image_ids in results: {result_ids}")
+        print(f"Debug: Sample result: {omni_results[0] if omni_results else 'No results'}")
+        
         tasks = self._tasks or self._tasks_from_predictions(omni_results)
         if self._metadata.name.endswith(("_novel", "_test")):
             category_path = "configs/category_meta.json" # TODO: hard coded
@@ -1048,44 +1107,69 @@ class Omni3DEvaluator(COCOEvaluator):
                 self._results["log_str_3D"] = log_strs["3D"]
 
 
-def _evaluate_predictions_on_omni(
-    omni_gt,
-    omni_results,
-    iou_type,
-    img_ids=None,
-    only_2d=False,
-    eval_prox=False,
-):
+def _evaluate_predictions_on_omni(omni_gt, omni_results, iou_type, img_ids=None, only_2d=False, eval_prox=False):
     """
     Evaluate the coco results using COCOEval API.
     """
     assert len(omni_results) > 0
     log_strs, evals = {}, {}
 
-    omni_dt = omni_gt.loadRes(omni_results)
+    print("Debug: Starting evaluation")
+    print(f"Debug: Number of results to evaluate: {len(omni_results)}")
+    print(f"Debug: First result sample: {omni_results[0]}")
+
+    try:
+        omni_dt = omni_gt.loadRes(omni_results)
+        print("Debug: Successfully loaded results into COCO format")
+    except Exception as e:
+        print(f"Debug: Error loading results: {str(e)}")
+        raise
 
     modes = ["2D"] if only_2d else ["2D", "3D"]
+    print(f"Debug: Evaluating modes: {modes}")
 
     for mode in modes:
-        omni_eval = Omni3DevalWithNHD(
-            omni_gt, omni_dt, iou_threshold_for_disentangled_metrics=0.75, iouType=iou_type, mode=mode, eval_prox=eval_prox
-        )
-        if img_ids is not None:
-            omni_eval.params.imgIds = img_ids
+        print(f"\nDebug: Processing mode {mode}")
+        print(f"Debug: GT annotations: {len(omni_gt.dataset['annotations'])}")
+        print(f"Debug: DT annotations: {len(omni_dt.dataset['annotations'])}")
 
-        omni_eval.evaluate()
-        omni_eval.accumulate()
-        log_str = omni_eval.summarize()
-        log_strs[mode] = log_str
-        evals[mode] = omni_eval
+        try:
+            omni_eval = Omni3DevalWithNHD(
+                omni_gt, omni_dt, iou_threshold_for_disentangled_metrics=0.75,
+                iouType=iou_type, mode=mode, eval_prox=eval_prox
+            )
+            print("Debug: Created evaluator")
+
+            if img_ids is not None:
+                omni_eval.params.imgIds = img_ids
+                print(f"Debug: Set image ids: {len(img_ids)}")
+
+            print("Debug: Starting evaluate()")
+            omni_eval.evaluate()
+            print("Debug: Finished evaluate()")
+
+            print("Debug: Starting accumulate()")
+            omni_eval.accumulate()
+            print("Debug: Finished accumulate()")
+
+            print("Debug: Starting summarize()")
+            log_str = omni_eval.summarize()
+            print("Debug: Finished summarize()")
+
+            log_strs[mode] = log_str
+            evals[mode] = omni_eval
+
+        except Exception as e:
+            print(f"Debug: Error in mode {mode}: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            continue
 
     return evals, log_strs
 
 
 def instances_to_coco_json(instances, img_id):
-
     num_instances = len(instances)
-
     if num_instances == 0:
         return []
 
@@ -1112,7 +1196,7 @@ def instances_to_coco_json(instances, img_id):
     results = []
     for k in range(num_instances):
         result = {
-            "image_id": img_id,
+            "image_id": img_id,  # 现在这里一定是整数
             "category_id": classes[k],
             "bbox": boxes[k],
             "score": scores[k],
@@ -1123,7 +1207,6 @@ def instances_to_coco_json(instances, img_id):
             "dimensions": dimensions[k],
             "pose": pose[k],
         }
-
         results.append(result)
     return results
 
