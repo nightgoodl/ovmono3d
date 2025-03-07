@@ -832,3 +832,1524 @@ Using cache found in /root/.cache/torch/hub/facebookresearch_dinov2_main
 [03/07 10:20:11 cubercnn.evaluation.omni3d_evaluation]: Inference done 874/4657. Dataloading: 0.0060 s/iter. Inference: 0.2049 s/iter. Eval: 0.0021 s/iter. Total: 0.2131 s/iter. ETA=0:13:26
 [03/07 10:20:16 cubercnn.evaluation.omni3d_evaluation]: Inference done 901/4657. Dataloading: 0.0063 s/iter. Inference: 0.2039 s/iter. Eval: 0.0021 s/iter. Total: 0.2123 s/iter. ETA=0:13:17
 [03/07 10:20:21 cubercnn.evaluation.omni3d_evaluation]: Inference done 927/4657. Dataloading: 0.0062 s/iter. Inference: 0.2035 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:13:10
+[03/07 10:20:26 cubercnn.evaluation.omni3d_evaluation]: Inference done 952/4657. Dataloading: 0.0062 s/iter. Inference: 0.2031 s/iter. Eval: 0.0021 s/iter. Total: 0.2115 s/iter. ETA=0:13:03
+[03/07 10:20:31 cubercnn.evaluation.omni3d_evaluation]: Inference done 975/4657. Dataloading: 0.0061 s/iter. Inference: 0.2034 s/iter. Eval: 0.0021 s/iter. Total: 0.2116 s/iter. ETA=0:12:59
+[03/07 10:20:36 cubercnn.evaluation.omni3d_evaluation]: Inference done 998/4657. Dataloading: 0.0060 s/iter. Inference: 0.2037 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:12:54
+[03/07 10:20:41 cubercnn.evaluation.omni3d_evaluation]: Inference done 1025/4657. Dataloading: 0.0060 s/iter. Inference: 0.2029 s/iter. Eval: 0.0022 s/iter. Total: 0.2112 s/iter. ETA=0:12:46
+[03/07 10:20:46 cubercnn.evaluation.omni3d_evaluation]: Inference done 1049/4657. Dataloading: 0.0059 s/iter. Inference: 0.2032 s/iter. Eval: 0.0022 s/iter. Total: 0.2113 s/iter. ETA=0:12:42
+[03/07 10:20:52 cubercnn.evaluation.omni3d_evaluation]: Inference done 1074/4657. Dataloading: 0.0058 s/iter. Inference: 0.2031 s/iter. Eval: 0.0022 s/iter. Total: 0.2111 s/iter. ETA=0:12:36
+[03/07 10:20:57 cubercnn.evaluation.omni3d_evaluation]: Inference done 1094/4657. Dataloading: 0.0057 s/iter. Inference: 0.2039 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:12:34
+[03/07 10:21:02 cubercnn.evaluation.omni3d_evaluation]: Inference done 1115/4657. Dataloading: 0.0056 s/iter. Inference: 0.2048 s/iter. Eval: 0.0021 s/iter. Total: 0.2126 s/iter. ETA=0:12:33
+[03/07 10:21:07 cubercnn.evaluation.omni3d_evaluation]: Inference done 1139/4657. Dataloading: 0.0057 s/iter. Inference: 0.2047 s/iter. Eval: 0.0021 s/iter. Total: 0.2126 s/iter. ETA=0:12:27
+[03/07 10:21:12 cubercnn.evaluation.omni3d_evaluation]: Inference done 1161/4657. Dataloading: 0.0057 s/iter. Inference: 0.2051 s/iter. Eval: 0.0021 s/iter. Total: 0.2130 s/iter. ETA=0:12:24
+[03/07 10:21:17 cubercnn.evaluation.omni3d_evaluation]: Inference done 1180/4657. Dataloading: 0.0057 s/iter. Inference: 0.2060 s/iter. Eval: 0.0021 s/iter. Total: 0.2138 s/iter. ETA=0:12:23
+[03/07 10:21:22 cubercnn.evaluation.omni3d_evaluation]: Inference done 1203/4657. Dataloading: 0.0057 s/iter. Inference: 0.2061 s/iter. Eval: 0.0021 s/iter. Total: 0.2139 s/iter. ETA=0:12:18
+[03/07 10:21:27 cubercnn.evaluation.omni3d_evaluation]: Inference done 1226/4657. Dataloading: 0.0056 s/iter. Inference: 0.2062 s/iter. Eval: 0.0020 s/iter. Total: 0.2139 s/iter. ETA=0:12:13
+[03/07 10:21:32 cubercnn.evaluation.omni3d_evaluation]: Inference done 1250/4657. Dataloading: 0.0056 s/iter. Inference: 0.2062 s/iter. Eval: 0.0021 s/iter. Total: 0.2139 s/iter. ETA=0:12:08
+[03/07 10:21:37 cubercnn.evaluation.omni3d_evaluation]: Inference done 1274/4657. Dataloading: 0.0055 s/iter. Inference: 0.2062 s/iter. Eval: 0.0021 s/iter. Total: 0.2139 s/iter. ETA=0:12:03
+[03/07 10:21:42 cubercnn.evaluation.omni3d_evaluation]: Inference done 1296/4657. Dataloading: 0.0055 s/iter. Inference: 0.2065 s/iter. Eval: 0.0021 s/iter. Total: 0.2142 s/iter. ETA=0:11:59
+[03/07 10:21:47 cubercnn.evaluation.omni3d_evaluation]: Inference done 1318/4657. Dataloading: 0.0055 s/iter. Inference: 0.2068 s/iter. Eval: 0.0021 s/iter. Total: 0.2144 s/iter. ETA=0:11:55
+[03/07 10:21:53 cubercnn.evaluation.omni3d_evaluation]: Inference done 1344/4657. Dataloading: 0.0054 s/iter. Inference: 0.2064 s/iter. Eval: 0.0022 s/iter. Total: 0.2141 s/iter. ETA=0:11:49
+[03/07 10:21:58 cubercnn.evaluation.omni3d_evaluation]: Inference done 1368/4657. Dataloading: 0.0055 s/iter. Inference: 0.2062 s/iter. Eval: 0.0022 s/iter. Total: 0.2140 s/iter. ETA=0:11:43
+[03/07 10:22:03 cubercnn.evaluation.omni3d_evaluation]: Inference done 1391/4657. Dataloading: 0.0057 s/iter. Inference: 0.2062 s/iter. Eval: 0.0022 s/iter. Total: 0.2141 s/iter. ETA=0:11:39
+[03/07 10:22:08 cubercnn.evaluation.omni3d_evaluation]: Inference done 1417/4657. Dataloading: 0.0057 s/iter. Inference: 0.2058 s/iter. Eval: 0.0022 s/iter. Total: 0.2138 s/iter. ETA=0:11:32
+[03/07 10:22:13 cubercnn.evaluation.omni3d_evaluation]: Inference done 1441/4657. Dataloading: 0.0057 s/iter. Inference: 0.2058 s/iter. Eval: 0.0022 s/iter. Total: 0.2138 s/iter. ETA=0:11:27
+[03/07 10:22:18 cubercnn.evaluation.omni3d_evaluation]: Inference done 1466/4657. Dataloading: 0.0057 s/iter. Inference: 0.2056 s/iter. Eval: 0.0022 s/iter. Total: 0.2136 s/iter. ETA=0:11:21
+[03/07 10:22:23 cubercnn.evaluation.omni3d_evaluation]: Inference done 1489/4657. Dataloading: 0.0059 s/iter. Inference: 0.2056 s/iter. Eval: 0.0022 s/iter. Total: 0.2137 s/iter. ETA=0:11:17
+[03/07 10:22:28 cubercnn.evaluation.omni3d_evaluation]: Inference done 1511/4657. Dataloading: 0.0058 s/iter. Inference: 0.2059 s/iter. Eval: 0.0022 s/iter. Total: 0.2139 s/iter. ETA=0:11:13
+[03/07 10:22:33 cubercnn.evaluation.omni3d_evaluation]: Inference done 1536/4657. Dataloading: 0.0058 s/iter. Inference: 0.2058 s/iter. Eval: 0.0021 s/iter. Total: 0.2138 s/iter. ETA=0:11:07
+[03/07 10:22:38 cubercnn.evaluation.omni3d_evaluation]: Inference done 1558/4657. Dataloading: 0.0058 s/iter. Inference: 0.2060 s/iter. Eval: 0.0021 s/iter. Total: 0.2140 s/iter. ETA=0:11:03
+[03/07 10:22:43 cubercnn.evaluation.omni3d_evaluation]: Inference done 1584/4657. Dataloading: 0.0059 s/iter. Inference: 0.2057 s/iter. Eval: 0.0021 s/iter. Total: 0.2137 s/iter. ETA=0:10:56
+[03/07 10:22:49 cubercnn.evaluation.omni3d_evaluation]: Inference done 1606/4657. Dataloading: 0.0058 s/iter. Inference: 0.2061 s/iter. Eval: 0.0021 s/iter. Total: 0.2140 s/iter. ETA=0:10:53
+[03/07 10:22:54 cubercnn.evaluation.omni3d_evaluation]: Inference done 1628/4657. Dataloading: 0.0058 s/iter. Inference: 0.2063 s/iter. Eval: 0.0021 s/iter. Total: 0.2142 s/iter. ETA=0:10:48
+[03/07 10:22:59 cubercnn.evaluation.omni3d_evaluation]: Inference done 1652/4657. Dataloading: 0.0058 s/iter. Inference: 0.2062 s/iter. Eval: 0.0021 s/iter. Total: 0.2142 s/iter. ETA=0:10:43
+[03/07 10:23:04 cubercnn.evaluation.omni3d_evaluation]: Inference done 1674/4657. Dataloading: 0.0058 s/iter. Inference: 0.2065 s/iter. Eval: 0.0021 s/iter. Total: 0.2144 s/iter. ETA=0:10:39
+[03/07 10:23:09 cubercnn.evaluation.omni3d_evaluation]: Inference done 1700/4657. Dataloading: 0.0058 s/iter. Inference: 0.2062 s/iter. Eval: 0.0021 s/iter. Total: 0.2142 s/iter. ETA=0:10:33
+[03/07 10:23:14 cubercnn.evaluation.omni3d_evaluation]: Inference done 1726/4657. Dataloading: 0.0059 s/iter. Inference: 0.2059 s/iter. Eval: 0.0020 s/iter. Total: 0.2139 s/iter. ETA=0:10:27
+[03/07 10:23:19 cubercnn.evaluation.omni3d_evaluation]: Inference done 1753/4657. Dataloading: 0.0059 s/iter. Inference: 0.2055 s/iter. Eval: 0.0020 s/iter. Total: 0.2136 s/iter. ETA=0:10:20
+[03/07 10:23:24 cubercnn.evaluation.omni3d_evaluation]: Inference done 1777/4657. Dataloading: 0.0059 s/iter. Inference: 0.2055 s/iter. Eval: 0.0020 s/iter. Total: 0.2135 s/iter. ETA=0:10:15
+[03/07 10:23:29 cubercnn.evaluation.omni3d_evaluation]: Inference done 1804/4657. Dataloading: 0.0060 s/iter. Inference: 0.2051 s/iter. Eval: 0.0020 s/iter. Total: 0.2132 s/iter. ETA=0:10:08
+[03/07 10:23:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 1830/4657. Dataloading: 0.0060 s/iter. Inference: 0.2049 s/iter. Eval: 0.0020 s/iter. Total: 0.2130 s/iter. ETA=0:10:02
+[03/07 10:23:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 1855/4657. Dataloading: 0.0060 s/iter. Inference: 0.2047 s/iter. Eval: 0.0020 s/iter. Total: 0.2129 s/iter. ETA=0:09:56
+[03/07 10:23:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 1880/4657. Dataloading: 0.0061 s/iter. Inference: 0.2045 s/iter. Eval: 0.0020 s/iter. Total: 0.2127 s/iter. ETA=0:09:50
+[03/07 10:23:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 1904/4657. Dataloading: 0.0061 s/iter. Inference: 0.2045 s/iter. Eval: 0.0020 s/iter. Total: 0.2127 s/iter. ETA=0:09:45
+[03/07 10:23:55 cubercnn.evaluation.omni3d_evaluation]: Inference done 1932/4657. Dataloading: 0.0061 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2123 s/iter. ETA=0:09:38
+[03/07 10:24:00 cubercnn.evaluation.omni3d_evaluation]: Inference done 1953/4657. Dataloading: 0.0062 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2126 s/iter. ETA=0:09:34
+[03/07 10:24:05 cubercnn.evaluation.omni3d_evaluation]: Inference done 1975/4657. Dataloading: 0.0063 s/iter. Inference: 0.2044 s/iter. Eval: 0.0020 s/iter. Total: 0.2128 s/iter. ETA=0:09:30
+[03/07 10:24:10 cubercnn.evaluation.omni3d_evaluation]: Inference done 2000/4657. Dataloading: 0.0062 s/iter. Inference: 0.2043 s/iter. Eval: 0.0020 s/iter. Total: 0.2126 s/iter. ETA=0:09:24
+[03/07 10:24:15 cubercnn.evaluation.omni3d_evaluation]: Inference done 2026/4657. Dataloading: 0.0062 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2124 s/iter. ETA=0:09:18
+[03/07 10:24:20 cubercnn.evaluation.omni3d_evaluation]: Inference done 2052/4657. Dataloading: 0.0062 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:09:12
+[03/07 10:24:25 cubercnn.evaluation.omni3d_evaluation]: Inference done 2079/4657. Dataloading: 0.0061 s/iter. Inference: 0.2035 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:09:06
+[03/07 10:24:30 cubercnn.evaluation.omni3d_evaluation]: Inference done 2103/4657. Dataloading: 0.0062 s/iter. Inference: 0.2035 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:09:01
+[03/07 10:24:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 2130/4657. Dataloading: 0.0062 s/iter. Inference: 0.2032 s/iter. Eval: 0.0020 s/iter. Total: 0.2116 s/iter. ETA=0:08:54
+[03/07 10:24:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 2154/4657. Dataloading: 0.0062 s/iter. Inference: 0.2032 s/iter. Eval: 0.0020 s/iter. Total: 0.2115 s/iter. ETA=0:08:49
+[03/07 10:24:46 cubercnn.evaluation.omni3d_evaluation]: Inference done 2180/4657. Dataloading: 0.0062 s/iter. Inference: 0.2030 s/iter. Eval: 0.0020 s/iter. Total: 0.2114 s/iter. ETA=0:08:43
+[03/07 10:24:51 cubercnn.evaluation.omni3d_evaluation]: Inference done 2203/4657. Dataloading: 0.0061 s/iter. Inference: 0.2032 s/iter. Eval: 0.0020 s/iter. Total: 0.2115 s/iter. ETA=0:08:38
+[03/07 10:24:56 cubercnn.evaluation.omni3d_evaluation]: Inference done 2225/4657. Dataloading: 0.0061 s/iter. Inference: 0.2035 s/iter. Eval: 0.0020 s/iter. Total: 0.2117 s/iter. ETA=0:08:34
+[03/07 10:25:01 cubercnn.evaluation.omni3d_evaluation]: Inference done 2249/4657. Dataloading: 0.0061 s/iter. Inference: 0.2034 s/iter. Eval: 0.0020 s/iter. Total: 0.2117 s/iter. ETA=0:08:29
+[03/07 10:25:06 cubercnn.evaluation.omni3d_evaluation]: Inference done 2274/4657. Dataloading: 0.0061 s/iter. Inference: 0.2033 s/iter. Eval: 0.0020 s/iter. Total: 0.2116 s/iter. ETA=0:08:24
+[03/07 10:25:11 cubercnn.evaluation.omni3d_evaluation]: Inference done 2300/4657. Dataloading: 0.0062 s/iter. Inference: 0.2031 s/iter. Eval: 0.0020 s/iter. Total: 0.2115 s/iter. ETA=0:08:18
+[03/07 10:25:16 cubercnn.evaluation.omni3d_evaluation]: Inference done 2324/4657. Dataloading: 0.0063 s/iter. Inference: 0.2030 s/iter. Eval: 0.0020 s/iter. Total: 0.2114 s/iter. ETA=0:08:13
+[03/07 10:25:21 cubercnn.evaluation.omni3d_evaluation]: Inference done 2354/4657. Dataloading: 0.0063 s/iter. Inference: 0.2023 s/iter. Eval: 0.0021 s/iter. Total: 0.2109 s/iter. ETA=0:08:05
+[03/07 10:25:26 cubercnn.evaluation.omni3d_evaluation]: Inference done 2373/4657. Dataloading: 0.0063 s/iter. Inference: 0.2028 s/iter. Eval: 0.0021 s/iter. Total: 0.2114 s/iter. ETA=0:08:02
+[03/07 10:25:32 cubercnn.evaluation.omni3d_evaluation]: Inference done 2397/4657. Dataloading: 0.0063 s/iter. Inference: 0.2030 s/iter. Eval: 0.0021 s/iter. Total: 0.2115 s/iter. ETA=0:07:57
+[03/07 10:25:37 cubercnn.evaluation.omni3d_evaluation]: Inference done 2420/4657. Dataloading: 0.0063 s/iter. Inference: 0.2031 s/iter. Eval: 0.0021 s/iter. Total: 0.2116 s/iter. ETA=0:07:53
+[03/07 10:25:42 cubercnn.evaluation.omni3d_evaluation]: Inference done 2445/4657. Dataloading: 0.0062 s/iter. Inference: 0.2030 s/iter. Eval: 0.0021 s/iter. Total: 0.2115 s/iter. ETA=0:07:47
+[03/07 10:25:47 cubercnn.evaluation.omni3d_evaluation]: Inference done 2468/4657. Dataloading: 0.0062 s/iter. Inference: 0.2032 s/iter. Eval: 0.0020 s/iter. Total: 0.2116 s/iter. ETA=0:07:43
+[03/07 10:25:52 cubercnn.evaluation.omni3d_evaluation]: Inference done 2491/4657. Dataloading: 0.0062 s/iter. Inference: 0.2034 s/iter. Eval: 0.0020 s/iter. Total: 0.2117 s/iter. ETA=0:07:38
+[03/07 10:25:57 cubercnn.evaluation.omni3d_evaluation]: Inference done 2514/4657. Dataloading: 0.0061 s/iter. Inference: 0.2035 s/iter. Eval: 0.0020 s/iter. Total: 0.2118 s/iter. ETA=0:07:33
+[03/07 10:26:03 cubercnn.evaluation.omni3d_evaluation]: Inference done 2537/4657. Dataloading: 0.0061 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:07:29
+[03/07 10:26:08 cubercnn.evaluation.omni3d_evaluation]: Inference done 2559/4657. Dataloading: 0.0061 s/iter. Inference: 0.2039 s/iter. Eval: 0.0020 s/iter. Total: 0.2122 s/iter. ETA=0:07:25
+[03/07 10:26:13 cubercnn.evaluation.omni3d_evaluation]: Inference done 2581/4657. Dataloading: 0.0060 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2123 s/iter. ETA=0:07:20
+[03/07 10:26:18 cubercnn.evaluation.omni3d_evaluation]: Inference done 2605/4657. Dataloading: 0.0060 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2124 s/iter. ETA=0:07:15
+[03/07 10:26:23 cubercnn.evaluation.omni3d_evaluation]: Inference done 2629/4657. Dataloading: 0.0060 s/iter. Inference: 0.2043 s/iter. Eval: 0.0020 s/iter. Total: 0.2124 s/iter. ETA=0:07:10
+[03/07 10:26:28 cubercnn.evaluation.omni3d_evaluation]: Inference done 2654/4657. Dataloading: 0.0060 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2123 s/iter. ETA=0:07:05
+[03/07 10:26:33 cubercnn.evaluation.omni3d_evaluation]: Inference done 2681/4657. Dataloading: 0.0060 s/iter. Inference: 0.2039 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:06:59
+[03/07 10:26:39 cubercnn.evaluation.omni3d_evaluation]: Inference done 2706/4657. Dataloading: 0.0060 s/iter. Inference: 0.2039 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:06:53
+[03/07 10:26:44 cubercnn.evaluation.omni3d_evaluation]: Inference done 2729/4657. Dataloading: 0.0060 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:06:49
+[03/07 10:26:49 cubercnn.evaluation.omni3d_evaluation]: Inference done 2751/4657. Dataloading: 0.0060 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2123 s/iter. ETA=0:06:44
+[03/07 10:26:54 cubercnn.evaluation.omni3d_evaluation]: Inference done 2776/4657. Dataloading: 0.0059 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2122 s/iter. ETA=0:06:39
+[03/07 10:26:59 cubercnn.evaluation.omni3d_evaluation]: Inference done 2803/4657. Dataloading: 0.0059 s/iter. Inference: 0.2039 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:06:32
+[03/07 10:27:04 cubercnn.evaluation.omni3d_evaluation]: Inference done 2828/4657. Dataloading: 0.0059 s/iter. Inference: 0.2039 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:06:27
+[03/07 10:27:09 cubercnn.evaluation.omni3d_evaluation]: Inference done 2850/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:06:23
+[03/07 10:27:14 cubercnn.evaluation.omni3d_evaluation]: Inference done 2876/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:06:17
+[03/07 10:27:19 cubercnn.evaluation.omni3d_evaluation]: Inference done 2903/4657. Dataloading: 0.0059 s/iter. Inference: 0.2036 s/iter. Eval: 0.0020 s/iter. Total: 0.2117 s/iter. ETA=0:06:11
+[03/07 10:27:24 cubercnn.evaluation.omni3d_evaluation]: Inference done 2922/4657. Dataloading: 0.0060 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:06:07
+[03/07 10:27:30 cubercnn.evaluation.omni3d_evaluation]: Inference done 2947/4657. Dataloading: 0.0060 s/iter. Inference: 0.2039 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:06:02
+[03/07 10:27:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 2974/4657. Dataloading: 0.0060 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2118 s/iter. ETA=0:05:56
+[03/07 10:27:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 2998/4657. Dataloading: 0.0060 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2118 s/iter. ETA=0:05:51
+[03/07 10:27:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 3023/4657. Dataloading: 0.0059 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2117 s/iter. ETA=0:05:45
+[03/07 10:27:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 3045/4657. Dataloading: 0.0059 s/iter. Inference: 0.2038 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:05:41
+[03/07 10:27:55 cubercnn.evaluation.omni3d_evaluation]: Inference done 3067/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:05:37
+[03/07 10:28:00 cubercnn.evaluation.omni3d_evaluation]: Inference done 3092/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:05:31
+[03/07 10:28:05 cubercnn.evaluation.omni3d_evaluation]: Inference done 3114/4657. Dataloading: 0.0059 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2122 s/iter. ETA=0:05:27
+[03/07 10:28:11 cubercnn.evaluation.omni3d_evaluation]: Inference done 3136/4657. Dataloading: 0.0059 s/iter. Inference: 0.2043 s/iter. Eval: 0.0020 s/iter. Total: 0.2123 s/iter. ETA=0:05:22
+[03/07 10:28:16 cubercnn.evaluation.omni3d_evaluation]: Inference done 3161/4657. Dataloading: 0.0059 s/iter. Inference: 0.2043 s/iter. Eval: 0.0020 s/iter. Total: 0.2123 s/iter. ETA=0:05:17
+[03/07 10:28:21 cubercnn.evaluation.omni3d_evaluation]: Inference done 3186/4657. Dataloading: 0.0058 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2122 s/iter. ETA=0:05:12
+[03/07 10:28:26 cubercnn.evaluation.omni3d_evaluation]: Inference done 3213/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:05:06
+[03/07 10:28:31 cubercnn.evaluation.omni3d_evaluation]: Inference done 3234/4657. Dataloading: 0.0059 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2122 s/iter. ETA=0:05:01
+[03/07 10:28:36 cubercnn.evaluation.omni3d_evaluation]: Inference done 3262/4657. Dataloading: 0.0059 s/iter. Inference: 0.2039 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:04:55
+[03/07 10:28:41 cubercnn.evaluation.omni3d_evaluation]: Inference done 3289/4657. Dataloading: 0.0059 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2118 s/iter. ETA=0:04:49
+[03/07 10:28:46 cubercnn.evaluation.omni3d_evaluation]: Inference done 3312/4657. Dataloading: 0.0060 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2118 s/iter. ETA=0:04:44
+[03/07 10:28:51 cubercnn.evaluation.omni3d_evaluation]: Inference done 3336/4657. Dataloading: 0.0059 s/iter. Inference: 0.2038 s/iter. Eval: 0.0020 s/iter. Total: 0.2118 s/iter. ETA=0:04:39
+[03/07 10:28:56 cubercnn.evaluation.omni3d_evaluation]: Inference done 3357/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0019 s/iter. Total: 0.2120 s/iter. ETA=0:04:35
+[03/07 10:29:01 cubercnn.evaluation.omni3d_evaluation]: Inference done 3380/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0019 s/iter. Total: 0.2120 s/iter. ETA=0:04:30
+[03/07 10:29:06 cubercnn.evaluation.omni3d_evaluation]: Inference done 3405/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0019 s/iter. Total: 0.2119 s/iter. ETA=0:04:25
+[03/07 10:29:12 cubercnn.evaluation.omni3d_evaluation]: Inference done 3429/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:04:20
+[03/07 10:29:17 cubercnn.evaluation.omni3d_evaluation]: Inference done 3455/4657. Dataloading: 0.0059 s/iter. Inference: 0.2038 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:04:14
+[03/07 10:29:22 cubercnn.evaluation.omni3d_evaluation]: Inference done 3480/4657. Dataloading: 0.0059 s/iter. Inference: 0.2038 s/iter. Eval: 0.0019 s/iter. Total: 0.2118 s/iter. ETA=0:04:09
+[03/07 10:29:27 cubercnn.evaluation.omni3d_evaluation]: Inference done 3506/4657. Dataloading: 0.0059 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2117 s/iter. ETA=0:04:03
+[03/07 10:29:32 cubercnn.evaluation.omni3d_evaluation]: Inference done 3531/4657. Dataloading: 0.0059 s/iter. Inference: 0.2036 s/iter. Eval: 0.0020 s/iter. Total: 0.2116 s/iter. ETA=0:03:58
+[03/07 10:29:37 cubercnn.evaluation.omni3d_evaluation]: Inference done 3555/4657. Dataloading: 0.0059 s/iter. Inference: 0.2036 s/iter. Eval: 0.0020 s/iter. Total: 0.2117 s/iter. ETA=0:03:53
+[03/07 10:29:42 cubercnn.evaluation.omni3d_evaluation]: Inference done 3577/4657. Dataloading: 0.0059 s/iter. Inference: 0.2038 s/iter. Eval: 0.0020 s/iter. Total: 0.2118 s/iter. ETA=0:03:48
+[03/07 10:29:47 cubercnn.evaluation.omni3d_evaluation]: Inference done 3600/4657. Dataloading: 0.0059 s/iter. Inference: 0.2039 s/iter. Eval: 0.0019 s/iter. Total: 0.2118 s/iter. ETA=0:03:43
+[03/07 10:29:53 cubercnn.evaluation.omni3d_evaluation]: Inference done 3625/4657. Dataloading: 0.0059 s/iter. Inference: 0.2038 s/iter. Eval: 0.0020 s/iter. Total: 0.2118 s/iter. ETA=0:03:38
+[03/07 10:29:58 cubercnn.evaluation.omni3d_evaluation]: Inference done 3648/4657. Dataloading: 0.0059 s/iter. Inference: 0.2039 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:03:33
+[03/07 10:30:03 cubercnn.evaluation.omni3d_evaluation]: Inference done 3670/4657. Dataloading: 0.0059 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:03:29
+[03/07 10:30:08 cubercnn.evaluation.omni3d_evaluation]: Inference done 3694/4657. Dataloading: 0.0058 s/iter. Inference: 0.2040 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:03:24
+[03/07 10:30:13 cubercnn.evaluation.omni3d_evaluation]: Inference done 3717/4657. Dataloading: 0.0058 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:03:19
+[03/07 10:30:18 cubercnn.evaluation.omni3d_evaluation]: Inference done 3740/4657. Dataloading: 0.0058 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2122 s/iter. ETA=0:03:14
+[03/07 10:30:23 cubercnn.evaluation.omni3d_evaluation]: Inference done 3764/4657. Dataloading: 0.0058 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:03:09
+[03/07 10:30:28 cubercnn.evaluation.omni3d_evaluation]: Inference done 3789/4657. Dataloading: 0.0058 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:03:04
+[03/07 10:30:33 cubercnn.evaluation.omni3d_evaluation]: Inference done 3814/4657. Dataloading: 0.0058 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:02:58
+[03/07 10:30:39 cubercnn.evaluation.omni3d_evaluation]: Inference done 3837/4657. Dataloading: 0.0058 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:02:53
+[03/07 10:30:44 cubercnn.evaluation.omni3d_evaluation]: Inference done 3860/4657. Dataloading: 0.0058 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:02:49
+[03/07 10:30:49 cubercnn.evaluation.omni3d_evaluation]: Inference done 3885/4657. Dataloading: 0.0058 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2121 s/iter. ETA=0:02:43
+[03/07 10:30:54 cubercnn.evaluation.omni3d_evaluation]: Inference done 3911/4657. Dataloading: 0.0057 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:02:38
+[03/07 10:30:59 cubercnn.evaluation.omni3d_evaluation]: Inference done 3934/4657. Dataloading: 0.0057 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:02:33
+[03/07 10:31:04 cubercnn.evaluation.omni3d_evaluation]: Inference done 3957/4657. Dataloading: 0.0057 s/iter. Inference: 0.2042 s/iter. Eval: 0.0020 s/iter. Total: 0.2120 s/iter. ETA=0:02:28
+[03/07 10:31:09 cubercnn.evaluation.omni3d_evaluation]: Inference done 3983/4657. Dataloading: 0.0057 s/iter. Inference: 0.2041 s/iter. Eval: 0.0020 s/iter. Total: 0.2119 s/iter. ETA=0:02:22
+[03/07 10:31:14 cubercnn.evaluation.omni3d_evaluation]: Inference done 4010/4657. Dataloading: 0.0058 s/iter. Inference: 0.2039 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:02:17
+[03/07 10:31:19 cubercnn.evaluation.omni3d_evaluation]: Inference done 4037/4657. Dataloading: 0.0058 s/iter. Inference: 0.2037 s/iter. Eval: 0.0020 s/iter. Total: 0.2117 s/iter. ETA=0:02:11
+[03/07 10:31:25 cubercnn.evaluation.omni3d_evaluation]: Inference done 4059/4657. Dataloading: 0.0058 s/iter. Inference: 0.2038 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:02:06
+[03/07 10:31:30 cubercnn.evaluation.omni3d_evaluation]: Inference done 4083/4657. Dataloading: 0.0058 s/iter. Inference: 0.2038 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:02:01
+[03/07 10:31:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 4108/4657. Dataloading: 0.0058 s/iter. Inference: 0.2038 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:01:56
+[03/07 10:31:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 4132/4657. Dataloading: 0.0058 s/iter. Inference: 0.2038 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:01:51
+[03/07 10:31:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 4156/4657. Dataloading: 0.0058 s/iter. Inference: 0.2037 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:01:46
+[03/07 10:31:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 4179/4657. Dataloading: 0.0058 s/iter. Inference: 0.2038 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:01:41
+[03/07 10:31:55 cubercnn.evaluation.omni3d_evaluation]: Inference done 4203/4657. Dataloading: 0.0058 s/iter. Inference: 0.2038 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:01:36
+[03/07 10:32:00 cubercnn.evaluation.omni3d_evaluation]: Inference done 4224/4657. Dataloading: 0.0058 s/iter. Inference: 0.2039 s/iter. Eval: 0.0021 s/iter. Total: 0.2120 s/iter. ETA=0:01:31
+[03/07 10:32:05 cubercnn.evaluation.omni3d_evaluation]: Inference done 4248/4657. Dataloading: 0.0058 s/iter. Inference: 0.2039 s/iter. Eval: 0.0021 s/iter. Total: 0.2120 s/iter. ETA=0:01:26
+[03/07 10:32:10 cubercnn.evaluation.omni3d_evaluation]: Inference done 4273/4657. Dataloading: 0.0058 s/iter. Inference: 0.2039 s/iter. Eval: 0.0021 s/iter. Total: 0.2120 s/iter. ETA=0:01:21
+[03/07 10:32:16 cubercnn.evaluation.omni3d_evaluation]: Inference done 4295/4657. Dataloading: 0.0058 s/iter. Inference: 0.2040 s/iter. Eval: 0.0021 s/iter. Total: 0.2121 s/iter. ETA=0:01:16
+[03/07 10:32:21 cubercnn.evaluation.omni3d_evaluation]: Inference done 4319/4657. Dataloading: 0.0058 s/iter. Inference: 0.2040 s/iter. Eval: 0.0021 s/iter. Total: 0.2121 s/iter. ETA=0:01:11
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+[03/07 10:32:26 cubercnn.evaluation.omni3d_evaluation]: Inference done 4342/4657. Dataloading: 0.0058 s/iter. Inference: 0.2040 s/iter. Eval: 0.0021 s/iter. Total: 0.2121 s/iter. ETA=0:01:06
+[03/07 10:32:31 cubercnn.evaluation.omni3d_evaluation]: Inference done 4392/4657. Dataloading: 0.0057 s/iter. Inference: 0.2028 s/iter. Eval: 0.0021 s/iter. Total: 0.2108 s/iter. ETA=0:00:55
+[03/07 10:32:36 cubercnn.evaluation.omni3d_evaluation]: Inference done 4443/4657. Dataloading: 0.0057 s/iter. Inference: 0.2016 s/iter. Eval: 0.0021 s/iter. Total: 0.2096 s/iter. ETA=0:00:44
+[03/07 10:32:41 cubercnn.evaluation.omni3d_evaluation]: Inference done 4494/4657. Dataloading: 0.0056 s/iter. Inference: 0.2004 s/iter. Eval: 0.0021 s/iter. Total: 0.2083 s/iter. ETA=0:00:33
+[03/07 10:32:46 cubercnn.evaluation.omni3d_evaluation]: Inference done 4544/4657. Dataloading: 0.0056 s/iter. Inference: 0.1993 s/iter. Eval: 0.0021 s/iter. Total: 0.2071 s/iter. ETA=0:00:23
+[03/07 10:32:51 cubercnn.evaluation.omni3d_evaluation]: Inference done 4593/4657. Dataloading: 0.0056 s/iter. Inference: 0.1982 s/iter. Eval: 0.0021 s/iter. Total: 0.2060 s/iter. ETA=0:00:13
+[03/07 10:32:56 cubercnn.evaluation.omni3d_evaluation]: Inference done 4643/4657. Dataloading: 0.0055 s/iter. Inference: 0.1972 s/iter. Eval: 0.0021 s/iter. Total: 0.2049 s/iter. ETA=0:00:02
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+[03/07 10:32:58 cubercnn.evaluation.omni3d_evaluation]: 
+Final Statistics:
+[03/07 10:32:58 cubercnn.evaluation.omni3d_evaluation]: Total inference time: 0:15:52 (0.204730 s / iter per device, on 2 devices)
+[03/07 10:32:58 cubercnn.evaluation.omni3d_evaluation]: Total inference pure compute time: 0:15:15 (0.196860 s / iter per device, on 2 devices)
+[03/07 10:33:02 cubercnn.evaluation.omni3d_evaluation]: Number of predictions collected: 9314
+[03/07 10:33:02 cubercnn.evaluation.omni3d_evaluation]: Sample prediction structure:
+[03/07 10:33:02 cubercnn.evaluation.omni3d_evaluation]: Keys in first prediction: ['image_id', 'K', 'width', 'height', 'instances']
+[03/07 10:33:02 cubercnn.evaluation.omni3d_evaluation]: Number of instances in first prediction: 20
+[03/07 10:33:02 cubercnn.evaluation.omni3d_evaluation]: Keys in first instance: ['image_id', 'category_id', 'bbox', 'score', 'bbox3D', 'center_cam', 'center_2D', 'dimensions', 'pose', 'depth']
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Preparing results for COCO format ...
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Number of predictions to process: 9314
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: First prediction structure:
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Keys: ['image_id', 'K', 'width', 'height', 'instances']
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Number of instances: 20
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Instance keys: ['image_id', 'category_id', 'bbox', 'score', 'bbox3D', 'center_cam', 'center_2D', 'dimensions', 'pose', 'depth']
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Category ID of first instance: 0
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Created filename to ID mapping for 9314 images
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processing predictions and updating image IDs...
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 1000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 2000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 3000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 4000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 5000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 6000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 7000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 8000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Processed 9000/9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Finished processing all 9314 predictions
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Total number of instances after flattening: 134872
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Tasks to evaluate: ['bbox']
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Loading category metadata from: configs/category_meta.json
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Number of global categories: 97
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Number of classes in dataset: 97
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Dataset thing classes: ['bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes']
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Dataset ID to contiguous ID mapping: {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 82: 82, 83: 83, 84: 84, 85: 85, 86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 94: 93, 95: 94, 96: 95, 97: 96}
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: First few predictions category IDs: [0, 0, 0, 0, 0]
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Filtered results: 134872 valid instances kept
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Saving results to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/omni_instances_results.json
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Final check before saving:
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Number of results to save: 134872
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: Results type: <class 'list'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]: First result structure:
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   image_id: <class 'int'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   category_id: <class 'int'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   bbox: <class 'list'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 4
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   score: <class 'float'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   bbox3D: <class 'list'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 8
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   center_cam: <class 'list'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 3
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   center_2D: <class 'list'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 2
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   dimensions: <class 'list'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 3
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   pose: <class 'list'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 3
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   depth: <class 'float'>
+[03/07 10:33:08 cubercnn.evaluation.omni3d_evaluation]:   original_image_id: <class 'int'>
+[03/07 10:33:16 cubercnn.evaluation.omni3d_evaluation]: File successfully written, size: 155968768 bytes
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Successfully loaded saved results, count: 134872
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Evaluating predictions with official COCO API...
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: GT dataset has 9314 images
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Predictions cover 9314 images
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Common images between GT and predictions: 9314
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: GT dataset has 9 categories
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Predictions cover 9 categories
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Common categories between GT and predictions: 0
+ERROR [03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: No common images or categories between GT and predictions!
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: GT image IDs (sample): [78960, 78961, 78962, 78963, 78964]
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Pred image IDs (sample): [78960, 78961, 78962, 78963, 78964]
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: GT category IDs: {11, 14, 15, 16, 17, 18, 19, 20, 21}
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Pred category IDs: {0, 1, 2, 3, 4, 5, 6, 7, 8}
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Debug: Starting evaluation
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Debug: Number of results to evaluate: 134872
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Debug: First result sample: {'image_id': 78960, 'category_id': 0, 'bbox': [71.67129516601562, 131.73304748535156, 1027.6693115234375, 1147.8228759765625], 'score': 0.38215145468711853, 'bbox3D': [[-0.662361204624176, -1.2924904823303223, 2.3930485248565674], [-0.45645570755004883, -0.7883247137069702, 1.8125078678131104], [-0.5925285220146179, 0.06421816349029541, 2.504629611968994], [-0.7984340190887451, -0.43994760513305664, 3.085170269012451], [0.09206455945968628, -1.349273443222046, 2.6113147735595703], [0.2979700565338135, -0.8451076745986938, 2.0307741165161133], [0.16189724206924438, 0.007435202598571777, 2.722895860671997], [-0.044008269906044006, -0.4967305660247803, 3.303436517715454]], 'center_cam': [-0.2502319812774658, -0.6425276398658752, 2.5579721927642822], 'center_2D': [574.4239501953125, 539.9827880859375], 'dimensions': [0.7874151468276978, 1.106515884399414, 0.7959946990013123], 'pose': [[0.2586769759654999, -0.12297414243221283, 0.9581041932106018], [0.633378267288208, 0.7704750299453735, -0.07211311161518097], [-0.7293272614479065, 0.6254963278770447, 0.2771933078765869]], 'depth': 2.5579721927642822, 'original_image_id': 10349241}
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: GT category IDs: {11, 14, 15, 16, 17, 18, 19, 20, 21}
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Pred category IDs: {0, 1, 2, 3, 4, 5, 6, 7, 8}
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: No common category IDs found, attempting to map prediction IDs to GT IDs
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Created category ID mapping: {0: 11, 1: 14, 2: 15, 3: 16, 4: 17, 5: 18, 6: 19, 7: 20, 8: 21}
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Updated pred category IDs: {11, 14, 15, 16, 17, 18, 19, 20, 21}
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Common categories after mapping: {11, 14, 15, 16, 17, 18, 19, 20, 21}
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Debug: GT dataset structure:
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Images: 9314
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Categories: 9
+[03/07 10:33:21 cubercnn.evaluation.omni3d_evaluation]: Annotations: 10814
+Loading and preparing results...
+DONE (t=0.14s)
+creating index...
+index created!
+[03/07 10:33:22 cubercnn.evaluation.omni3d_evaluation]: Debug: Successfully loaded results into COCO format
+[03/07 10:33:22 cubercnn.evaluation.omni3d_evaluation]: Debug: Evaluating modes: ['2D', '3D']
+[03/07 10:33:22 cubercnn.evaluation.omni3d_evaluation]: 
+Debug: Processing mode 2D
+[03/07 10:33:22 cubercnn.evaluation.omni3d_evaluation]: Debug: Created evaluator
+[03/07 10:33:22 cubercnn.evaluation.omni3d_evaluation]: Starting evaluation...
+[03/07 10:33:29 cubercnn.evaluation.omni3d_evaluation]: Debug: Finished evaluate()
+Accumulating evaluation results...
+DONE (t=1.92s).
+[03/07 10:33:31 cubercnn.evaluation.omni3d_evaluation]: Debug: Finished accumulate()
+[03/07 10:33:31 cubercnn.evaluation.omni3d_evaluation]: Debug: Finished summarize()
+[03/07 10:33:31 cubercnn.evaluation.omni3d_evaluation]: 
+Debug: Processing mode 3D
+[03/07 10:33:31 cubercnn.evaluation.omni3d_evaluation]: Debug: Created evaluator
+[03/07 10:33:31 cubercnn.evaluation.omni3d_evaluation]: Starting evaluation...
+[03/07 10:33:40 cubercnn.evaluation.omni3d_evaluation]: Debug: Finished evaluate()
+Accumulating evaluation results...
+DONE (t=1.92s).
+[03/07 10:33:42 cubercnn.evaluation.omni3d_evaluation]: Debug: Finished accumulate()
+[03/07 10:33:42 cubercnn.evaluation.omni3d_evaluation]: Debug: Finished summarize()
+[03/07 10:33:42 cubercnn.evaluation.omni3d_evaluation]: Evaluation results for bbox in 2D mode: 
+|   AP   |  AP50  |  AP75  |  AP95  |  APs  |  APm  |  APl   |  AR1   |  AR10  |  AR100  |
+|:------:|:------:|:------:|:------:|:-----:|:-----:|:------:|:------:|:------:|:-------:|
+| 25.903 | 69.676 | 11.788 | 0.024  |  nan  |  nan  | 25.903 | 35.057 | 42.736 | 42.741  |
+[03/07 10:33:42 cubercnn.evaluation.omni3d_evaluation]: Some metrics cannot be computed and is shown as NaN.
+[03/07 10:33:42 cubercnn.evaluation.omni3d_evaluation]: Per-category bbox AP/AR in 2D mode: 
+| category        | metric   | category        | metric   |
+|:----------------|:---------|:----------------|:---------|
+| bicycle (AP)    | 27.583   | bicycle (AR)    | 51.636   |
+| books (AP)      | 22.119   | books (AR)      | 38.100   |
+| bottle (AP)     | 21.605   | bottle (AR)     | 40.873   |
+| camera (AP)     | 14.508   | camera (AR)     | 35.138   |
+| cereal box (AP) | 36.186   | cereal box (AR) | 47.927   |
+| chair (AP)      | 40.641   | chair (AR)      | 54.318   |
+| cup (AP)        | 15.577   | cup (AR)        | 38.319   |
+| laptop (AP)     | 40.498   | laptop (AR)     | 51.232   |
+| shoes (AP)      | 14.410   | shoes (AR)      | 27.123   |
+[03/07 10:33:42 cubercnn.evaluation.omni3d_evaluation]: Evaluation results for bbox in 3D mode: 
+|   AP   |  AP15  |  AP25  |  AP50  |  APn  |  APm  |  APf   |  AR1   |  AR10  |  AR100  |  overall_NHD  |  disent_xy_NHD  |  disent_z_NHD  |  disent_dimensions_NHD  |  disent_pose_NHD  |
+|:------:|:------:|:------:|:------:|:-----:|:-----:|:------:|:------:|:------:|:-------:|:-------------:|:---------------:|:--------------:|:-----------------------:|:-----------------:|
+| 28.594 | 59.478 | 20.821 | 1.142  |  nan  |  nan  | 28.594 | 12.826 | 31.835 | 31.835  |      nan      |       nan       |      nan       |           nan           |        nan        |
+[03/07 10:33:42 cubercnn.evaluation.omni3d_evaluation]: Some metrics cannot be computed and is shown as NaN.
+[03/07 10:33:42 cubercnn.evaluation.omni3d_evaluation]: Per-category bbox AP/AR in 3D mode: 
+| category        | metric   | category        | metric   |
+|:----------------|:---------|:----------------|:---------|
+| bicycle (AP)    | nan      | bicycle (AR)    | nan      |
+| books (AP)      | 38.854   | books (AR)      | 42.000   |
+| bottle (AP)     | 40.486   | bottle (AR)     | 42.222   |
+| camera (AP)     | 29.021   | camera (AR)     | 35.000   |
+| cereal box (AP) | 0.000    | cereal box (AR) | 0.000    |
+| chair (AP)      | 40.000   | chair (AR)      | 40.000   |
+| cup (AP)        | 39.301   | cup (AR)        | 43.043   |
+| laptop (AP)     | 0.385    | laptop (AR)     | 10.000   |
+| shoes (AP)      | 40.703   | shoes (AR)      | 42.414   |
+[03/07 10:33:52 cubercnn.evaluation.omni3d_evaluation]: 
+Evaluation results for Objectron_test:
+[03/07 10:33:52 cubercnn.evaluation.omni3d_evaluation]: Available keys in results: ['bbox_2D', 'bbox_2D_evalImgs', 'bbox_2D_evals_per_cat_area', 'bbox_3D', 'bbox_3D_evalImgs', 'bbox_3D_evals_per_cat_area', 'bbox_3D_nhd_accumulators', 'log_str_2D', 'log_str_3D']
+[03/07 10:33:52 cubercnn.evaluation.omni3d_evaluation]: 
+Objectron_test iter=1000 mode=2D  Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.259
+Objectron_test iter=1000 mode=2D  Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.697
+Objectron_test iter=1000 mode=2D  Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.118
+Objectron_test iter=1000 mode=2D  Average Precision  (AP) @[ IoU=0.95      | area=   all | maxDets=100 ] = 0.000
+Objectron_test iter=1000 mode=2D  Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+Objectron_test iter=1000 mode=2D  Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
+Objectron_test iter=1000 mode=2D  Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.259
+Objectron_test iter=1000 mode=2D  Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.351
+Objectron_test iter=1000 mode=2D  Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.427
+Objectron_test iter=1000 mode=2D  Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.427
+Objectron_test iter=1000 mode=2D  Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+Objectron_test iter=1000 mode=2D  Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
+Objectron_test iter=1000 mode=2D  Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.427
+[03/07 10:33:52 cubercnn.evaluation.omni3d_evaluation]: 
+Objectron_test iter=1000 mode=3D  Average Precision  (AP) @[ IoU=0.05:0.50 | depth=   all | maxDets=100 ] = 0.286
+Objectron_test iter=1000 mode=3D  Average Precision  (AP) @[ IoU=0.15      | depth=   all | maxDets=100 ] = 0.595
+Objectron_test iter=1000 mode=3D  Average Precision  (AP) @[ IoU=0.25      | depth=   all | maxDets=100 ] = 0.208
+Objectron_test iter=1000 mode=3D  Average Precision  (AP) @[ IoU=0.50      | depth=   all | maxDets=100 ] = 0.011
+Objectron_test iter=1000 mode=3D  Average Precision  (AP) @[ IoU=0.05:0.50 | depth=  near | maxDets=100 ] = -1.000
+Objectron_test iter=1000 mode=3D  Average Precision  (AP) @[ IoU=0.05:0.50 | depth=medium | maxDets=100 ] = -1.000
+Objectron_test iter=1000 mode=3D  Average Precision  (AP) @[ IoU=0.05:0.50 | depth=   far | maxDets=100 ] = 0.286
+Objectron_test iter=1000 mode=3D  Average Recall     (AR) @[ IoU=0.05:0.50 | depth=   all | maxDets=  1 ] = 0.128
+Objectron_test iter=1000 mode=3D  Average Recall     (AR) @[ IoU=0.05:0.50 | depth=   all | maxDets= 10 ] = 0.318
+Objectron_test iter=1000 mode=3D  Average Recall     (AR) @[ IoU=0.05:0.50 | depth=   all | maxDets=100 ] = 0.318
+Objectron_test iter=1000 mode=3D  Average Recall     (AR) @[ IoU=0.05:0.50 | depth=  near | maxDets=100 ] = -1.000
+Objectron_test iter=1000 mode=3D  Average Recall     (AR) @[ IoU=0.05:0.50 | depth=medium | maxDets=100 ] = -1.000
+Objectron_test iter=1000 mode=3D  Average Recall     (AR) @[ IoU=0.05:0.50 | depth=   far | maxDets=100 ] = 0.318
+Average Disentangled NHD Metrics:
+  overall: nan
+  xy: nan
+  z: nan
+  dimensions: nan
+  pose: nan
+
+[03/07 10:33:52 cubercnn.vis.logperf]: Performance for each of 9 categories on Objectron_test:
+|  category  | AP2D    | AP3D    | AR2D    | AR3D    |  category  | AP2D    | AP3D     | AR2D    | AR3D    |
+|:----------:|:--------|:--------|:--------|:--------|:----------:|:--------|:---------|:--------|:--------|
+|   chair    | 40.641  | 40      | 54.3182 | 40      |   books    | 22.1194 | 38.8543  | 38.1004 | 42      |
+|   shoes    | 14.4104 | 40.7035 | 27.1229 | 42.4138 |    cup     | 15.5767 | 39.3007  | 38.3187 | 43.0435 |
+|   bottle   | 21.6054 | 40.486  | 40.8734 | 42.2222 |   laptop   | 40.498  | 0.384615 | 51.2324 | 10      |
+| cereal box | 36.1855 | 0       | 47.9275 | 0       |   camera   | 14.5084 | 29.0205  | 35.1382 | 35      |
+|  bicycle   | 27.5829 | nan     | 51.6364 | nan     |            |         |          |         |         |
+Debug: Checking image_id match:
+data_obj: id=78960, original=None
+im_obj: id=datasets/objectron/test/bike_batch_4_38_0000000.jpg, original=None
+Debug: Comparing files - im_file: bike_batch_4_38_0000000.jpg, data_file: bike_batch_4_38_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000000.jpg
+Debug: Checking image_id match:
+data_obj: id=79010, original=None
+im_obj: id=datasets/objectron/test/bike_batch_7_10_0000200.jpg, original=None
+Debug: Comparing files - im_file: bike_batch_7_10_0000200.jpg, data_file: bike_batch_7_10_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000050.jpg
+Debug: Checking image_id match:
+data_obj: id=79060, original=None
+im_obj: id=datasets/objectron/test/bike_batch_6_16_0000200.jpg, original=None
+Debug: Comparing files - im_file: bike_batch_6_16_0000200.jpg, data_file: bike_batch_6_16_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000100.jpg
+Debug: Checking image_id match:
+data_obj: id=79110, original=None
+im_obj: id=datasets/objectron/test/bike_batch_10_43_0000200.jpg, original=None
+Debug: Comparing files - im_file: bike_batch_10_43_0000200.jpg, data_file: bike_batch_10_43_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000150.jpg
+Debug: Checking image_id match:
+data_obj: id=79160, original=None
+im_obj: id=datasets/objectron/test/bike_batch_11_34_0000100.jpg, original=None
+Debug: Comparing files - im_file: bike_batch_11_34_0000100.jpg, data_file: bike_batch_11_34_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000200.jpg
+Debug: Checking image_id match:
+data_obj: id=79210, original=None
+im_obj: id=datasets/objectron/test/bike_batch_7_35_0000300.jpg, original=None
+Debug: Comparing files - im_file: bike_batch_7_35_0000300.jpg, data_file: bike_batch_7_35_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000250.jpg
+Debug: Checking image_id match:
+data_obj: id=79260, original=None
+im_obj: id=datasets/objectron/test/bike_batch_2_20_0000200.jpg, original=None
+Debug: Comparing files - im_file: bike_batch_2_20_0000200.jpg, data_file: bike_batch_2_20_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000300.jpg
+Debug: Checking image_id match:
+data_obj: id=79310, original=None
+im_obj: id=datasets/objectron/test/bike_batch_9_3_0000000.jpg, original=None
+Debug: Comparing files - im_file: bike_batch_9_3_0000000.jpg, data_file: bike_batch_9_3_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000350.jpg
+Debug: Checking image_id match:
+data_obj: id=79360, original=None
+im_obj: id=datasets/objectron/test/book_batch_19_20_0000100.jpg, original=None
+Debug: Comparing files - im_file: book_batch_19_20_0000100.jpg, data_file: book_batch_19_20_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000400.jpg
+Debug: Checking image_id match:
+data_obj: id=79410, original=None
+im_obj: id=datasets/objectron/test/book_batch_22_29_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_22_29_0000000.jpg, data_file: book_batch_22_29_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000450.jpg
+Debug: Checking image_id match:
+data_obj: id=79460, original=None
+im_obj: id=datasets/objectron/test/book_batch_19_42_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_19_42_0000000.jpg, data_file: book_batch_19_42_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000500.jpg
+Debug: Checking image_id match:
+data_obj: id=79510, original=None
+im_obj: id=datasets/objectron/test/book_batch_5_5_0000300.jpg, original=None
+Debug: Comparing files - im_file: book_batch_5_5_0000300.jpg, data_file: book_batch_5_5_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000550.jpg
+Debug: Checking image_id match:
+data_obj: id=79560, original=None
+im_obj: id=datasets/objectron/test/book_batch_23_4_0000100.jpg, original=None
+Debug: Comparing files - im_file: book_batch_23_4_0000100.jpg, data_file: book_batch_23_4_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000600.jpg
+Debug: Checking image_id match:
+data_obj: id=79610, original=None
+im_obj: id=datasets/objectron/test/book_batch_12_22_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_12_22_0000000.jpg, data_file: book_batch_12_22_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000650.jpg
+Debug: Checking image_id match:
+data_obj: id=79660, original=None
+im_obj: id=datasets/objectron/test/book_batch_25_26_0000100.jpg, original=None
+Debug: Comparing files - im_file: book_batch_25_26_0000100.jpg, data_file: book_batch_25_26_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000700.jpg
+Debug: Checking image_id match:
+data_obj: id=79710, original=None
+im_obj: id=datasets/objectron/test/book_batch_1_42_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_1_42_0000000.jpg, data_file: book_batch_1_42_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000750.jpg
+Debug: Checking image_id match:
+data_obj: id=79760, original=None
+im_obj: id=datasets/objectron/test/book_batch_30_46_0000200.jpg, original=None
+Debug: Comparing files - im_file: book_batch_30_46_0000200.jpg, data_file: book_batch_30_46_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000800.jpg
+Debug: Checking image_id match:
+data_obj: id=79810, original=None
+im_obj: id=datasets/objectron/test/book_batch_1_1_0000200.jpg, original=None
+Debug: Comparing files - im_file: book_batch_1_1_0000200.jpg, data_file: book_batch_1_1_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000850.jpg
+Debug: Checking image_id match:
+data_obj: id=79860, original=None
+im_obj: id=datasets/objectron/test/book_batch_14_44_0000100.jpg, original=None
+Debug: Comparing files - im_file: book_batch_14_44_0000100.jpg, data_file: book_batch_14_44_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000900.jpg
+Debug: Checking image_id match:
+data_obj: id=79910, original=None
+im_obj: id=datasets/objectron/test/book_batch_45_31_0000200.jpg, original=None
+Debug: Comparing files - im_file: book_batch_45_31_0000200.jpg, data_file: book_batch_45_31_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_000950.jpg
+Debug: Checking image_id match:
+data_obj: id=79960, original=None
+im_obj: id=datasets/objectron/test/book_batch_28_41_0000200.jpg, original=None
+Debug: Comparing files - im_file: book_batch_28_41_0000200.jpg, data_file: book_batch_28_41_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001000.jpg
+Debug: Checking image_id match:
+data_obj: id=80010, original=None
+im_obj: id=datasets/objectron/test/book_batch_42_8_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_42_8_0000000.jpg, data_file: book_batch_42_8_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001050.jpg
+Debug: Checking image_id match:
+data_obj: id=80060, original=None
+im_obj: id=datasets/objectron/test/book_batch_19_16_0000100.jpg, original=None
+Debug: Comparing files - im_file: book_batch_19_16_0000100.jpg, data_file: book_batch_19_16_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001100.jpg
+Debug: Checking image_id match:
+data_obj: id=80110, original=None
+im_obj: id=datasets/objectron/test/book_batch_29_47_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_29_47_0000000.jpg, data_file: book_batch_29_47_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001150.jpg
+Debug: Checking image_id match:
+data_obj: id=80160, original=None
+im_obj: id=datasets/objectron/test/book_batch_4_30_0000500.jpg, original=None
+Debug: Comparing files - im_file: book_batch_4_30_0000500.jpg, data_file: book_batch_4_30_0000500.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001200.jpg
+Debug: Checking image_id match:
+data_obj: id=80210, original=None
+im_obj: id=datasets/objectron/test/book_batch_34_47_0000100.jpg, original=None
+Debug: Comparing files - im_file: book_batch_34_47_0000100.jpg, data_file: book_batch_34_47_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001250.jpg
+Debug: Checking image_id match:
+data_obj: id=80260, original=None
+im_obj: id=datasets/objectron/test/book_batch_4_38_0000300.jpg, original=None
+Debug: Comparing files - im_file: book_batch_4_38_0000300.jpg, data_file: book_batch_4_38_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001300.jpg
+Debug: Checking image_id match:
+data_obj: id=80310, original=None
+im_obj: id=datasets/objectron/test/book_batch_1_12_0000200.jpg, original=None
+Debug: Comparing files - im_file: book_batch_1_12_0000200.jpg, data_file: book_batch_1_12_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001350.jpg
+Debug: Checking image_id match:
+data_obj: id=80360, original=None
+im_obj: id=datasets/objectron/test/book_batch_43_37_0000300.jpg, original=None
+Debug: Comparing files - im_file: book_batch_43_37_0000300.jpg, data_file: book_batch_43_37_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001400.jpg
+Debug: Checking image_id match:
+data_obj: id=80410, original=None
+im_obj: id=datasets/objectron/test/book_batch_13_8_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_13_8_0000000.jpg, data_file: book_batch_13_8_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001450.jpg
+Debug: Checking image_id match:
+data_obj: id=80460, original=None
+im_obj: id=datasets/objectron/test/book_batch_7_31_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_7_31_0000000.jpg, data_file: book_batch_7_31_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001500.jpg
+Debug: Checking image_id match:
+data_obj: id=80510, original=None
+im_obj: id=datasets/objectron/test/book_batch_17_18_0000200.jpg, original=None
+Debug: Comparing files - im_file: book_batch_17_18_0000200.jpg, data_file: book_batch_17_18_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001550.jpg
+Debug: Checking image_id match:
+data_obj: id=80560, original=None
+im_obj: id=datasets/objectron/test/book_batch_3_19_0000300.jpg, original=None
+Debug: Comparing files - im_file: book_batch_3_19_0000300.jpg, data_file: book_batch_3_19_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001600.jpg
+Debug: Checking image_id match:
+data_obj: id=80610, original=None
+im_obj: id=datasets/objectron/test/book_batch_11_44_0000000.jpg, original=None
+Debug: Comparing files - im_file: book_batch_11_44_0000000.jpg, data_file: book_batch_11_44_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001650.jpg
+Debug: Checking image_id match:
+data_obj: id=80660, original=None
+im_obj: id=datasets/objectron/test/book_batch_11_3_0000100.jpg, original=None
+Debug: Comparing files - im_file: book_batch_11_3_0000100.jpg, data_file: book_batch_11_3_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001700.jpg
+Debug: Checking image_id match:
+data_obj: id=80710, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_23_22_0000300.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_23_22_0000300.jpg, data_file: bottle_batch_23_22_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001750.jpg
+Debug: Checking image_id match:
+data_obj: id=80760, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_39_3_0000200.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_39_3_0000200.jpg, data_file: bottle_batch_39_3_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001800.jpg
+Debug: Checking image_id match:
+data_obj: id=80810, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_16_16_0000200.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_16_16_0000200.jpg, data_file: bottle_batch_16_16_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001850.jpg
+Debug: Checking image_id match:
+data_obj: id=80860, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_20_37_0000000.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_20_37_0000000.jpg, data_file: bottle_batch_20_37_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001900.jpg
+Debug: Checking image_id match:
+data_obj: id=80910, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_33_18_0000000.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_33_18_0000000.jpg, data_file: bottle_batch_33_18_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_001950.jpg
+Debug: Checking image_id match:
+data_obj: id=80960, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_6_22_0000100.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_6_22_0000100.jpg, data_file: bottle_batch_6_22_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002000.jpg
+Debug: Checking image_id match:
+data_obj: id=81010, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_38_9_0000300.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_38_9_0000300.jpg, data_file: bottle_batch_38_9_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002050.jpg
+Debug: Checking image_id match:
+data_obj: id=81060, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_36_27_0000200.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_36_27_0000200.jpg, data_file: bottle_batch_36_27_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002100.jpg
+Debug: Checking image_id match:
+data_obj: id=81110, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_5_23_0000000.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_5_23_0000000.jpg, data_file: bottle_batch_5_23_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002150.jpg
+Debug: Checking image_id match:
+data_obj: id=81160, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_33_12_0000200.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_33_12_0000200.jpg, data_file: bottle_batch_33_12_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002200.jpg
+Debug: Checking image_id match:
+data_obj: id=81210, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_5_19_0000200.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_5_19_0000200.jpg, data_file: bottle_batch_5_19_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002250.jpg
+Debug: Checking image_id match:
+data_obj: id=81260, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_19_3_0000100.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_19_3_0000100.jpg, data_file: bottle_batch_19_3_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002300.jpg
+Debug: Checking image_id match:
+data_obj: id=81310, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_16_22_0000000.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_16_22_0000000.jpg, data_file: bottle_batch_16_22_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002350.jpg
+Debug: Checking image_id match:
+data_obj: id=81360, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_12_16_0000100.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_12_16_0000100.jpg, data_file: bottle_batch_12_16_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002400.jpg
+Debug: Checking image_id match:
+data_obj: id=81410, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_46_18_0000000.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_46_18_0000000.jpg, data_file: bottle_batch_46_18_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002450.jpg
+Debug: Checking image_id match:
+data_obj: id=81460, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_28_11_0000100.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_28_11_0000100.jpg, data_file: bottle_batch_28_11_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002500.jpg
+Debug: Checking image_id match:
+data_obj: id=81510, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_25_27_0000200.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_25_27_0000200.jpg, data_file: bottle_batch_25_27_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002550.jpg
+Debug: Checking image_id match:
+data_obj: id=81560, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_40_34_0000000.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_40_34_0000000.jpg, data_file: bottle_batch_40_34_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002600.jpg
+Debug: Checking image_id match:
+data_obj: id=81610, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_36_16_0000200.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_36_16_0000200.jpg, data_file: bottle_batch_36_16_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002650.jpg
+Debug: Checking image_id match:
+data_obj: id=81660, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_42_20_0000300.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_42_20_0000300.jpg, data_file: bottle_batch_42_20_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002700.jpg
+Debug: Checking image_id match:
+data_obj: id=81710, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_37_22_0000000.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_37_22_0000000.jpg, data_file: bottle_batch_37_22_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002750.jpg
+Debug: Checking image_id match:
+data_obj: id=81760, original=None
+im_obj: id=datasets/objectron/test/bottle_batch_21_43_0000200.jpg, original=None
+Debug: Comparing files - im_file: bottle_batch_21_43_0000200.jpg, data_file: bottle_batch_21_43_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002800.jpg
+Debug: Checking image_id match:
+data_obj: id=81810, original=None
+im_obj: id=datasets/objectron/test/camera_batch_7_44_0000200.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_7_44_0000200.jpg, data_file: camera_batch_7_44_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002850.jpg
+Debug: Checking image_id match:
+data_obj: id=81860, original=None
+im_obj: id=datasets/objectron/test/camera_batch_18_19_0000200.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_18_19_0000200.jpg, data_file: camera_batch_18_19_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002900.jpg
+Debug: Checking image_id match:
+data_obj: id=81910, original=None
+im_obj: id=datasets/objectron/test/camera_batch_13_45_0000200.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_13_45_0000200.jpg, data_file: camera_batch_13_45_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_002950.jpg
+Debug: Checking image_id match:
+data_obj: id=81960, original=None
+im_obj: id=datasets/objectron/test/camera_batch_8_47_0000200.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_8_47_0000200.jpg, data_file: camera_batch_8_47_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003000.jpg
+Debug: Checking image_id match:
+data_obj: id=82010, original=None
+im_obj: id=datasets/objectron/test/camera_batch_19_1_0000100.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_19_1_0000100.jpg, data_file: camera_batch_19_1_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003050.jpg
+Debug: Checking image_id match:
+data_obj: id=82060, original=None
+im_obj: id=datasets/objectron/test/camera_batch_10_42_0000000.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_10_42_0000000.jpg, data_file: camera_batch_10_42_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003100.jpg
+Debug: Checking image_id match:
+data_obj: id=82110, original=None
+im_obj: id=datasets/objectron/test/camera_batch_18_31_0000300.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_18_31_0000300.jpg, data_file: camera_batch_18_31_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003150.jpg
+Debug: Checking image_id match:
+data_obj: id=82160, original=None
+im_obj: id=datasets/objectron/test/camera_batch_5_47_0000100.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_5_47_0000100.jpg, data_file: camera_batch_5_47_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003200.jpg
+Debug: Checking image_id match:
+data_obj: id=82210, original=None
+im_obj: id=datasets/objectron/test/camera_batch_7_0_0000100.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_7_0_0000100.jpg, data_file: camera_batch_7_0_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003250.jpg
+Debug: Checking image_id match:
+data_obj: id=82260, original=None
+im_obj: id=datasets/objectron/test/camera_batch_13_42_0000000.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_13_42_0000000.jpg, data_file: camera_batch_13_42_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003300.jpg
+Debug: Checking image_id match:
+data_obj: id=82310, original=None
+im_obj: id=datasets/objectron/test/camera_batch_5_46_0000200.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_5_46_0000200.jpg, data_file: camera_batch_5_46_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003350.jpg
+Debug: Checking image_id match:
+data_obj: id=82360, original=None
+im_obj: id=datasets/objectron/test/camera_batch_6_11_0000200.jpg, original=None
+Debug: Comparing files - im_file: camera_batch_6_11_0000200.jpg, data_file: camera_batch_6_11_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003400.jpg
+Debug: Checking image_id match:
+data_obj: id=82410, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_10_44_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_10_44_0000000.jpg, data_file: cereal_box_batch_10_44_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003450.jpg
+Debug: Checking image_id match:
+data_obj: id=82460, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_11_18_0000100.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_11_18_0000100.jpg, data_file: cereal_box_batch_11_18_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003500.jpg
+Debug: Checking image_id match:
+data_obj: id=82510, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_7_0_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_7_0_0000000.jpg, data_file: cereal_box_batch_7_0_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003550.jpg
+Debug: Checking image_id match:
+data_obj: id=82560, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_32_48_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_32_48_0000000.jpg, data_file: cereal_box_batch_32_48_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003600.jpg
+Debug: Checking image_id match:
+data_obj: id=82610, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_33_48_0000100.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_33_48_0000100.jpg, data_file: cereal_box_batch_33_48_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003650.jpg
+Debug: Checking image_id match:
+data_obj: id=82660, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_9_7_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_9_7_0000000.jpg, data_file: cereal_box_batch_9_7_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003700.jpg
+Debug: Checking image_id match:
+data_obj: id=82710, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_35_40_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_35_40_0000000.jpg, data_file: cereal_box_batch_35_40_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003750.jpg
+Debug: Checking image_id match:
+data_obj: id=82760, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_30_16_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_30_16_0000000.jpg, data_file: cereal_box_batch_30_16_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003800.jpg
+Debug: Checking image_id match:
+data_obj: id=82810, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_16_39_0000200.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_16_39_0000200.jpg, data_file: cereal_box_batch_16_39_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003850.jpg
+Debug: Checking image_id match:
+data_obj: id=82860, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_27_42_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_27_42_0000000.jpg, data_file: cereal_box_batch_27_42_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003900.jpg
+Debug: Checking image_id match:
+data_obj: id=82910, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_35_19_0000100.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_35_19_0000100.jpg, data_file: cereal_box_batch_35_19_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_003950.jpg
+Debug: Checking image_id match:
+data_obj: id=82960, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_37_32_0000200.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_37_32_0000200.jpg, data_file: cereal_box_batch_37_32_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004000.jpg
+Debug: Checking image_id match:
+data_obj: id=83010, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_36_45_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_36_45_0000000.jpg, data_file: cereal_box_batch_36_45_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004050.jpg
+Debug: Checking image_id match:
+data_obj: id=83060, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_9_16_0000000.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_9_16_0000000.jpg, data_file: cereal_box_batch_9_16_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004100.jpg
+Debug: Checking image_id match:
+data_obj: id=83110, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_28_34_0000200.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_28_34_0000200.jpg, data_file: cereal_box_batch_28_34_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004150.jpg
+Debug: Checking image_id match:
+data_obj: id=83160, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_20_41_0000200.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_20_41_0000200.jpg, data_file: cereal_box_batch_20_41_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004200.jpg
+Debug: Checking image_id match:
+data_obj: id=83210, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_29_49_0000100.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_29_49_0000100.jpg, data_file: cereal_box_batch_29_49_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004250.jpg
+Debug: Checking image_id match:
+data_obj: id=83260, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_26_47_0000100.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_26_47_0000100.jpg, data_file: cereal_box_batch_26_47_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004300.jpg
+Debug: Checking image_id match:
+data_obj: id=83310, original=None
+im_obj: id=datasets/objectron/test/cereal_box_batch_31_6_0000200.jpg, original=None
+Debug: Comparing files - im_file: cereal_box_batch_31_6_0000200.jpg, data_file: cereal_box_batch_31_6_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004350.jpg
+Debug: Checking image_id match:
+data_obj: id=83360, original=None
+im_obj: id=datasets/objectron/test/chair_batch_14_8_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_14_8_0000200.jpg, data_file: chair_batch_14_8_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004400.jpg
+Debug: Checking image_id match:
+data_obj: id=83410, original=None
+im_obj: id=datasets/objectron/test/chair_batch_18_12_0000100.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_18_12_0000100.jpg, data_file: chair_batch_18_12_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004450.jpg
+Debug: Checking image_id match:
+data_obj: id=83460, original=None
+im_obj: id=datasets/objectron/test/chair_batch_13_5_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_13_5_0000200.jpg, data_file: chair_batch_13_5_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004500.jpg
+Debug: Checking image_id match:
+data_obj: id=83510, original=None
+im_obj: id=datasets/objectron/test/chair_batch_15_40_0000000.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_15_40_0000000.jpg, data_file: chair_batch_15_40_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004550.jpg
+Debug: Checking image_id match:
+data_obj: id=83560, original=None
+im_obj: id=datasets/objectron/test/chair_batch_42_45_0000000.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_42_45_0000000.jpg, data_file: chair_batch_42_45_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004600.jpg
+Debug: Checking image_id match:
+data_obj: id=83610, original=None
+im_obj: id=datasets/objectron/test/chair_batch_17_42_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_17_42_0000200.jpg, data_file: chair_batch_17_42_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004650.jpg
+Debug: Checking image_id match:
+data_obj: id=83660, original=None
+im_obj: id=datasets/objectron/test/chair_batch_8_32_0000100.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_8_32_0000100.jpg, data_file: chair_batch_8_32_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004700.jpg
+Debug: Checking image_id match:
+data_obj: id=83710, original=None
+im_obj: id=datasets/objectron/test/chair_batch_5_30_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_5_30_0000200.jpg, data_file: chair_batch_5_30_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004750.jpg
+Debug: Checking image_id match:
+data_obj: id=83760, original=None
+im_obj: id=datasets/objectron/test/chair_batch_17_7_0000300.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_17_7_0000300.jpg, data_file: chair_batch_17_7_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004800.jpg
+Debug: Checking image_id match:
+data_obj: id=83810, original=None
+im_obj: id=datasets/objectron/test/chair_batch_1_47_0000300.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_1_47_0000300.jpg, data_file: chair_batch_1_47_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004850.jpg
+Debug: Checking image_id match:
+data_obj: id=83860, original=None
+im_obj: id=datasets/objectron/test/chair_batch_43_20_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_43_20_0000200.jpg, data_file: chair_batch_43_20_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004900.jpg
+Debug: Checking image_id match:
+data_obj: id=83910, original=None
+im_obj: id=datasets/objectron/test/chair_batch_2_30_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_2_30_0000200.jpg, data_file: chair_batch_2_30_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_004950.jpg
+Debug: Checking image_id match:
+data_obj: id=83960, original=None
+im_obj: id=datasets/objectron/test/chair_batch_22_34_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_22_34_0000200.jpg, data_file: chair_batch_22_34_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005000.jpg
+Debug: Checking image_id match:
+data_obj: id=84010, original=None
+im_obj: id=datasets/objectron/test/chair_batch_43_15_0000100.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_43_15_0000100.jpg, data_file: chair_batch_43_15_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005050.jpg
+Debug: Checking image_id match:
+data_obj: id=84060, original=None
+im_obj: id=datasets/objectron/test/chair_batch_14_14_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_14_14_0000200.jpg, data_file: chair_batch_14_14_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005100.jpg
+Debug: Checking image_id match:
+data_obj: id=84110, original=None
+im_obj: id=datasets/objectron/test/chair_batch_5_9_0000000.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_5_9_0000000.jpg, data_file: chair_batch_5_9_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005150.jpg
+Debug: Checking image_id match:
+data_obj: id=84160, original=None
+im_obj: id=datasets/objectron/test/chair_batch_32_7_0000100.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_32_7_0000100.jpg, data_file: chair_batch_32_7_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005200.jpg
+Debug: Checking image_id match:
+data_obj: id=84210, original=None
+im_obj: id=datasets/objectron/test/chair_batch_25_45_0000000.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_25_45_0000000.jpg, data_file: chair_batch_25_45_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005250.jpg
+Debug: Checking image_id match:
+data_obj: id=84260, original=None
+im_obj: id=datasets/objectron/test/chair_batch_30_9_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_30_9_0000200.jpg, data_file: chair_batch_30_9_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005300.jpg
+Debug: Checking image_id match:
+data_obj: id=84310, original=None
+im_obj: id=datasets/objectron/test/chair_batch_19_4_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_19_4_0000200.jpg, data_file: chair_batch_19_4_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005350.jpg
+Debug: Checking image_id match:
+data_obj: id=84360, original=None
+im_obj: id=datasets/objectron/test/chair_batch_20_30_0000000.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_20_30_0000000.jpg, data_file: chair_batch_20_30_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005400.jpg
+Debug: Checking image_id match:
+data_obj: id=84410, original=None
+im_obj: id=datasets/objectron/test/chair_batch_40_12_0000000.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_40_12_0000000.jpg, data_file: chair_batch_40_12_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005450.jpg
+Debug: Checking image_id match:
+data_obj: id=84460, original=None
+im_obj: id=datasets/objectron/test/chair_batch_33_7_0000200.jpg, original=None
+Debug: Comparing files - im_file: chair_batch_33_7_0000200.jpg, data_file: chair_batch_33_7_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005500.jpg
+Debug: Checking image_id match:
+data_obj: id=84510, original=None
+im_obj: id=datasets/objectron/test/cup_batch_35_33_0000000.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_35_33_0000000.jpg, data_file: cup_batch_35_33_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005550.jpg
+Debug: Checking image_id match:
+data_obj: id=84560, original=None
+im_obj: id=datasets/objectron/test/cup_batch_45_29_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_45_29_0000100.jpg, data_file: cup_batch_45_29_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005600.jpg
+Debug: Checking image_id match:
+data_obj: id=84610, original=None
+im_obj: id=datasets/objectron/test/cup_batch_5_24_0000000.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_5_24_0000000.jpg, data_file: cup_batch_5_24_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005650.jpg
+Debug: Checking image_id match:
+data_obj: id=84660, original=None
+im_obj: id=datasets/objectron/test/cup_batch_48_24_0000200.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_48_24_0000200.jpg, data_file: cup_batch_48_24_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005700.jpg
+Debug: Checking image_id match:
+data_obj: id=84710, original=None
+im_obj: id=datasets/objectron/test/cup_batch_34_9_0000200.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_34_9_0000200.jpg, data_file: cup_batch_34_9_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005750.jpg
+Debug: Checking image_id match:
+data_obj: id=84760, original=None
+im_obj: id=datasets/objectron/test/cup_batch_5_22_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_5_22_0000100.jpg, data_file: cup_batch_5_22_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005800.jpg
+Debug: Checking image_id match:
+data_obj: id=84810, original=None
+im_obj: id=datasets/objectron/test/cup_batch_32_0_0000300.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_32_0_0000300.jpg, data_file: cup_batch_32_0_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005850.jpg
+Debug: Checking image_id match:
+data_obj: id=84860, original=None
+im_obj: id=datasets/objectron/test/cup_batch_32_2_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_32_2_0000100.jpg, data_file: cup_batch_32_2_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005900.jpg
+Debug: Checking image_id match:
+data_obj: id=84910, original=None
+im_obj: id=datasets/objectron/test/cup_batch_37_31_0000000.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_37_31_0000000.jpg, data_file: cup_batch_37_31_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_005950.jpg
+Debug: Checking image_id match:
+data_obj: id=84960, original=None
+im_obj: id=datasets/objectron/test/cup_batch_4_26_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_4_26_0000100.jpg, data_file: cup_batch_4_26_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006000.jpg
+Debug: Checking image_id match:
+data_obj: id=85010, original=None
+im_obj: id=datasets/objectron/test/cup_batch_30_20_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_30_20_0000100.jpg, data_file: cup_batch_30_20_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006050.jpg
+Debug: Checking image_id match:
+data_obj: id=85060, original=None
+im_obj: id=datasets/objectron/test/cup_batch_16_14_0000200.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_16_14_0000200.jpg, data_file: cup_batch_16_14_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006100.jpg
+Debug: Checking image_id match:
+data_obj: id=85110, original=None
+im_obj: id=datasets/objectron/test/cup_batch_29_26_0000000.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_29_26_0000000.jpg, data_file: cup_batch_29_26_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006150.jpg
+Debug: Checking image_id match:
+data_obj: id=85160, original=None
+im_obj: id=datasets/objectron/test/cup_batch_9_17_0000500.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_9_17_0000500.jpg, data_file: cup_batch_9_17_0000500.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006200.jpg
+Debug: Checking image_id match:
+data_obj: id=85210, original=None
+im_obj: id=datasets/objectron/test/cup_batch_19_16_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_19_16_0000100.jpg, data_file: cup_batch_19_16_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006250.jpg
+Debug: Checking image_id match:
+data_obj: id=85260, original=None
+im_obj: id=datasets/objectron/test/cup_batch_27_9_0000200.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_27_9_0000200.jpg, data_file: cup_batch_27_9_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006300.jpg
+Debug: Checking image_id match:
+data_obj: id=85310, original=None
+im_obj: id=datasets/objectron/test/cup_batch_21_8_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_21_8_0000100.jpg, data_file: cup_batch_21_8_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006350.jpg
+Debug: Checking image_id match:
+data_obj: id=85360, original=None
+im_obj: id=datasets/objectron/test/cup_batch_24_22_0000000.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_24_22_0000000.jpg, data_file: cup_batch_24_22_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006400.jpg
+Debug: Checking image_id match:
+data_obj: id=85410, original=None
+im_obj: id=datasets/objectron/test/cup_batch_18_29_0000000.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_18_29_0000000.jpg, data_file: cup_batch_18_29_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006450.jpg
+Debug: Checking image_id match:
+data_obj: id=85460, original=None
+im_obj: id=datasets/objectron/test/cup_batch_16_20_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_16_20_0000100.jpg, data_file: cup_batch_16_20_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006500.jpg
+Debug: Checking image_id match:
+data_obj: id=85510, original=None
+im_obj: id=datasets/objectron/test/cup_batch_49_22_0000000.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_49_22_0000000.jpg, data_file: cup_batch_49_22_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006550.jpg
+Debug: Checking image_id match:
+data_obj: id=85560, original=None
+im_obj: id=datasets/objectron/test/cup_batch_4_11_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_4_11_0000100.jpg, data_file: cup_batch_4_11_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006600.jpg
+Debug: Checking image_id match:
+data_obj: id=85610, original=None
+im_obj: id=datasets/objectron/test/cup_batch_10_25_0000200.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_10_25_0000200.jpg, data_file: cup_batch_10_25_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006650.jpg
+Debug: Checking image_id match:
+data_obj: id=85660, original=None
+im_obj: id=datasets/objectron/test/cup_batch_16_0_0000000.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_16_0_0000000.jpg, data_file: cup_batch_16_0_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006700.jpg
+Debug: Checking image_id match:
+data_obj: id=85710, original=None
+im_obj: id=datasets/objectron/test/cup_batch_49_47_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_49_47_0000100.jpg, data_file: cup_batch_49_47_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006750.jpg
+Debug: Checking image_id match:
+data_obj: id=85760, original=None
+im_obj: id=datasets/objectron/test/cup_batch_42_30_0000100.jpg, original=None
+Debug: Comparing files - im_file: cup_batch_42_30_0000100.jpg, data_file: cup_batch_42_30_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006800.jpg
+Debug: Checking image_id match:
+data_obj: id=85810, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_37_20_0000300.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_37_20_0000300.jpg, data_file: laptop_batch_37_20_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006850.jpg
+Debug: Checking image_id match:
+data_obj: id=85860, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_26_39_0000300.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_26_39_0000300.jpg, data_file: laptop_batch_26_39_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006900.jpg
+Debug: Checking image_id match:
+data_obj: id=85910, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_10_42_0000300.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_10_42_0000300.jpg, data_file: laptop_batch_10_42_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_006950.jpg
+Debug: Checking image_id match:
+data_obj: id=85960, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_14_18_0000100.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_14_18_0000100.jpg, data_file: laptop_batch_14_18_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007000.jpg
+Debug: Checking image_id match:
+data_obj: id=86010, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_27_37_0000200.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_27_37_0000200.jpg, data_file: laptop_batch_27_37_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007050.jpg
+Debug: Checking image_id match:
+data_obj: id=86060, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_27_49_0000100.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_27_49_0000100.jpg, data_file: laptop_batch_27_49_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007100.jpg
+Debug: Checking image_id match:
+data_obj: id=86110, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_17_16_0000300.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_17_16_0000300.jpg, data_file: laptop_batch_17_16_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007150.jpg
+Debug: Checking image_id match:
+data_obj: id=86160, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_4_34_0000300.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_4_34_0000300.jpg, data_file: laptop_batch_4_34_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007200.jpg
+Debug: Checking image_id match:
+data_obj: id=86210, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_17_6_0000200.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_17_6_0000200.jpg, data_file: laptop_batch_17_6_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007250.jpg
+Debug: Checking image_id match:
+data_obj: id=86260, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_21_13_0000400.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_21_13_0000400.jpg, data_file: laptop_batch_21_13_0000400.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007300.jpg
+Debug: Checking image_id match:
+data_obj: id=86310, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_7_38_0000100.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_7_38_0000100.jpg, data_file: laptop_batch_7_38_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007350.jpg
+Debug: Checking image_id match:
+data_obj: id=86360, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_30_5_0000300.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_30_5_0000300.jpg, data_file: laptop_batch_30_5_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007400.jpg
+Debug: Checking image_id match:
+data_obj: id=86410, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_27_27_0000200.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_27_27_0000200.jpg, data_file: laptop_batch_27_27_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007450.jpg
+Debug: Checking image_id match:
+data_obj: id=86460, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_19_11_0000400.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_19_11_0000400.jpg, data_file: laptop_batch_19_11_0000400.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007500.jpg
+Debug: Checking image_id match:
+data_obj: id=86510, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_16_3_0000100.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_16_3_0000100.jpg, data_file: laptop_batch_16_3_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007550.jpg
+Debug: Checking image_id match:
+data_obj: id=86560, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_32_42_0000200.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_32_42_0000200.jpg, data_file: laptop_batch_32_42_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007600.jpg
+Debug: Checking image_id match:
+data_obj: id=86610, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_34_9_0000300.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_34_9_0000300.jpg, data_file: laptop_batch_34_9_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007650.jpg
+Debug: Checking image_id match:
+data_obj: id=86660, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_12_27_0000100.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_12_27_0000100.jpg, data_file: laptop_batch_12_27_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007700.jpg
+Debug: Checking image_id match:
+data_obj: id=86710, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_11_41_0000100.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_11_41_0000100.jpg, data_file: laptop_batch_11_41_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007750.jpg
+Debug: Checking image_id match:
+data_obj: id=86760, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_14_6_0000300.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_14_6_0000300.jpg, data_file: laptop_batch_14_6_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007800.jpg
+Debug: Checking image_id match:
+data_obj: id=86810, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_0_31_0000200.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_0_31_0000200.jpg, data_file: laptop_batch_0_31_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007850.jpg
+Debug: Checking image_id match:
+data_obj: id=86860, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_3_8_0000000.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_3_8_0000000.jpg, data_file: laptop_batch_3_8_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007900.jpg
+Debug: Checking image_id match:
+data_obj: id=86910, original=None
+im_obj: id=datasets/objectron/test/laptop_batch_17_26_0000100.jpg, original=None
+Debug: Comparing files - im_file: laptop_batch_17_26_0000100.jpg, data_file: laptop_batch_17_26_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_007950.jpg
+Debug: Checking image_id match:
+data_obj: id=86960, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_14_45_0000200.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_14_45_0000200.jpg, data_file: shoe_batch_14_45_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008000.jpg
+Debug: Checking image_id match:
+data_obj: id=87010, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_27_16_0000000.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_27_16_0000000.jpg, data_file: shoe_batch_27_16_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008050.jpg
+Debug: Checking image_id match:
+data_obj: id=87060, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_35_11_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_35_11_0000100.jpg, data_file: shoe_batch_35_11_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008100.jpg
+Debug: Checking image_id match:
+data_obj: id=87110, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_4_4_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_4_4_0000100.jpg, data_file: shoe_batch_4_4_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008150.jpg
+Debug: Checking image_id match:
+data_obj: id=87160, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_30_43_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_30_43_0000100.jpg, data_file: shoe_batch_30_43_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008200.jpg
+Debug: Checking image_id match:
+data_obj: id=87210, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_2_10_0000700.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_2_10_0000700.jpg, data_file: shoe_batch_2_10_0000700.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008250.jpg
+Debug: Checking image_id match:
+data_obj: id=87260, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_5_37_0000000.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_5_37_0000000.jpg, data_file: shoe_batch_5_37_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008300.jpg
+Debug: Checking image_id match:
+data_obj: id=87310, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_35_38_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_35_38_0000100.jpg, data_file: shoe_batch_35_38_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008350.jpg
+Debug: Checking image_id match:
+data_obj: id=87360, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_47_15_0000000.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_47_15_0000000.jpg, data_file: shoe_batch_47_15_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008400.jpg
+Debug: Checking image_id match:
+data_obj: id=87410, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_42_10_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_42_10_0000100.jpg, data_file: shoe_batch_42_10_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008450.jpg
+Debug: Checking image_id match:
+data_obj: id=87460, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_8_45_0000300.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_8_45_0000300.jpg, data_file: shoe_batch_8_45_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008500.jpg
+Debug: Checking image_id match:
+data_obj: id=87510, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_21_26_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_21_26_0000100.jpg, data_file: shoe_batch_21_26_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008550.jpg
+Debug: Checking image_id match:
+data_obj: id=87560, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_31_4_0000200.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_31_4_0000200.jpg, data_file: shoe_batch_31_4_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008600.jpg
+Debug: Checking image_id match:
+data_obj: id=87610, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_27_48_0000000.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_27_48_0000000.jpg, data_file: shoe_batch_27_48_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008650.jpg
+Debug: Checking image_id match:
+data_obj: id=87660, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_40_40_0000200.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_40_40_0000200.jpg, data_file: shoe_batch_40_40_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008700.jpg
+Debug: Checking image_id match:
+data_obj: id=87710, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_36_23_0000000.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_36_23_0000000.jpg, data_file: shoe_batch_36_23_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008750.jpg
+Debug: Checking image_id match:
+data_obj: id=87760, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_48_49_0000200.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_48_49_0000200.jpg, data_file: shoe_batch_48_49_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008800.jpg
+Debug: Checking image_id match:
+data_obj: id=87810, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_2_39_0000000.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_2_39_0000000.jpg, data_file: shoe_batch_2_39_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008850.jpg
+Debug: Checking image_id match:
+data_obj: id=87860, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_13_21_0000000.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_13_21_0000000.jpg, data_file: shoe_batch_13_21_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008900.jpg
+Debug: Checking image_id match:
+data_obj: id=87910, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_22_19_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_22_19_0000100.jpg, data_file: shoe_batch_22_19_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_008950.jpg
+Debug: Checking image_id match:
+data_obj: id=87960, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_39_9_0000200.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_39_9_0000200.jpg, data_file: shoe_batch_39_9_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_009000.jpg
+Debug: Checking image_id match:
+data_obj: id=88010, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_41_46_0000200.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_41_46_0000200.jpg, data_file: shoe_batch_41_46_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_009050.jpg
+Debug: Checking image_id match:
+data_obj: id=88060, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_46_37_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_46_37_0000100.jpg, data_file: shoe_batch_46_37_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_009100.jpg
+Debug: Checking image_id match:
+data_obj: id=88110, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_28_21_0000200.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_28_21_0000200.jpg, data_file: shoe_batch_28_21_0000200.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_009150.jpg
+Debug: Checking image_id match:
+data_obj: id=88160, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_45_47_0000100.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_45_47_0000100.jpg, data_file: shoe_batch_45_47_0000100.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_009200.jpg
+Debug: Checking image_id match:
+data_obj: id=88210, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_22_5_0000000.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_22_5_0000000.jpg, data_file: shoe_batch_22_5_0000000.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_009250.jpg
+Debug: Checking image_id match:
+data_obj: id=88260, original=None
+im_obj: id=datasets/objectron/test/shoe_batch_18_42_0000300.jpg, original=None
+Debug: Comparing files - im_file: shoe_batch_18_42_0000300.jpg, data_file: shoe_batch_18_42_0000300.jpg
+Debug: Files match
+Debug: Saved to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/vis/Objectron_test_009300.jpg
+[03/07 10:35:08 cubercnn]: Objectron_testiter=1000, xy(nan), z(nan), whl(nan, nan, nan), ry(1000.00)
+
+Accumulating evaluation results...
+DONE (t=2.20s).
+Accumulating evaluation results...
+DONE (t=2.05s).
+[03/07 10:35:12 cubercnn.vis.logperf]: Performance for each of 9 categories on <Concat>:
+|  category  | AP2D    | AP3D    | AR2D    | AR3D    |  category  | AP2D    | AP3D     | AR2D    | AR3D    |
+|:----------:|:--------|:--------|:--------|:--------|:----------:|:--------|:---------|:--------|:--------|
+|   chair    | 40.641  | 40      | 54.3182 | 40      |   books    | 22.1194 | 38.8543  | 38.1004 | 42      |
+|   shoes    | 14.4104 | 40.7035 | 27.1229 | 42.4138 |    cup     | 15.5767 | 39.3007  | 38.3187 | 43.0435 |
+|   bottle   | 21.6054 | 40.486  | 40.8734 | 42.2222 |   laptop   | 40.498  | 0.384615 | 51.2324 | 10      |
+| cereal box | 36.1855 | 0       | 47.9275 | 0       |   camera   | 14.5084 | 29.0205  | 35.1382 | 35      |
+|  bicycle   | 27.5829 | nan     | 51.6364 | nan     |            |         |          |         |         |
+[03/07 10:35:12 cubercnn.vis.logperf]: Per-dataset performance analysis on test set:
++----------------+----------+---------+--------+-----------+-----------+-----------+----------+----------+----------+---------+--------+
+|    Dataset     | #iters   | AP2D    | AP3D   | AP3D@15   | AP3D@25   | AP3D@50   | AP3D-N   | AP3D-M   | AP3D-F   | AR2D    | AR3D   |
++================+==========+=========+========+===========+===========+===========+==========+==========+==========+=========+========+
+| Objectron_test | 1000     | 25.9031 | nan    | 59.4784   | 20.8206   | 1.14215   | nan      | nan      | 28.5937  | 42.7409 | nan    |
++----------------+----------+---------+--------+-----------+-----------+-----------+----------+----------+----------+---------+--------+
+|    <Concat>    | 1000     | 25.9031 | nan    | 59.4784   | 20.8206   | 1.14215   | nan      | nan      | 28.5937  | 42.7409 | nan    |
++----------------+----------+---------+--------+-----------+-----------+-----------+----------+----------+----------+---------+--------+
+[03/07 10:35:12 cubercnn.vis.logperf]: Performance on Omni3D:
++----------------+----------+---------+--------+---------+--------+
+|    Dataset     | #iters   | AP2D    | AP3D   | AR2D    | AR3D   |
++================+==========+=========+========+=========+========+
+| Objectron_test | 1000     | 25.9031 | nan    | 42.7409 | nan    |
++----------------+----------+---------+--------+---------+--------+
+|   Omni3D_Out   | 1000     | nan     | nan    | nan     | nan    |
++----------------+----------+---------+--------+---------+--------+
+|   Omni3D_In    | 1000     | nan     | nan    | nan     | nan    |
++----------------+----------+---------+--------+---------+--------+
+|     Omni3D     | 1000     | nan     | nan    | nan     | nan    |
++----------------+----------+---------+--------+---------+--------+
+[03/07 10:35:12 cubercnn.evaluation.omni3d_evaluation]: Overall NHD: nan
+[03/07 10:35:12 cubercnn.evaluation.omni3d_evaluation]: Disentangled XY NHD: nan
+[03/07 10:35:12 cubercnn.evaluation.omni3d_evaluation]: Disentangled  Z NHD: nan
+[03/07 10:35:12 cubercnn.evaluation.omni3d_evaluation]: Disentangled Dimensions NHD: nan
+[03/07 10:35:12 cubercnn.evaluation.omni3d_evaluation]: Disentangled Pose NHD: nan
+[03/07 10:35:39 d2.utils.events]:  iter: 1019  Cube/total_3D_loss: 0.7452  total_loss: 1.531  BoxHead/loss_box_reg: 0.1402  BoxHead/loss_cls: 0.08065  Cube/loss_dims: 0.03511  Cube/loss_joint: 0.4464  Cube/loss_pose: 0.2186  Cube/loss_xy: 0.01796  Cube/loss_z: 0.0556     lr: 0.0033819  max_mem: 3168M
+[03/07 10:36:05 d2.utils.events]:  eta: 14:38:48  iter: 1039  Cube/total_3D_loss: 0.8186  total_loss: 1.644  BoxHead/loss_box_reg: 0.1408  BoxHead/loss_cls: 0.07857  Cube/loss_dims: 0.03647  Cube/loss_joint: 0.4284  Cube/loss_pose: 0.2069  Cube/loss_xy: 0.01529  Cube/loss_z: 0.05347     lr: 0.003448  max_mem: 3177M
+[03/07 10:36:30 d2.utils.events]:  eta: 13:39:21  iter: 1059  Cube/total_3D_loss: 0.8844  total_loss: 1.64  BoxHead/loss_box_reg: 0.1453  BoxHead/loss_cls: 0.08133  Cube/loss_dims: 0.03758  Cube/loss_joint: 0.4701  Cube/loss_pose: 0.2356  Cube/loss_xy: 0.01835  Cube/loss_z: 0.0634     lr: 0.0035141  max_mem: 3179M
+[03/07 10:36:56 d2.utils.events]:  eta: 14:12:13  iter: 1079  Cube/total_3D_loss: 0.8069  total_loss: 1.635  BoxHead/loss_box_reg: 0.1438  BoxHead/loss_cls: 0.08177  Cube/loss_dims: 0.03315  Cube/loss_joint: 0.493  Cube/loss_pose: 0.2201  Cube/loss_xy: 0.01606  Cube/loss_z: 0.06746     lr: 0.0035803  max_mem: 3179M
+[03/07 10:37:22 d2.utils.events]:  eta: 14:33:08  iter: 1099  Cube/total_3D_loss: 0.8042  total_loss: 1.548  BoxHead/loss_box_reg: 0.1455  BoxHead/loss_cls: 0.07863  Cube/loss_dims: 0.03549  Cube/loss_joint: 0.516  Cube/loss_pose: 0.1988  Cube/loss_xy: 0.01428  Cube/loss_z: 0.06968     lr: 0.0036464  max_mem: 3179M
+[03/07 10:37:48 d2.utils.events]:  eta: 14:27:18  iter: 1119  Cube/total_3D_loss: 0.6412  total_loss: 1.553  BoxHead/loss_box_reg: 0.1476  BoxHead/loss_cls: 0.08095  Cube/loss_dims: 0.03511  Cube/loss_joint: 0.4384  Cube/loss_pose: 0.24  Cube/loss_xy: 0.01584  Cube/loss_z: 0.05661     lr: 0.0037126  max_mem: 3179M
