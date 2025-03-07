@@ -706,9 +706,6 @@ def inference_on_dataset(model, data_loader, evaluator):
                 )
             start_data_time = time.perf_counter()
 
-    # 计算总推理时间
-    total_time = time.perf_counter() - start_time
-
     # 只保留最基本的统计信息
     logger.info(f"\nFinal Statistics:")
     logger.info(f"Total inference time: {str(datetime.timedelta(seconds=total_time))} ({total_time / (total - num_warmup):.6f} s / iter per device, on {num_devices} devices)")

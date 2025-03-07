@@ -1,0 +1,61 @@
+
+[03/06 13:49:29 cubercnn.evaluation.omni3d_evaluation]: Total predictions collected: 4657
+[03/06 13:49:29 cubercnn.evaluation.omni3d_evaluation]: Number of predictions with instances: 4657
+[03/06 13:49:29 cubercnn.evaluation.omni3d_evaluation]: Sample prediction structure: ['image_id', 'K', 'width', 'height', 'instances']
+[03/06 13:49:29 cubercnn.evaluation.omni3d_evaluation]: Sample instances (first 2 if available): [{'image_id': 92427017, 'category_id': 0, 'bbox': [76.0268325805664, 133.56069946289062, 1023.0306396484375, 1142.4105224609375], 'score': 0.37270551919937134, 'bbox3D': [[-0.5750645399093628, -1.1906472444534302, 2.4331276416778564], [-0.451608270406723, -0.7062127590179443, 1.8254892826080322], [-0.5683751106262207, 0.14455676078796387, 2.4800338745117188], [-0.6918313503265381, -0.339877724647522, 3.087672233581543], [0.19260120391845703, -1.1997184753417969, 2.5818653106689453], [0.3160574436187744, -0.715283989906311, 1.974226951599121], [0.19929063320159912, 0.13548552989959717, 2.6287715435028076], [0.07583436369895935, -0.34894895553588867, 3.236409902572632]], 'center_cam': [-0.18788695335388184, -0.5275808572769165, 2.530949592590332], 'center_2D': [611.6006469726562, 607.3344116210938], 'dimensions': [0.7819948196411133, 1.079755425453186, 0.7868561744689941], 'pose': [[0.1568981409072876, -0.1081419438123703, 0.9816762804985046], [0.6156582832336426, 0.7879279851913452, -0.011600120924413204], [-0.7722356915473938, 0.6061971187591553, 0.19020289182662964]], 'depth': 2.530949592590332}, {'image_id': 92427017, 'category_id': 0, 'bbox': [0.0, 0.0, 627.1397094726562, 1154.3304443359375], 'score': 0.2345474809408188, 'bbox3D': [[-0.9188879728317261, -1.2756190299987793, 2.077251672744751], [-0.6357322335243225, -0.7838273048400879, 1.5198477506637573], [-0.8557093143463135, 0.15666526556015015, 2.2378885746002197], [-1.1388651132583618, -0.3351265490055084, 2.795292377471924], [-0.12914910912513733, -1.3482606410980225, 2.4143402576446533], [0.15400663018226624, -0.856468915939331, 1.8569363355636597], [-0.0659705102443695, 0.08402365446090698, 2.574977159500122], [-0.3491262197494507, -0.4077681601047516, 3.132380962371826]], 'center_cam': [-0.4924292266368866, -0.5957977175712585, 2.3261144161224365], 'center_2D': [394.9570007324219, 532.1845703125], 'dimensions': [0.861738383769989, 1.2035359144210815, 0.7954467535018921], 'pose': [[0.35597068071365356, -0.18277567625045776, 0.9164484739303589], [0.6182585954666138, 0.7814411520957947, -0.08429661393165588], [-0.7007431983947754, 0.596609354019165, 0.3911728262901306]], 'depth': 2.3261144161224365}]
+[03/06 13:49:29 cubercnn.evaluation.omni3d_evaluation]: Total inference time: 0:21:40.210245 (0.279495 s / iter per device, on 2 devices)
+[03/06 13:49:29 cubercnn.evaluation.omni3d_evaluation]: Total inference pure compute time: 0:20:47 (0.268122 s / iter per device, on 2 devices)
+[03/06 13:49:40 cubercnn.evaluation.omni3d_evaluation]: Preparing results for COCO format ...
+[03/06 13:49:41 cubercnn.evaluation.omni3d_evaluation]: Saving results to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/omni_instances_results.json
+[03/06 13:49:41 cubercnn.evaluation.omni3d_evaluation]: Evaluating predictions with official COCO API...
+[rank0]:[W306 13:49:42.781738968 ProcessGroupNCCL.cpp:1168] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
+W0306 13:49:43.736607 140172021159168 torch/multiprocessing/spawn.py:146] Terminating process 2238364 via signal SIGTERM
+Traceback (most recent call last):
+  File "tools/train_net.py", line 563, in <module>
+    launch(
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/engine/launch.py", line 69, in launch
+    mp.start_processes(
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 238, in start_processes
+    while not context.join():
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 189, in join
+    raise ProcessRaisedException(msg, error_index, failed_process.pid)
+torch.multiprocessing.spawn.ProcessRaisedException: 
+
+-- Process 0 terminated with the following error:
+Traceback (most recent call last):
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 76, in _wrap
+    fn(i, *args)
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/engine/launch.py", line 123, in _distributed_worker
+    main_func(*args)
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/tools/train_net.py", line 463, in main
+    if do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=args.resume):
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/tools/train_net.py", line 335, in do_train
+    do_test(cfg, model, iteration=iteration+1, storage=storage, mode='base')
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/tools/train_net.py", line 110, in do_test
+    eval_helper.evaluate(dataset_name)
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/cubercnn/evaluation/omni3d_evaluation.py", line 329, in evaluate
+    self.results[dataset_name] = self.evaluators[dataset_name].evaluate()
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/evaluation/coco_evaluation.py", line 206, in evaluate
+    self._eval_predictions(predictions, img_ids=img_ids)
+  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/cubercnn/evaluation/omni3d_evaluation.py", line 1079, in _eval_predictions
+    evals, log_strs = (
+TypeError: cannot unpack non-iterable NoneType object
+
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/structures/boxes.py:148: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/torch/csrc/utils/tensor_new.cpp:278.)
+  tensor = torch.as_tensor(tensor, dtype=torch.float32, device=torch.device("cpu"))
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/structures/boxes.py:148: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/torch/csrc/utils/tensor_new.cpp:278.)
+  tensor = torch.as_tensor(tensor, dtype=torch.float32, device=torch.device("cpu"))
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/structures/boxes.py:148: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/torch/csrc/utils/tensor_new.cpp:278.)
+  tensor = torch.as_tensor(tensor, dtype=torch.float32, device=torch.device("cpu"))
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/structures/boxes.py:148: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/torch/csrc/utils/tensor_new.cpp:278.)
+  tensor = torch.as_tensor(tensor, dtype=torch.float32, device=torch.device("cpu"))
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
