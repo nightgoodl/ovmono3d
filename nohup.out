@@ -2,8 +2,8 @@ nohup: ignoring input
 Command Line Args: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=False, machine_rank=0, num_gpus=2, num_machines=1, opts=['OUTPUT_DIR', '../../output/ovmono3d_depth', 'VIS_PERIOD', '1000', 'TEST.EVAL_PERIOD', '1000', 'MODEL.STABILIZE', '0.03', 'SOLVER.BASE_LR', '0.012', 'SOLVER.CHECKPOINT_PERIOD', '999', 'SOLVER.IMS_PER_BATCH', '16'], resume=True)
 /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
   warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-[03/07 09:16:07 detectron2]: Rank of current process: 0. World size: 2
-[03/07 09:16:07 detectron2]: Environment info:
+[03/07 10:15:38 detectron2]: Rank of current process: 0. World size: 2
+[03/07 10:15:39 detectron2]: Environment info:
 -------------------------------  -----------------------------------------------------------------------------------------------------------
 sys.platform                     linux
 Python                           3.8.20 (default, Oct  3 2024, 15:24:27) [GCC 11.2.0]
@@ -42,8 +42,8 @@ PyTorch built with:
   - Magma 2.6.1
   - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.4, CUDNN_VERSION=9.1.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.4.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
 
-[03/07 09:16:07 detectron2]: Command line arguments: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=False, machine_rank=0, num_gpus=2, num_machines=1, opts=['OUTPUT_DIR', '../../output/ovmono3d_depth', 'VIS_PERIOD', '1000', 'TEST.EVAL_PERIOD', '1000', 'MODEL.STABILIZE', '0.03', 'SOLVER.BASE_LR', '0.012', 'SOLVER.CHECKPOINT_PERIOD', '999', 'SOLVER.IMS_PER_BATCH', '16'], resume=True)
-[03/07 09:16:07 detectron2]: Contents of args.config_file=configs/OVMono3D_dinov2_SFP.yaml:
+[03/07 10:15:39 detectron2]: Command line arguments: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=False, machine_rank=0, num_gpus=2, num_machines=1, opts=['OUTPUT_DIR', '../../output/ovmono3d_depth', 'VIS_PERIOD', '1000', 'TEST.EVAL_PERIOD', '1000', 'MODEL.STABILIZE', '0.03', 'SOLVER.BASE_LR', '0.012', 'SOLVER.CHECKPOINT_PERIOD', '999', 'SOLVER.IMS_PER_BATCH', '16'], resume=True)
+[03/07 10:15:39 detectron2]: Contents of args.config_file=configs/OVMono3D_dinov2_SFP.yaml:
 [38;5;204m_BASE_[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186mBase.yaml[39m[38;5;186m"[39m
 [38;5;204mSOLVER[39m[38;5;15m:[39m
 [38;5;15m  [39m[38;5;204mTYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186msgd[39m[38;5;186m"[39m
@@ -89,7 +89,7 @@ PyTorch built with:
 [38;5;15m    [39m[38;5;204mNUM_CLASSES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m50[39m
 [38;5;15m    [39m[38;5;204mIN_FEATURES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;186m'[39m[38;5;186mp2[39m[38;5;186m'[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186mp3[39m[38;5;186m'[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186mp4[39m[38;5;186m'[39m[38;5;15m][39m
 
-[03/07 09:16:07 detectron2]: Running with full config:
+[03/07 10:15:39 detectron2]: Running with full config:
 [38;5;204mCUDNN_BENCHMARK[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
 [38;5;204mDATALOADER[39m[38;5;15m:[39m
 [38;5;15m  [39m[38;5;204mASPECT_RATIO_GROUPING[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
@@ -597,20 +597,20 @@ PyTorch built with:
 [38;5;204mVERSION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2[39m
 [38;5;204mVIS_PERIOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1000[39m
 
-[03/07 09:16:07 detectron2]: Full config saved to ../../output/ovmono3d_depth/config.yaml
-[03/07 09:16:08 d2.utils.env]: Using a generated random seed 10718076
-[03/07 09:16:08 cubercnn]: Preprocessing Training Datasets
+[03/07 10:15:40 detectron2]: Full config saved to ../../output/ovmono3d_depth/config.yaml
+[03/07 10:15:40 d2.utils.env]: Using a generated random seed 42769146
+[03/07 10:15:40 cubercnn]: Preprocessing Training Datasets
 loading Objectron_train annotations into memory...
-Done (t=1.79s)
+Done (t=1.86s)
 loading Objectron_val annotations into memory...
 Done (t=0.10s)
 creating index...
 index created!
-[03/07 09:16:12 cubercnn]: Available categories for Objectron Train
-[03/07 09:16:12 cubercnn]: ['bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes']
-[03/07 09:16:12 cubercnn]: Available categories for Objectron Validation
-[03/07 09:16:12 cubercnn]: ['bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes']
-[03/07 09:18:27 cubercnn]: Model:
+[03/07 10:15:45 cubercnn]: Available categories for Objectron Train
+[03/07 10:15:45 cubercnn]: ['bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes']
+[03/07 10:15:45 cubercnn]: Available categories for Objectron Validation
+[03/07 10:15:45 cubercnn]: ['bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes']
+[03/07 10:15:56 cubercnn]: Model:
 RCNN3D(
   (backbone): SimpleFeaturePyramidWithDepth(
     (simfp_2): Sequential(
@@ -733,40 +733,29 @@ RCNN3D(
     )
   )
 )
-WARNING [03/07 09:18:31 d2.solver.build]: SOLVER.STEPS contains values larger than SOLVER.MAX_ITER. These values will be ignored.
-[03/07 09:18:31 d2.data.dataset_mapper]: [DatasetMapper] Augmentations used in training: [ResizeShortestEdge(short_edge_length=..., max_size=896, sample_style='choice'), RandomFlip()]
-[03/07 09:18:32 cubercnn.data.datasets]: Loading /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_train.json takes 1.61 seconds.
-[03/07 09:18:32 cubercnn.data.datasets]: Loaded 33519 images in Omni3D format from /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_train.json
-[03/07 09:18:35 cubercnn.data.datasets]: Filtered out 228/33519 images without valid annotations
-[03/07 09:18:36 cubercnn.data.datasets]: Loaded 3811 images in Omni3D format from /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_val.json
-[03/07 09:18:36 cubercnn.data.datasets]: Filtered out 45/3811 images without valid annotations
-[03/07 09:18:36 d2.data.build]: Removed 0 images with no usable annotations. 37057 images left.
-[03/07 09:18:36 cubercnn.data.build]: Using 37057 training images
-[03/07 09:18:36 cubercnn.data.build]: Using training sampler RepeatFactorTrainingSampler
-[03/07 09:18:37 d2.data.common]: Serializing the dataset using: <class 'detectron2.data.common._TorchSerializedList'>
-[03/07 09:18:37 d2.data.common]: Serializing 37057 elements to byte tensors and concatenating them all ...
-[03/07 09:18:37 d2.data.common]: Serialized dataset takes 38.98 MiB
-[03/07 09:18:37 d2.data.build]: Making batched data loader with batch_size=8
-[03/07 09:18:37 d2.checkpoint.detection_checkpoint]: [DetectionCheckpointer] Loading from ../../output/ovmono3d_depth/model_recent.pth ...
-[03/07 09:18:37 fvcore.common.checkpoint]: [Checkpointer] Loading from ../../output/ovmono3d_depth/model_recent.pth ...
-[03/07 09:18:38 fvcore.common.checkpoint]: Loading optimizer from ../../output/ovmono3d_depth/model_recent.pth ...
-[03/07 09:18:38 fvcore.common.checkpoint]: Loading scheduler from ../../output/ovmono3d_depth/model_recent.pth ...
-[03/07 09:18:38 cubercnn]: Starting training from iteration 999
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-Using cache found in /root/.cache/torch/hub/facebookresearch_dinov2_main
-/root/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:43: UserWarning: xFormers is available (SwiGLU)
-  warnings.warn("xFormers is available (SwiGLU)")
-/root/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:27: UserWarning: xFormers is available (Attention)
-  warnings.warn("xFormers is available (Attention)")
-/root/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:33: UserWarning: xFormers is available (Block)
-  warnings.warn("xFormers is available (Block)")
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/fvcore/common/checkpoint.py:252: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
-  return torch.load(f, map_location=torch.device("cpu"))
+WARNING [03/07 10:15:56 d2.solver.build]: SOLVER.STEPS contains values larger than SOLVER.MAX_ITER. These values will be ignored.
+[03/07 10:15:56 d2.data.dataset_mapper]: [DatasetMapper] Augmentations used in training: [ResizeShortestEdge(short_edge_length=..., max_size=896, sample_style='choice'), RandomFlip()]
+[03/07 10:15:57 cubercnn.data.datasets]: Loading /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_train.json takes 1.55 seconds.
+[03/07 10:15:57 cubercnn.data.datasets]: Loaded 33519 images in Omni3D format from /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_train.json
+[03/07 10:16:00 cubercnn.data.datasets]: Filtered out 228/33519 images without valid annotations
+[03/07 10:16:01 cubercnn.data.datasets]: Loaded 3811 images in Omni3D format from /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_val.json
+[03/07 10:16:01 cubercnn.data.datasets]: Filtered out 45/3811 images without valid annotations
+[03/07 10:16:01 d2.data.build]: Removed 0 images with no usable annotations. 37057 images left.
+[03/07 10:16:01 cubercnn.data.build]: Using 37057 training images
+[03/07 10:16:01 cubercnn.data.build]: Using training sampler RepeatFactorTrainingSampler
+[03/07 10:16:02 d2.data.common]: Serializing the dataset using: <class 'detectron2.data.common._TorchSerializedList'>
+[03/07 10:16:02 d2.data.common]: Serializing 37057 elements to byte tensors and concatenating them all ...
+[03/07 10:16:02 d2.data.common]: Serialized dataset takes 38.98 MiB
+[03/07 10:16:02 d2.data.build]: Making batched data loader with batch_size=8
+[03/07 10:16:03 d2.checkpoint.detection_checkpoint]: [DetectionCheckpointer] Loading from ../../output/ovmono3d_depth/model_recent.pth ...
+[03/07 10:16:03 fvcore.common.checkpoint]: [Checkpointer] Loading from ../../output/ovmono3d_depth/model_recent.pth ...
+[03/07 10:16:03 fvcore.common.checkpoint]: Loading optimizer from ../../output/ovmono3d_depth/model_recent.pth ...
+[03/07 10:16:03 fvcore.common.checkpoint]: Loading scheduler from ../../output/ovmono3d_depth/model_recent.pth ...
+[03/07 10:16:03 cubercnn]: Starting training from iteration 999
 loading Objectron_train annotations into memory...
-Done (t=2.05s)
+Done (t=2.08s)
 loading Objectron_val annotations into memory...
-Done (t=0.09s)
+Done (t=0.10s)
 creating index...
 index created!
 /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
@@ -780,363 +769,66 @@ Using cache found in /root/.cache/torch/hub/facebookresearch_dinov2_main
   warnings.warn("xFormers is available (Block)")
 /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/fvcore/common/checkpoint.py:252: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
   return torch.load(f, map_location=torch.device("cpu"))
-[03/07 09:18:59 cubercnn]: Starting test for iteration 1000
-[03/07 09:19:00 d2.data.dataset_mapper]: [DatasetMapper] Augmentations used in inference: [ResizeShortestEdge(short_edge_length=(532, 532), max_size=896, sample_style='choice')]
-[03/07 09:19:00 cubercnn.data.datasets]: Loaded 9314 images in Omni3D format from /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_test.json
-[03/07 09:19:01 cubercnn.data.datasets]: Filtered out 0/9314 images without valid annotations
-[03/07 09:19:25 d2.data.common]: Serializing the dataset using: <class 'detectron2.data.common._TorchSerializedList'>
-[03/07 09:19:25 d2.data.common]: Serializing 9314 elements to byte tensors and concatenating them all ...
-[03/07 09:19:26 d2.data.common]: Serialized dataset takes 135.61 MiB
-[03/07 09:19:28 cubercnn.evaluation.omni3d_evaluation]: Start inference on 4657 batches
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+Using cache found in /root/.cache/torch/hub/facebookresearch_dinov2_main
+/root/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:43: UserWarning: xFormers is available (SwiGLU)
+  warnings.warn("xFormers is available (SwiGLU)")
+/root/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:27: UserWarning: xFormers is available (Attention)
+  warnings.warn("xFormers is available (Attention)")
+/root/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:33: UserWarning: xFormers is available (Block)
+  warnings.warn("xFormers is available (Block)")
+/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/fvcore/common/checkpoint.py:252: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  return torch.load(f, map_location=torch.device("cpu"))
+[03/07 10:16:22 cubercnn]: Starting test for iteration 1000
+[03/07 10:16:23 d2.data.dataset_mapper]: [DatasetMapper] Augmentations used in inference: [ResizeShortestEdge(short_edge_length=(532, 532), max_size=896, sample_style='choice')]
+[03/07 10:16:24 cubercnn.data.datasets]: Loading /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_test.json takes 1.04 seconds.
+[03/07 10:16:24 cubercnn.data.datasets]: Loaded 9314 images in Omni3D format from /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/Objectron_test.json
+[03/07 10:16:25 cubercnn.data.datasets]: Filtered out 0/9314 images without valid annotations
 /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/functional.py:513: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/aten/src/ATen/native/TensorShape.cpp:3609.)
   return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+[03/07 10:16:52 d2.data.common]: Serializing the dataset using: <class 'detectron2.data.common._TorchSerializedList'>
+[03/07 10:16:52 d2.data.common]: Serializing 9314 elements to byte tensors and concatenating them all ...
+[03/07 10:16:53 d2.data.common]: Serialized dataset takes 135.61 MiB
+[03/07 10:16:54 cubercnn.evaluation.omni3d_evaluation]: Start inference on 4657 batches
 /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/functional.py:513: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/aten/src/ATen/native/TensorShape.cpp:3609.)
   return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
-[03/07 09:19:34 cubercnn.evaluation.omni3d_evaluation]: Inference done 11/4657. Dataloading: 0.0027 s/iter. Inference: 0.0965 s/iter. Eval: 0.0013 s/iter. Total: 0.1004 s/iter. ETA=0:07:46
-[03/07 09:19:39 cubercnn.evaluation.omni3d_evaluation]: Inference done 45/4657. Dataloading: 0.0170 s/iter. Inference: 0.1266 s/iter. Eval: 0.0014 s/iter. Total: 0.1450 s/iter. ETA=0:11:08
-[03/07 09:19:44 cubercnn.evaluation.omni3d_evaluation]: Inference done 71/4657. Dataloading: 0.0177 s/iter. Inference: 0.1521 s/iter. Eval: 0.0014 s/iter. Total: 0.1712 s/iter. ETA=0:13:05
-[03/07 09:19:49 cubercnn.evaluation.omni3d_evaluation]: Inference done 94/4657. Dataloading: 0.0176 s/iter. Inference: 0.1641 s/iter. Eval: 0.0014 s/iter. Total: 0.1831 s/iter. ETA=0:13:55
-[03/07 09:19:54 cubercnn.evaluation.omni3d_evaluation]: Inference done 119/4657. Dataloading: 0.0159 s/iter. Inference: 0.1712 s/iter. Eval: 0.0014 s/iter. Total: 0.1886 s/iter. ETA=0:14:15
-[03/07 09:20:00 cubercnn.evaluation.omni3d_evaluation]: Inference done 144/4657. Dataloading: 0.0165 s/iter. Inference: 0.1729 s/iter. Eval: 0.0020 s/iter. Total: 0.1913 s/iter. ETA=0:14:23
-[03/07 09:20:05 cubercnn.evaluation.omni3d_evaluation]: Inference done 167/4657. Dataloading: 0.0162 s/iter. Inference: 0.1769 s/iter. Eval: 0.0019 s/iter. Total: 0.1951 s/iter. ETA=0:14:35
-[03/07 09:20:10 cubercnn.evaluation.omni3d_evaluation]: Inference done 192/4657. Dataloading: 0.0163 s/iter. Inference: 0.1777 s/iter. Eval: 0.0022 s/iter. Total: 0.1963 s/iter. ETA=0:14:36
-[03/07 09:20:15 cubercnn.evaluation.omni3d_evaluation]: Inference done 217/4657. Dataloading: 0.0176 s/iter. Inference: 0.1774 s/iter. Eval: 0.0021 s/iter. Total: 0.1972 s/iter. ETA=0:14:35
-[03/07 09:20:20 cubercnn.evaluation.omni3d_evaluation]: Inference done 242/4657. Dataloading: 0.0178 s/iter. Inference: 0.1784 s/iter. Eval: 0.0021 s/iter. Total: 0.1983 s/iter. ETA=0:14:35
-[03/07 09:20:25 cubercnn.evaluation.omni3d_evaluation]: Inference done 268/4657. Dataloading: 0.0182 s/iter. Inference: 0.1778 s/iter. Eval: 0.0020 s/iter. Total: 0.1981 s/iter. ETA=0:14:29
-[03/07 09:20:30 cubercnn.evaluation.omni3d_evaluation]: Inference done 291/4657. Dataloading: 0.0182 s/iter. Inference: 0.1795 s/iter. Eval: 0.0020 s/iter. Total: 0.1997 s/iter. ETA=0:14:31
-[03/07 09:20:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 316/4657. Dataloading: 0.0174 s/iter. Inference: 0.1804 s/iter. Eval: 0.0022 s/iter. Total: 0.2000 s/iter. ETA=0:14:28
-[03/07 09:20:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 338/4657. Dataloading: 0.0183 s/iter. Inference: 0.1811 s/iter. Eval: 0.0023 s/iter. Total: 0.2018 s/iter. ETA=0:14:31
-[03/07 09:20:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 362/4657. Dataloading: 0.0189 s/iter. Inference: 0.1812 s/iter. Eval: 0.0023 s/iter. Total: 0.2025 s/iter. ETA=0:14:29
-[03/07 09:20:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 388/4657. Dataloading: 0.0187 s/iter. Inference: 0.1811 s/iter. Eval: 0.0022 s/iter. Total: 0.2021 s/iter. ETA=0:14:22
-[03/07 09:20:55 cubercnn.evaluation.omni3d_evaluation]: Inference done 411/4657. Dataloading: 0.0192 s/iter. Inference: 0.1816 s/iter. Eval: 0.0022 s/iter. Total: 0.2030 s/iter. ETA=0:14:21
-[03/07 09:21:00 cubercnn.evaluation.omni3d_evaluation]: Inference done 436/4657. Dataloading: 0.0183 s/iter. Inference: 0.1822 s/iter. Eval: 0.0023 s/iter. Total: 0.2030 s/iter. ETA=0:14:16
-[03/07 09:21:06 cubercnn.evaluation.omni3d_evaluation]: Inference done 464/4657. Dataloading: 0.0185 s/iter. Inference: 0.1808 s/iter. Eval: 0.0022 s/iter. Total: 0.2017 s/iter. ETA=0:14:05
-[03/07 09:21:11 cubercnn.evaluation.omni3d_evaluation]: Inference done 490/4657. Dataloading: 0.0181 s/iter. Inference: 0.1807 s/iter. Eval: 0.0023 s/iter. Total: 0.2015 s/iter. ETA=0:13:59
-[03/07 09:21:16 cubercnn.evaluation.omni3d_evaluation]: Inference done 514/4657. Dataloading: 0.0182 s/iter. Inference: 0.1814 s/iter. Eval: 0.0023 s/iter. Total: 0.2021 s/iter. ETA=0:13:57
-[03/07 09:21:21 cubercnn.evaluation.omni3d_evaluation]: Inference done 542/4657. Dataloading: 0.0176 s/iter. Inference: 0.1810 s/iter. Eval: 0.0022 s/iter. Total: 0.2011 s/iter. ETA=0:13:47
-[03/07 09:21:26 cubercnn.evaluation.omni3d_evaluation]: Inference done 569/4657. Dataloading: 0.0175 s/iter. Inference: 0.1806 s/iter. Eval: 0.0022 s/iter. Total: 0.2005 s/iter. ETA=0:13:39
-[03/07 09:21:31 cubercnn.evaluation.omni3d_evaluation]: Inference done 592/4657. Dataloading: 0.0171 s/iter. Inference: 0.1818 s/iter. Eval: 0.0022 s/iter. Total: 0.2014 s/iter. ETA=0:13:38
-[03/07 09:21:36 cubercnn.evaluation.omni3d_evaluation]: Inference done 620/4657. Dataloading: 0.0166 s/iter. Inference: 0.1817 s/iter. Eval: 0.0021 s/iter. Total: 0.2006 s/iter. ETA=0:13:29
-[03/07 09:21:41 cubercnn.evaluation.omni3d_evaluation]: Inference done 643/4657. Dataloading: 0.0164 s/iter. Inference: 0.1825 s/iter. Eval: 0.0021 s/iter. Total: 0.2013 s/iter. ETA=0:13:27
-[03/07 09:21:47 cubercnn.evaluation.omni3d_evaluation]: Inference done 666/4657. Dataloading: 0.0162 s/iter. Inference: 0.1836 s/iter. Eval: 0.0021 s/iter. Total: 0.2021 s/iter. ETA=0:13:26
-[03/07 09:21:52 cubercnn.evaluation.omni3d_evaluation]: Inference done 694/4657. Dataloading: 0.0156 s/iter. Inference: 0.1834 s/iter. Eval: 0.0020 s/iter. Total: 0.2013 s/iter. ETA=0:13:17
-[03/07 09:21:57 cubercnn.evaluation.omni3d_evaluation]: Inference done 721/4657. Dataloading: 0.0153 s/iter. Inference: 0.1831 s/iter. Eval: 0.0022 s/iter. Total: 0.2008 s/iter. ETA=0:13:10
-[03/07 09:22:02 cubercnn.evaluation.omni3d_evaluation]: Inference done 745/4657. Dataloading: 0.0151 s/iter. Inference: 0.1837 s/iter. Eval: 0.0022 s/iter. Total: 0.2012 s/iter. ETA=0:13:07
-[03/07 09:22:07 cubercnn.evaluation.omni3d_evaluation]: Inference done 773/4657. Dataloading: 0.0152 s/iter. Inference: 0.1832 s/iter. Eval: 0.0022 s/iter. Total: 0.2008 s/iter. ETA=0:12:59
-[03/07 09:22:12 cubercnn.evaluation.omni3d_evaluation]: Inference done 800/4657. Dataloading: 0.0153 s/iter. Inference: 0.1827 s/iter. Eval: 0.0022 s/iter. Total: 0.2004 s/iter. ETA=0:12:52
-[03/07 09:22:17 cubercnn.evaluation.omni3d_evaluation]: Inference done 826/4657. Dataloading: 0.0151 s/iter. Inference: 0.1827 s/iter. Eval: 0.0022 s/iter. Total: 0.2002 s/iter. ETA=0:12:47
-[03/07 09:22:22 cubercnn.evaluation.omni3d_evaluation]: Inference done 852/4657. Dataloading: 0.0151 s/iter. Inference: 0.1824 s/iter. Eval: 0.0023 s/iter. Total: 0.2000 s/iter. ETA=0:12:40
-[03/07 09:22:27 cubercnn.evaluation.omni3d_evaluation]: Inference done 878/4657. Dataloading: 0.0153 s/iter. Inference: 0.1822 s/iter. Eval: 0.0023 s/iter. Total: 0.1999 s/iter. ETA=0:12:35
-[03/07 09:22:33 cubercnn.evaluation.omni3d_evaluation]: Inference done 905/4657. Dataloading: 0.0149 s/iter. Inference: 0.1822 s/iter. Eval: 0.0024 s/iter. Total: 0.1998 s/iter. ETA=0:12:29
-[03/07 09:22:38 cubercnn.evaluation.omni3d_evaluation]: Inference done 930/4657. Dataloading: 0.0146 s/iter. Inference: 0.1826 s/iter. Eval: 0.0024 s/iter. Total: 0.1998 s/iter. ETA=0:12:24
-[03/07 09:22:43 cubercnn.evaluation.omni3d_evaluation]: Inference done 958/4657. Dataloading: 0.0144 s/iter. Inference: 0.1822 s/iter. Eval: 0.0024 s/iter. Total: 0.1992 s/iter. ETA=0:12:16
-[03/07 09:22:48 cubercnn.evaluation.omni3d_evaluation]: Inference done 984/4657. Dataloading: 0.0145 s/iter. Inference: 0.1821 s/iter. Eval: 0.0024 s/iter. Total: 0.1991 s/iter. ETA=0:12:11
-[03/07 09:22:53 cubercnn.evaluation.omni3d_evaluation]: Inference done 1010/4657. Dataloading: 0.0143 s/iter. Inference: 0.1822 s/iter. Eval: 0.0024 s/iter. Total: 0.1990 s/iter. ETA=0:12:05
-[03/07 09:22:58 cubercnn.evaluation.omni3d_evaluation]: Inference done 1036/4657. Dataloading: 0.0141 s/iter. Inference: 0.1822 s/iter. Eval: 0.0024 s/iter. Total: 0.1989 s/iter. ETA=0:12:00
-[03/07 09:23:03 cubercnn.evaluation.omni3d_evaluation]: Inference done 1059/4657. Dataloading: 0.0139 s/iter. Inference: 0.1830 s/iter. Eval: 0.0024 s/iter. Total: 0.1995 s/iter. ETA=0:11:57
-[03/07 09:23:08 cubercnn.evaluation.omni3d_evaluation]: Inference done 1085/4657. Dataloading: 0.0138 s/iter. Inference: 0.1831 s/iter. Eval: 0.0024 s/iter. Total: 0.1994 s/iter. ETA=0:11:52
-[03/07 09:23:13 cubercnn.evaluation.omni3d_evaluation]: Inference done 1107/4657. Dataloading: 0.0135 s/iter. Inference: 0.1841 s/iter. Eval: 0.0024 s/iter. Total: 0.2001 s/iter. ETA=0:11:50
-[03/07 09:23:19 cubercnn.evaluation.omni3d_evaluation]: Inference done 1131/4657. Dataloading: 0.0133 s/iter. Inference: 0.1845 s/iter. Eval: 0.0024 s/iter. Total: 0.2004 s/iter. ETA=0:11:46
-[03/07 09:23:24 cubercnn.evaluation.omni3d_evaluation]: Inference done 1155/4657. Dataloading: 0.0132 s/iter. Inference: 0.1849 s/iter. Eval: 0.0025 s/iter. Total: 0.2007 s/iter. ETA=0:11:42
-[03/07 09:23:29 cubercnn.evaluation.omni3d_evaluation]: Inference done 1182/4657. Dataloading: 0.0129 s/iter. Inference: 0.1849 s/iter. Eval: 0.0024 s/iter. Total: 0.2004 s/iter. ETA=0:11:36
-[03/07 09:23:34 cubercnn.evaluation.omni3d_evaluation]: Inference done 1208/4657. Dataloading: 0.0128 s/iter. Inference: 0.1848 s/iter. Eval: 0.0026 s/iter. Total: 0.2003 s/iter. ETA=0:11:30
-[03/07 09:23:39 cubercnn.evaluation.omni3d_evaluation]: Inference done 1234/4657. Dataloading: 0.0127 s/iter. Inference: 0.1848 s/iter. Eval: 0.0026 s/iter. Total: 0.2002 s/iter. ETA=0:11:25
-[03/07 09:23:44 cubercnn.evaluation.omni3d_evaluation]: Inference done 1260/4657. Dataloading: 0.0125 s/iter. Inference: 0.1847 s/iter. Eval: 0.0026 s/iter. Total: 0.2000 s/iter. ETA=0:11:19
-[03/07 09:23:49 cubercnn.evaluation.omni3d_evaluation]: Inference done 1288/4657. Dataloading: 0.0123 s/iter. Inference: 0.1846 s/iter. Eval: 0.0026 s/iter. Total: 0.1997 s/iter. ETA=0:11:12
-[03/07 09:23:54 cubercnn.evaluation.omni3d_evaluation]: Inference done 1316/4657. Dataloading: 0.0124 s/iter. Inference: 0.1842 s/iter. Eval: 0.0026 s/iter. Total: 0.1993 s/iter. ETA=0:11:05
-[03/07 09:23:59 cubercnn.evaluation.omni3d_evaluation]: Inference done 1341/4657. Dataloading: 0.0121 s/iter. Inference: 0.1844 s/iter. Eval: 0.0026 s/iter. Total: 0.1993 s/iter. ETA=0:11:00
-[03/07 09:24:04 cubercnn.evaluation.omni3d_evaluation]: Inference done 1366/4657. Dataloading: 0.0120 s/iter. Inference: 0.1847 s/iter. Eval: 0.0026 s/iter. Total: 0.1994 s/iter. ETA=0:10:56
-[03/07 09:24:10 cubercnn.evaluation.omni3d_evaluation]: Inference done 1391/4657. Dataloading: 0.0118 s/iter. Inference: 0.1851 s/iter. Eval: 0.0026 s/iter. Total: 0.1996 s/iter. ETA=0:10:51
-[03/07 09:24:15 cubercnn.evaluation.omni3d_evaluation]: Inference done 1418/4657. Dataloading: 0.0116 s/iter. Inference: 0.1849 s/iter. Eval: 0.0025 s/iter. Total: 0.1993 s/iter. ETA=0:10:45
-[03/07 09:24:20 cubercnn.evaluation.omni3d_evaluation]: Inference done 1443/4657. Dataloading: 0.0116 s/iter. Inference: 0.1851 s/iter. Eval: 0.0026 s/iter. Total: 0.1995 s/iter. ETA=0:10:41
-[03/07 09:24:25 cubercnn.evaluation.omni3d_evaluation]: Inference done 1469/4657. Dataloading: 0.0115 s/iter. Inference: 0.1851 s/iter. Eval: 0.0027 s/iter. Total: 0.1994 s/iter. ETA=0:10:35
-[03/07 09:24:30 cubercnn.evaluation.omni3d_evaluation]: Inference done 1494/4657. Dataloading: 0.0114 s/iter. Inference: 0.1852 s/iter. Eval: 0.0026 s/iter. Total: 0.1995 s/iter. ETA=0:10:30
-[03/07 09:24:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 1519/4657. Dataloading: 0.0116 s/iter. Inference: 0.1851 s/iter. Eval: 0.0027 s/iter. Total: 0.1995 s/iter. ETA=0:10:26
-[03/07 09:24:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 1543/4657. Dataloading: 0.0115 s/iter. Inference: 0.1854 s/iter. Eval: 0.0026 s/iter. Total: 0.1997 s/iter. ETA=0:10:21
-[03/07 09:24:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 1571/4657. Dataloading: 0.0114 s/iter. Inference: 0.1852 s/iter. Eval: 0.0026 s/iter. Total: 0.1994 s/iter. ETA=0:10:15
-[03/07 09:24:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 1597/4657. Dataloading: 0.0114 s/iter. Inference: 0.1852 s/iter. Eval: 0.0026 s/iter. Total: 0.1994 s/iter. ETA=0:10:10
-[03/07 09:24:56 cubercnn.evaluation.omni3d_evaluation]: Inference done 1625/4657. Dataloading: 0.0114 s/iter. Inference: 0.1850 s/iter. Eval: 0.0026 s/iter. Total: 0.1992 s/iter. ETA=0:10:03
-[03/07 09:25:01 cubercnn.evaluation.omni3d_evaluation]: Inference done 1648/4657. Dataloading: 0.0114 s/iter. Inference: 0.1854 s/iter. Eval: 0.0026 s/iter. Total: 0.1995 s/iter. ETA=0:10:00
-[03/07 09:25:06 cubercnn.evaluation.omni3d_evaluation]: Inference done 1675/4657. Dataloading: 0.0113 s/iter. Inference: 0.1853 s/iter. Eval: 0.0025 s/iter. Total: 0.1993 s/iter. ETA=0:09:54
-[03/07 09:25:11 cubercnn.evaluation.omni3d_evaluation]: Inference done 1704/4657. Dataloading: 0.0112 s/iter. Inference: 0.1849 s/iter. Eval: 0.0026 s/iter. Total: 0.1989 s/iter. ETA=0:09:47
-[03/07 09:25:16 cubercnn.evaluation.omni3d_evaluation]: Inference done 1730/4657. Dataloading: 0.0112 s/iter. Inference: 0.1849 s/iter. Eval: 0.0026 s/iter. Total: 0.1988 s/iter. ETA=0:09:42
-[03/07 09:25:21 cubercnn.evaluation.omni3d_evaluation]: Inference done 1754/4657. Dataloading: 0.0110 s/iter. Inference: 0.1852 s/iter. Eval: 0.0026 s/iter. Total: 0.1991 s/iter. ETA=0:09:37
-[03/07 09:25:26 cubercnn.evaluation.omni3d_evaluation]: Inference done 1778/4657. Dataloading: 0.0109 s/iter. Inference: 0.1855 s/iter. Eval: 0.0026 s/iter. Total: 0.1993 s/iter. ETA=0:09:33
-[03/07 09:25:31 cubercnn.evaluation.omni3d_evaluation]: Inference done 1804/4657. Dataloading: 0.0110 s/iter. Inference: 0.1854 s/iter. Eval: 0.0026 s/iter. Total: 0.1992 s/iter. ETA=0:09:28
-[03/07 09:25:37 cubercnn.evaluation.omni3d_evaluation]: Inference done 1830/4657. Dataloading: 0.0109 s/iter. Inference: 0.1855 s/iter. Eval: 0.0026 s/iter. Total: 0.1992 s/iter. ETA=0:09:23
-[03/07 09:25:42 cubercnn.evaluation.omni3d_evaluation]: Inference done 1859/4657. Dataloading: 0.0111 s/iter. Inference: 0.1851 s/iter. Eval: 0.0026 s/iter. Total: 0.1990 s/iter. ETA=0:09:16
-[03/07 09:25:47 cubercnn.evaluation.omni3d_evaluation]: Inference done 1887/4657. Dataloading: 0.0113 s/iter. Inference: 0.1847 s/iter. Eval: 0.0027 s/iter. Total: 0.1988 s/iter. ETA=0:09:10
-[03/07 09:25:52 cubercnn.evaluation.omni3d_evaluation]: Inference done 1911/4657. Dataloading: 0.0114 s/iter. Inference: 0.1848 s/iter. Eval: 0.0026 s/iter. Total: 0.1990 s/iter. ETA=0:09:06
-[03/07 09:25:57 cubercnn.evaluation.omni3d_evaluation]: Inference done 1937/4657. Dataloading: 0.0112 s/iter. Inference: 0.1850 s/iter. Eval: 0.0026 s/iter. Total: 0.1990 s/iter. ETA=0:09:01
-[03/07 09:26:03 cubercnn.evaluation.omni3d_evaluation]: Inference done 1963/4657. Dataloading: 0.0113 s/iter. Inference: 0.1850 s/iter. Eval: 0.0026 s/iter. Total: 0.1992 s/iter. ETA=0:08:56
-[03/07 09:26:08 cubercnn.evaluation.omni3d_evaluation]: Inference done 1984/4657. Dataloading: 0.0114 s/iter. Inference: 0.1854 s/iter. Eval: 0.0026 s/iter. Total: 0.1996 s/iter. ETA=0:08:53
-[03/07 09:26:13 cubercnn.evaluation.omni3d_evaluation]: Inference done 2011/4657. Dataloading: 0.0113 s/iter. Inference: 0.1854 s/iter. Eval: 0.0026 s/iter. Total: 0.1995 s/iter. ETA=0:08:47
-[03/07 09:26:18 cubercnn.evaluation.omni3d_evaluation]: Inference done 2034/4657. Dataloading: 0.0112 s/iter. Inference: 0.1857 s/iter. Eval: 0.0026 s/iter. Total: 0.1998 s/iter. ETA=0:08:43
-[03/07 09:26:23 cubercnn.evaluation.omni3d_evaluation]: Inference done 2060/4657. Dataloading: 0.0111 s/iter. Inference: 0.1859 s/iter. Eval: 0.0026 s/iter. Total: 0.1998 s/iter. ETA=0:08:38
-[03/07 09:26:29 cubercnn.evaluation.omni3d_evaluation]: Inference done 2086/4657. Dataloading: 0.0111 s/iter. Inference: 0.1859 s/iter. Eval: 0.0026 s/iter. Total: 0.1997 s/iter. ETA=0:08:33
-[03/07 09:26:34 cubercnn.evaluation.omni3d_evaluation]: Inference done 2110/4657. Dataloading: 0.0112 s/iter. Inference: 0.1859 s/iter. Eval: 0.0026 s/iter. Total: 0.1999 s/iter. ETA=0:08:29
-[03/07 09:26:39 cubercnn.evaluation.omni3d_evaluation]: Inference done 2135/4657. Dataloading: 0.0112 s/iter. Inference: 0.1860 s/iter. Eval: 0.0026 s/iter. Total: 0.2000 s/iter. ETA=0:08:24
-[03/07 09:26:44 cubercnn.evaluation.omni3d_evaluation]: Inference done 2160/4657. Dataloading: 0.0111 s/iter. Inference: 0.1861 s/iter. Eval: 0.0026 s/iter. Total: 0.2000 s/iter. ETA=0:08:19
-[03/07 09:26:49 cubercnn.evaluation.omni3d_evaluation]: Inference done 2185/4657. Dataloading: 0.0110 s/iter. Inference: 0.1864 s/iter. Eval: 0.0026 s/iter. Total: 0.2001 s/iter. ETA=0:08:14
-[03/07 09:26:54 cubercnn.evaluation.omni3d_evaluation]: Inference done 2211/4657. Dataloading: 0.0110 s/iter. Inference: 0.1863 s/iter. Eval: 0.0026 s/iter. Total: 0.2000 s/iter. ETA=0:08:09
-[03/07 09:26:59 cubercnn.evaluation.omni3d_evaluation]: Inference done 2234/4657. Dataloading: 0.0109 s/iter. Inference: 0.1867 s/iter. Eval: 0.0026 s/iter. Total: 0.2003 s/iter. ETA=0:08:05
-[03/07 09:27:05 cubercnn.evaluation.omni3d_evaluation]: Inference done 2261/4657. Dataloading: 0.0109 s/iter. Inference: 0.1866 s/iter. Eval: 0.0025 s/iter. Total: 0.2002 s/iter. ETA=0:07:59
-[03/07 09:27:10 cubercnn.evaluation.omni3d_evaluation]: Inference done 2283/4657. Dataloading: 0.0109 s/iter. Inference: 0.1869 s/iter. Eval: 0.0025 s/iter. Total: 0.2005 s/iter. ETA=0:07:56
-[03/07 09:27:15 cubercnn.evaluation.omni3d_evaluation]: Inference done 2310/4657. Dataloading: 0.0108 s/iter. Inference: 0.1869 s/iter. Eval: 0.0025 s/iter. Total: 0.2004 s/iter. ETA=0:07:50
-[03/07 09:27:20 cubercnn.evaluation.omni3d_evaluation]: Inference done 2333/4657. Dataloading: 0.0108 s/iter. Inference: 0.1872 s/iter. Eval: 0.0025 s/iter. Total: 0.2006 s/iter. ETA=0:07:46
-[03/07 09:27:25 cubercnn.evaluation.omni3d_evaluation]: Inference done 2353/4657. Dataloading: 0.0107 s/iter. Inference: 0.1877 s/iter. Eval: 0.0025 s/iter. Total: 0.2011 s/iter. ETA=0:07:43
-[03/07 09:27:30 cubercnn.evaluation.omni3d_evaluation]: Inference done 2375/4657. Dataloading: 0.0107 s/iter. Inference: 0.1880 s/iter. Eval: 0.0025 s/iter. Total: 0.2013 s/iter. ETA=0:07:39
-[03/07 09:27:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 2396/4657. Dataloading: 0.0106 s/iter. Inference: 0.1883 s/iter. Eval: 0.0026 s/iter. Total: 0.2017 s/iter. ETA=0:07:35
-[03/07 09:27:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 2423/4657. Dataloading: 0.0105 s/iter. Inference: 0.1882 s/iter. Eval: 0.0026 s/iter. Total: 0.2015 s/iter. ETA=0:07:30
-[03/07 09:27:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 2450/4657. Dataloading: 0.0105 s/iter. Inference: 0.1882 s/iter. Eval: 0.0025 s/iter. Total: 0.2014 s/iter. ETA=0:07:24
-[03/07 09:27:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 2477/4657. Dataloading: 0.0105 s/iter. Inference: 0.1880 s/iter. Eval: 0.0026 s/iter. Total: 0.2013 s/iter. ETA=0:07:18
-[03/07 09:27:56 cubercnn.evaluation.omni3d_evaluation]: Inference done 2503/4657. Dataloading: 0.0106 s/iter. Inference: 0.1879 s/iter. Eval: 0.0026 s/iter. Total: 0.2012 s/iter. ETA=0:07:13
-[03/07 09:28:01 cubercnn.evaluation.omni3d_evaluation]: Inference done 2530/4657. Dataloading: 0.0106 s/iter. Inference: 0.1877 s/iter. Eval: 0.0026 s/iter. Total: 0.2011 s/iter. ETA=0:07:07
-[03/07 09:28:06 cubercnn.evaluation.omni3d_evaluation]: Inference done 2554/4657. Dataloading: 0.0106 s/iter. Inference: 0.1878 s/iter. Eval: 0.0026 s/iter. Total: 0.2012 s/iter. ETA=0:07:03
-[03/07 09:28:11 cubercnn.evaluation.omni3d_evaluation]: Inference done 2585/4657. Dataloading: 0.0107 s/iter. Inference: 0.1875 s/iter. Eval: 0.0026 s/iter. Total: 0.2010 s/iter. ETA=0:06:56
-[03/07 09:28:17 cubercnn.evaluation.omni3d_evaluation]: Inference done 2610/4657. Dataloading: 0.0107 s/iter. Inference: 0.1877 s/iter. Eval: 0.0026 s/iter. Total: 0.2011 s/iter. ETA=0:06:51
-[03/07 09:28:22 cubercnn.evaluation.omni3d_evaluation]: Inference done 2636/4657. Dataloading: 0.0106 s/iter. Inference: 0.1877 s/iter. Eval: 0.0026 s/iter. Total: 0.2011 s/iter. ETA=0:06:46
-[03/07 09:28:27 cubercnn.evaluation.omni3d_evaluation]: Inference done 2663/4657. Dataloading: 0.0105 s/iter. Inference: 0.1877 s/iter. Eval: 0.0026 s/iter. Total: 0.2010 s/iter. ETA=0:06:40
-[03/07 09:28:32 cubercnn.evaluation.omni3d_evaluation]: Inference done 2690/4657. Dataloading: 0.0104 s/iter. Inference: 0.1877 s/iter. Eval: 0.0026 s/iter. Total: 0.2009 s/iter. ETA=0:06:35
-[03/07 09:28:37 cubercnn.evaluation.omni3d_evaluation]: Inference done 2711/4657. Dataloading: 0.0104 s/iter. Inference: 0.1881 s/iter. Eval: 0.0026 s/iter. Total: 0.2012 s/iter. ETA=0:06:31
-[03/07 09:28:43 cubercnn.evaluation.omni3d_evaluation]: Inference done 2734/4657. Dataloading: 0.0103 s/iter. Inference: 0.1883 s/iter. Eval: 0.0026 s/iter. Total: 0.2014 s/iter. ETA=0:06:27
-[03/07 09:28:48 cubercnn.evaluation.omni3d_evaluation]: Inference done 2760/4657. Dataloading: 0.0102 s/iter. Inference: 0.1884 s/iter. Eval: 0.0026 s/iter. Total: 0.2013 s/iter. ETA=0:06:21
-[03/07 09:28:53 cubercnn.evaluation.omni3d_evaluation]: Inference done 2786/4657. Dataloading: 0.0102 s/iter. Inference: 0.1883 s/iter. Eval: 0.0026 s/iter. Total: 0.2013 s/iter. ETA=0:06:16
-[03/07 09:28:58 cubercnn.evaluation.omni3d_evaluation]: Inference done 2811/4657. Dataloading: 0.0102 s/iter. Inference: 0.1883 s/iter. Eval: 0.0026 s/iter. Total: 0.2012 s/iter. ETA=0:06:11
-[03/07 09:29:03 cubercnn.evaluation.omni3d_evaluation]: Inference done 2836/4657. Dataloading: 0.0102 s/iter. Inference: 0.1884 s/iter. Eval: 0.0026 s/iter. Total: 0.2013 s/iter. ETA=0:06:06
-[03/07 09:29:08 cubercnn.evaluation.omni3d_evaluation]: Inference done 2861/4657. Dataloading: 0.0102 s/iter. Inference: 0.1884 s/iter. Eval: 0.0026 s/iter. Total: 0.2014 s/iter. ETA=0:06:01
-[03/07 09:29:13 cubercnn.evaluation.omni3d_evaluation]: Inference done 2888/4657. Dataloading: 0.0101 s/iter. Inference: 0.1884 s/iter. Eval: 0.0026 s/iter. Total: 0.2013 s/iter. ETA=0:05:56
-[03/07 09:29:18 cubercnn.evaluation.omni3d_evaluation]: Inference done 2917/4657. Dataloading: 0.0101 s/iter. Inference: 0.1882 s/iter. Eval: 0.0026 s/iter. Total: 0.2010 s/iter. ETA=0:05:49
-[03/07 09:29:23 cubercnn.evaluation.omni3d_evaluation]: Inference done 2940/4657. Dataloading: 0.0101 s/iter. Inference: 0.1883 s/iter. Eval: 0.0026 s/iter. Total: 0.2012 s/iter. ETA=0:05:45
-[03/07 09:29:28 cubercnn.evaluation.omni3d_evaluation]: Inference done 2965/4657. Dataloading: 0.0100 s/iter. Inference: 0.1884 s/iter. Eval: 0.0026 s/iter. Total: 0.2011 s/iter. ETA=0:05:40
-[03/07 09:29:33 cubercnn.evaluation.omni3d_evaluation]: Inference done 2992/4657. Dataloading: 0.0099 s/iter. Inference: 0.1883 s/iter. Eval: 0.0026 s/iter. Total: 0.2010 s/iter. ETA=0:05:34
-[03/07 09:29:38 cubercnn.evaluation.omni3d_evaluation]: Inference done 3018/4657. Dataloading: 0.0100 s/iter. Inference: 0.1882 s/iter. Eval: 0.0026 s/iter. Total: 0.2010 s/iter. ETA=0:05:29
-[03/07 09:29:44 cubercnn.evaluation.omni3d_evaluation]: Inference done 3046/4657. Dataloading: 0.0099 s/iter. Inference: 0.1881 s/iter. Eval: 0.0026 s/iter. Total: 0.2008 s/iter. ETA=0:05:23
-[03/07 09:29:49 cubercnn.evaluation.omni3d_evaluation]: Inference done 3071/4657. Dataloading: 0.0099 s/iter. Inference: 0.1881 s/iter. Eval: 0.0026 s/iter. Total: 0.2008 s/iter. ETA=0:05:18
-[03/07 09:29:54 cubercnn.evaluation.omni3d_evaluation]: Inference done 3097/4657. Dataloading: 0.0098 s/iter. Inference: 0.1882 s/iter. Eval: 0.0026 s/iter. Total: 0.2007 s/iter. ETA=0:05:13
-[03/07 09:29:59 cubercnn.evaluation.omni3d_evaluation]: Inference done 3121/4657. Dataloading: 0.0098 s/iter. Inference: 0.1882 s/iter. Eval: 0.0026 s/iter. Total: 0.2008 s/iter. ETA=0:05:08
-[03/07 09:30:04 cubercnn.evaluation.omni3d_evaluation]: Inference done 3144/4657. Dataloading: 0.0098 s/iter. Inference: 0.1884 s/iter. Eval: 0.0026 s/iter. Total: 0.2010 s/iter. ETA=0:05:04
-[03/07 09:30:09 cubercnn.evaluation.omni3d_evaluation]: Inference done 3168/4657. Dataloading: 0.0098 s/iter. Inference: 0.1885 s/iter. Eval: 0.0026 s/iter. Total: 0.2010 s/iter. ETA=0:04:59
-[03/07 09:30:14 cubercnn.evaluation.omni3d_evaluation]: Inference done 3194/4657. Dataloading: 0.0097 s/iter. Inference: 0.1886 s/iter. Eval: 0.0026 s/iter. Total: 0.2010 s/iter. ETA=0:04:54
-[03/07 09:30:19 cubercnn.evaluation.omni3d_evaluation]: Inference done 3219/4657. Dataloading: 0.0097 s/iter. Inference: 0.1886 s/iter. Eval: 0.0025 s/iter. Total: 0.2010 s/iter. ETA=0:04:49
-[03/07 09:30:24 cubercnn.evaluation.omni3d_evaluation]: Inference done 3242/4657. Dataloading: 0.0096 s/iter. Inference: 0.1888 s/iter. Eval: 0.0026 s/iter. Total: 0.2012 s/iter. ETA=0:04:44
-[03/07 09:30:29 cubercnn.evaluation.omni3d_evaluation]: Inference done 3263/4657. Dataloading: 0.0096 s/iter. Inference: 0.1892 s/iter. Eval: 0.0026 s/iter. Total: 0.2015 s/iter. ETA=0:04:40
-[03/07 09:30:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 3283/4657. Dataloading: 0.0095 s/iter. Inference: 0.1895 s/iter. Eval: 0.0025 s/iter. Total: 0.2018 s/iter. ETA=0:04:37
-[03/07 09:30:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 3301/4657. Dataloading: 0.0095 s/iter. Inference: 0.1900 s/iter. Eval: 0.0026 s/iter. Total: 0.2022 s/iter. ETA=0:04:34
-[03/07 09:30:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 3321/4657. Dataloading: 0.0095 s/iter. Inference: 0.1903 s/iter. Eval: 0.0026 s/iter. Total: 0.2026 s/iter. ETA=0:04:30
-[03/07 09:30:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 3341/4657. Dataloading: 0.0094 s/iter. Inference: 0.1906 s/iter. Eval: 0.0026 s/iter. Total: 0.2028 s/iter. ETA=0:04:26
-[03/07 09:30:55 cubercnn.evaluation.omni3d_evaluation]: Inference done 3362/4657. Dataloading: 0.0094 s/iter. Inference: 0.1909 s/iter. Eval: 0.0026 s/iter. Total: 0.2031 s/iter. ETA=0:04:23
-[03/07 09:31:00 cubercnn.evaluation.omni3d_evaluation]: Inference done 3387/4657. Dataloading: 0.0094 s/iter. Inference: 0.1910 s/iter. Eval: 0.0026 s/iter. Total: 0.2031 s/iter. ETA=0:04:17
-[03/07 09:31:05 cubercnn.evaluation.omni3d_evaluation]: Inference done 3412/4657. Dataloading: 0.0093 s/iter. Inference: 0.1910 s/iter. Eval: 0.0025 s/iter. Total: 0.2031 s/iter. ETA=0:04:12
-[03/07 09:31:10 cubercnn.evaluation.omni3d_evaluation]: Inference done 3438/4657. Dataloading: 0.0093 s/iter. Inference: 0.1910 s/iter. Eval: 0.0025 s/iter. Total: 0.2030 s/iter. ETA=0:04:07
-[03/07 09:31:15 cubercnn.evaluation.omni3d_evaluation]: Inference done 3460/4657. Dataloading: 0.0093 s/iter. Inference: 0.1912 s/iter. Eval: 0.0025 s/iter. Total: 0.2032 s/iter. ETA=0:04:03
-[03/07 09:31:20 cubercnn.evaluation.omni3d_evaluation]: Inference done 3484/4657. Dataloading: 0.0093 s/iter. Inference: 0.1913 s/iter. Eval: 0.0025 s/iter. Total: 0.2033 s/iter. ETA=0:03:58
-[03/07 09:31:25 cubercnn.evaluation.omni3d_evaluation]: Inference done 3506/4657. Dataloading: 0.0092 s/iter. Inference: 0.1916 s/iter. Eval: 0.0025 s/iter. Total: 0.2035 s/iter. ETA=0:03:54
-[03/07 09:31:31 cubercnn.evaluation.omni3d_evaluation]: Inference done 3524/4657. Dataloading: 0.0092 s/iter. Inference: 0.1920 s/iter. Eval: 0.0025 s/iter. Total: 0.2039 s/iter. ETA=0:03:51
-[03/07 09:31:36 cubercnn.evaluation.omni3d_evaluation]: Inference done 3549/4657. Dataloading: 0.0092 s/iter. Inference: 0.1920 s/iter. Eval: 0.0025 s/iter. Total: 0.2039 s/iter. ETA=0:03:45
-[03/07 09:31:41 cubercnn.evaluation.omni3d_evaluation]: Inference done 3575/4657. Dataloading: 0.0092 s/iter. Inference: 0.1920 s/iter. Eval: 0.0025 s/iter. Total: 0.2039 s/iter. ETA=0:03:40
-[03/07 09:31:46 cubercnn.evaluation.omni3d_evaluation]: Inference done 3600/4657. Dataloading: 0.0092 s/iter. Inference: 0.1920 s/iter. Eval: 0.0025 s/iter. Total: 0.2039 s/iter. ETA=0:03:35
-[03/07 09:31:51 cubercnn.evaluation.omni3d_evaluation]: Inference done 3623/4657. Dataloading: 0.0091 s/iter. Inference: 0.1921 s/iter. Eval: 0.0025 s/iter. Total: 0.2040 s/iter. ETA=0:03:30
-[03/07 09:31:56 cubercnn.evaluation.omni3d_evaluation]: Inference done 3651/4657. Dataloading: 0.0091 s/iter. Inference: 0.1920 s/iter. Eval: 0.0025 s/iter. Total: 0.2038 s/iter. ETA=0:03:25
-[03/07 09:32:01 cubercnn.evaluation.omni3d_evaluation]: Inference done 3677/4657. Dataloading: 0.0091 s/iter. Inference: 0.1920 s/iter. Eval: 0.0025 s/iter. Total: 0.2038 s/iter. ETA=0:03:19
-[03/07 09:32:06 cubercnn.evaluation.omni3d_evaluation]: Inference done 3704/4657. Dataloading: 0.0091 s/iter. Inference: 0.1918 s/iter. Eval: 0.0025 s/iter. Total: 0.2036 s/iter. ETA=0:03:14
-[03/07 09:32:11 cubercnn.evaluation.omni3d_evaluation]: Inference done 3728/4657. Dataloading: 0.0090 s/iter. Inference: 0.1919 s/iter. Eval: 0.0025 s/iter. Total: 0.2037 s/iter. ETA=0:03:09
-[03/07 09:32:16 cubercnn.evaluation.omni3d_evaluation]: Inference done 3748/4657. Dataloading: 0.0091 s/iter. Inference: 0.1921 s/iter. Eval: 0.0025 s/iter. Total: 0.2039 s/iter. ETA=0:03:05
-[03/07 09:32:21 cubercnn.evaluation.omni3d_evaluation]: Inference done 3769/4657. Dataloading: 0.0091 s/iter. Inference: 0.1923 s/iter. Eval: 0.0025 s/iter. Total: 0.2041 s/iter. ETA=0:03:01
-[03/07 09:32:27 cubercnn.evaluation.omni3d_evaluation]: Inference done 3790/4657. Dataloading: 0.0091 s/iter. Inference: 0.1926 s/iter. Eval: 0.0025 s/iter. Total: 0.2044 s/iter. ETA=0:02:57
-[03/07 09:32:32 cubercnn.evaluation.omni3d_evaluation]: Inference done 3808/4657. Dataloading: 0.0091 s/iter. Inference: 0.1930 s/iter. Eval: 0.0025 s/iter. Total: 0.2048 s/iter. ETA=0:02:53
-[03/07 09:32:37 cubercnn.evaluation.omni3d_evaluation]: Inference done 3830/4657. Dataloading: 0.0091 s/iter. Inference: 0.1931 s/iter. Eval: 0.0025 s/iter. Total: 0.2049 s/iter. ETA=0:02:49
-[03/07 09:32:42 cubercnn.evaluation.omni3d_evaluation]: Inference done 3852/4657. Dataloading: 0.0090 s/iter. Inference: 0.1933 s/iter. Eval: 0.0025 s/iter. Total: 0.2050 s/iter. ETA=0:02:45
-[03/07 09:32:47 cubercnn.evaluation.omni3d_evaluation]: Inference done 3872/4657. Dataloading: 0.0091 s/iter. Inference: 0.1936 s/iter. Eval: 0.0025 s/iter. Total: 0.2053 s/iter. ETA=0:02:41
-[03/07 09:32:52 cubercnn.evaluation.omni3d_evaluation]: Inference done 3897/4657. Dataloading: 0.0090 s/iter. Inference: 0.1936 s/iter. Eval: 0.0025 s/iter. Total: 0.2053 s/iter. ETA=0:02:36
-[03/07 09:32:57 cubercnn.evaluation.omni3d_evaluation]: Inference done 3923/4657. Dataloading: 0.0090 s/iter. Inference: 0.1936 s/iter. Eval: 0.0025 s/iter. Total: 0.2052 s/iter. ETA=0:02:30
-[03/07 09:33:02 cubercnn.evaluation.omni3d_evaluation]: Inference done 3951/4657. Dataloading: 0.0090 s/iter. Inference: 0.1935 s/iter. Eval: 0.0025 s/iter. Total: 0.2051 s/iter. ETA=0:02:24
-[03/07 09:33:07 cubercnn.evaluation.omni3d_evaluation]: Inference done 3980/4657. Dataloading: 0.0090 s/iter. Inference: 0.1932 s/iter. Eval: 0.0025 s/iter. Total: 0.2049 s/iter. ETA=0:02:18
-[03/07 09:33:13 cubercnn.evaluation.omni3d_evaluation]: Inference done 4006/4657. Dataloading: 0.0089 s/iter. Inference: 0.1932 s/iter. Eval: 0.0025 s/iter. Total: 0.2048 s/iter. ETA=0:02:13
-[03/07 09:33:18 cubercnn.evaluation.omni3d_evaluation]: Inference done 4031/4657. Dataloading: 0.0089 s/iter. Inference: 0.1933 s/iter. Eval: 0.0025 s/iter. Total: 0.2048 s/iter. ETA=0:02:08
-[03/07 09:33:23 cubercnn.evaluation.omni3d_evaluation]: Inference done 4055/4657. Dataloading: 0.0089 s/iter. Inference: 0.1933 s/iter. Eval: 0.0025 s/iter. Total: 0.2049 s/iter. ETA=0:02:03
-[03/07 09:33:28 cubercnn.evaluation.omni3d_evaluation]: Inference done 4082/4657. Dataloading: 0.0089 s/iter. Inference: 0.1932 s/iter. Eval: 0.0025 s/iter. Total: 0.2048 s/iter. ETA=0:01:57
-[03/07 09:33:33 cubercnn.evaluation.omni3d_evaluation]: Inference done 4107/4657. Dataloading: 0.0088 s/iter. Inference: 0.1933 s/iter. Eval: 0.0025 s/iter. Total: 0.2048 s/iter. ETA=0:01:52
-[03/07 09:33:38 cubercnn.evaluation.omni3d_evaluation]: Inference done 4129/4657. Dataloading: 0.0088 s/iter. Inference: 0.1934 s/iter. Eval: 0.0025 s/iter. Total: 0.2049 s/iter. ETA=0:01:48
-[03/07 09:33:43 cubercnn.evaluation.omni3d_evaluation]: Inference done 4157/4657. Dataloading: 0.0088 s/iter. Inference: 0.1933 s/iter. Eval: 0.0025 s/iter. Total: 0.2047 s/iter. ETA=0:01:42
-[03/07 09:33:48 cubercnn.evaluation.omni3d_evaluation]: Inference done 4182/4657. Dataloading: 0.0088 s/iter. Inference: 0.1933 s/iter. Eval: 0.0024 s/iter. Total: 0.2047 s/iter. ETA=0:01:37
-[03/07 09:33:53 cubercnn.evaluation.omni3d_evaluation]: Inference done 4207/4657. Dataloading: 0.0088 s/iter. Inference: 0.1933 s/iter. Eval: 0.0024 s/iter. Total: 0.2047 s/iter. ETA=0:01:32
-[03/07 09:33:58 cubercnn.evaluation.omni3d_evaluation]: Inference done 4233/4657. Dataloading: 0.0088 s/iter. Inference: 0.1933 s/iter. Eval: 0.0024 s/iter. Total: 0.2047 s/iter. ETA=0:01:26
-[03/07 09:34:03 cubercnn.evaluation.omni3d_evaluation]: Inference done 4260/4657. Dataloading: 0.0088 s/iter. Inference: 0.1932 s/iter. Eval: 0.0024 s/iter. Total: 0.2046 s/iter. ETA=0:01:21
-[03/07 09:34:09 cubercnn.evaluation.omni3d_evaluation]: Inference done 4282/4657. Dataloading: 0.0087 s/iter. Inference: 0.1934 s/iter. Eval: 0.0024 s/iter. Total: 0.2047 s/iter. ETA=0:01:16
-[03/07 09:34:14 cubercnn.evaluation.omni3d_evaluation]: Inference done 4308/4657. Dataloading: 0.0087 s/iter. Inference: 0.1934 s/iter. Eval: 0.0024 s/iter. Total: 0.2047 s/iter. ETA=0:01:11
-[03/07 09:34:19 cubercnn.evaluation.omni3d_evaluation]: Inference done 4333/4657. Dataloading: 0.0087 s/iter. Inference: 0.1934 s/iter. Eval: 0.0024 s/iter. Total: 0.2047 s/iter. ETA=0:01:06
-[03/07 09:34:24 cubercnn.evaluation.omni3d_evaluation]: Inference done 4358/4657. Dataloading: 0.0087 s/iter. Inference: 0.1934 s/iter. Eval: 0.0025 s/iter. Total: 0.2047 s/iter. ETA=0:01:01
-[03/07 09:34:29 cubercnn.evaluation.omni3d_evaluation]: Inference done 4384/4657. Dataloading: 0.0086 s/iter. Inference: 0.1934 s/iter. Eval: 0.0025 s/iter. Total: 0.2047 s/iter. ETA=0:00:55
-[03/07 09:34:34 cubercnn.evaluation.omni3d_evaluation]: Inference done 4412/4657. Dataloading: 0.0086 s/iter. Inference: 0.1933 s/iter. Eval: 0.0024 s/iter. Total: 0.2045 s/iter. ETA=0:00:50
-[03/07 09:34:39 cubercnn.evaluation.omni3d_evaluation]: Inference done 4435/4657. Dataloading: 0.0086 s/iter. Inference: 0.1934 s/iter. Eval: 0.0024 s/iter. Total: 0.2046 s/iter. ETA=0:00:45
-[03/07 09:34:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 4457/4657. Dataloading: 0.0086 s/iter. Inference: 0.1936 s/iter. Eval: 0.0024 s/iter. Total: 0.2048 s/iter. ETA=0:00:40
-[03/07 09:34:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 4480/4657. Dataloading: 0.0086 s/iter. Inference: 0.1937 s/iter. Eval: 0.0024 s/iter. Total: 0.2048 s/iter. ETA=0:00:36
-[03/07 09:34:55 cubercnn.evaluation.omni3d_evaluation]: Inference done 4504/4657. Dataloading: 0.0085 s/iter. Inference: 0.1937 s/iter. Eval: 0.0024 s/iter. Total: 0.2049 s/iter. ETA=0:00:31
-[03/07 09:35:00 cubercnn.evaluation.omni3d_evaluation]: Inference done 4528/4657. Dataloading: 0.0085 s/iter. Inference: 0.1938 s/iter. Eval: 0.0024 s/iter. Total: 0.2049 s/iter. ETA=0:00:26
-[03/07 09:35:05 cubercnn.evaluation.omni3d_evaluation]: Inference done 4549/4657. Dataloading: 0.0086 s/iter. Inference: 0.1939 s/iter. Eval: 0.0024 s/iter. Total: 0.2051 s/iter. ETA=0:00:22
-[03/07 09:35:10 cubercnn.evaluation.omni3d_evaluation]: Inference done 4571/4657. Dataloading: 0.0086 s/iter. Inference: 0.1940 s/iter. Eval: 0.0024 s/iter. Total: 0.2052 s/iter. ETA=0:00:17
-[03/07 09:35:15 cubercnn.evaluation.omni3d_evaluation]: Inference done 4599/4657. Dataloading: 0.0086 s/iter. Inference: 0.1938 s/iter. Eval: 0.0024 s/iter. Total: 0.2051 s/iter. ETA=0:00:11
-[03/07 09:35:20 cubercnn.evaluation.omni3d_evaluation]: Inference done 4627/4657. Dataloading: 0.0086 s/iter. Inference: 0.1937 s/iter. Eval: 0.0024 s/iter. Total: 0.2049 s/iter. ETA=0:00:06
-[03/07 09:35:25 cubercnn.evaluation.omni3d_evaluation]: Inference done 4654/4657. Dataloading: 0.0086 s/iter. Inference: 0.1936 s/iter. Eval: 0.0024 s/iter. Total: 0.2049 s/iter. ETA=0:00:00
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-[03/07 09:35:29 cubercnn.evaluation.omni3d_evaluation]: 
-Final Statistics:
-[03/07 09:35:29 cubercnn.evaluation.omni3d_evaluation]: Total inference time: 0:15:56 (0.205586 s / iter per device, on 2 devices)
-[03/07 09:35:29 cubercnn.evaluation.omni3d_evaluation]: Total inference pure compute time: 0:15:00 (0.193650 s / iter per device, on 2 devices)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-[03/07 09:35:39 cubercnn.evaluation.omni3d_evaluation]: Number of predictions collected: 9314
-[03/07 09:35:39 cubercnn.evaluation.omni3d_evaluation]: Sample prediction structure:
-[03/07 09:35:39 cubercnn.evaluation.omni3d_evaluation]: Keys in first prediction: ['image_id', 'K', 'width', 'height', 'instances']
-[03/07 09:35:39 cubercnn.evaluation.omni3d_evaluation]: Number of instances in first prediction: 19
-[03/07 09:35:39 cubercnn.evaluation.omni3d_evaluation]: Keys in first instance: ['image_id', 'category_id', 'bbox', 'score', 'bbox3D', 'center_cam', 'center_2D', 'dimensions', 'pose', 'depth']
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Preparing results for COCO format ...
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Number of predictions to process: 9314
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: First prediction structure:
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Keys: ['image_id', 'K', 'width', 'height', 'instances']
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Number of instances: 19
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Instance keys: ['image_id', 'category_id', 'bbox', 'score', 'bbox3D', 'center_cam', 'center_2D', 'dimensions', 'pose', 'depth']
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Category ID of first instance: 0
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Created filename to ID mapping for 9314 images
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Processing predictions and updating image IDs...
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Processed 1000/9314 predictions
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Processed 2000/9314 predictions
-[03/07 09:35:45 cubercnn.evaluation.omni3d_evaluation]: Processed 3000/9314 predictions
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Processed 4000/9314 predictions
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Processed 5000/9314 predictions
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Processed 6000/9314 predictions
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Processed 7000/9314 predictions
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Processed 8000/9314 predictions
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Processed 9000/9314 predictions
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Finished processing all 9314 predictions
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Total number of instances after flattening: 132450
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Tasks to evaluate: ['bbox']
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Loading category metadata from: configs/category_meta.json
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Number of global categories: 97
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Number of classes in dataset: 97
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Dataset thing classes: ['bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes']
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Dataset ID to contiguous ID mapping: {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 82: 82, 83: 83, 84: 84, 85: 85, 86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 94: 93, 95: 94, 96: 95, 97: 96}
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: First few predictions category IDs: [0, 0, 0, 0, 0]
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Filtered results: 132450 valid instances kept
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Saving results to ../../output/ovmono3d_depth/inference/iter_1000/Objectron_test/omni_instances_results.json
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Final check before saving:
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Number of results to save: 132450
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: Results type: <class 'list'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]: First result structure:
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   image_id: <class 'int'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   category_id: <class 'int'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   bbox: <class 'list'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 4
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   score: <class 'float'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   bbox3D: <class 'list'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 8
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   center_cam: <class 'list'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 3
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   center_2D: <class 'list'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 2
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   dimensions: <class 'list'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 3
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   pose: <class 'list'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:     Length/Size: 3
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   depth: <class 'float'>
-[03/07 09:35:46 cubercnn.evaluation.omni3d_evaluation]:   original_image_id: <class 'int'>
-[03/07 09:35:54 cubercnn.evaluation.omni3d_evaluation]: File successfully written, size: 153255681 bytes
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Successfully loaded saved results, count: 132450
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Evaluating predictions with official COCO API...
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: GT dataset has 9314 images
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Predictions cover 9314 images
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Common images between GT and predictions: 9314
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: GT dataset has 9 categories
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Predictions cover 9 categories
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Common categories between GT and predictions: 0
-ERROR [03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: No common images or categories between GT and predictions!
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: GT image IDs (sample): [78960, 78961, 78962, 78963, 78964]
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Pred image IDs (sample): [78960, 78961, 78962, 78963, 78964]
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: GT category IDs: {11, 14, 15, 16, 17, 18, 19, 20, 21}
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Pred category IDs: {0, 1, 2, 3, 4, 5, 6, 7, 8}
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Debug: Starting evaluation
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Debug: Number of results to evaluate: 132450
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Debug: First result sample: {'image_id': 78960, 'category_id': 0, 'bbox': [70.03255462646484, 133.42880249023438, 1027.609619140625, 1148.532470703125], 'score': 0.3875617980957031, 'bbox3D': [[-0.6535263657569885, -1.2682592868804932, 2.384880304336548], [-0.45660388469696045, -0.7738638520240784, 1.8061648607254028], [-0.5852200984954834, 0.07880830764770508, 2.4908361434936523], [-0.7821425795555115, -0.4155871272087097, 3.069551467895508], [0.09993590414524078, -1.3229563236236572, 2.5945372581481934], [0.29685837030410767, -0.8285608887672424, 2.015821933746338], [0.1682421714067459, 0.024111270904541016, 2.700493097305298], [-0.028680309653282166, -0.4702841639518738, 3.2792086601257324]], 'center_cam': [-0.2426420897245407, -0.6220740079879761, 2.542686700820923], 'center_2D': [578.2015991210938, 550.2808227539062], 'dimensions': [0.7839981913566589, 1.101075291633606, 0.7862040400505066], 'pose': [[0.2504724860191345, -0.1168096512556076, 0.9610510468482971], [0.6288385987281799, 0.7743995189666748, -0.06976675987243652], [-0.7360880374908447, 0.6218206286430359, 0.2674201726913452]], 'depth': 2.542686700820923, 'original_image_id': 41389914}
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Debug: GT dataset structure:
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Images: 9314
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Categories: 9
-[03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Annotations: 10814
-WARNING [03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Filtered out 132450 results with invalid category_ids
-Loading and preparing results...
-ERROR [03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Debug: Error loading results: list index out of range
-ERROR [03/07 09:35:58 cubercnn.evaluation.omni3d_evaluation]: Traceback (most recent call last):
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/cubercnn/evaluation/omni3d_evaluation.py", line 1306, in _evaluate_predictions_on_omni
-    omni_dt = omni_gt.loadRes(omni_results)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/pycocotools/coco.py", line 329, in loadRes
-    if 'caption' in anns[0]:
-IndexError: list index out of range
-
-[rank0]:[W307 09:35:59.220316067 ProcessGroupNCCL.cpp:1168] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
-W0307 09:36:00.979459 140598791025920 torch/multiprocessing/spawn.py:146] Terminating process 2651266 via signal SIGTERM
-Traceback (most recent call last):
-  File "tools/train_net.py", line 563, in <module>
-    launch(
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/engine/launch.py", line 69, in launch
-    mp.start_processes(
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 238, in start_processes
-    while not context.join():
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 189, in join
-    raise ProcessRaisedException(msg, error_index, failed_process.pid)
-torch.multiprocessing.spawn.ProcessRaisedException: 
-
--- Process 0 terminated with the following error:
-Traceback (most recent call last):
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 76, in _wrap
-    fn(i, *args)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/engine/launch.py", line 123, in _distributed_worker
-    main_func(*args)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/tools/train_net.py", line 463, in main
-    if do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=args.resume):
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/tools/train_net.py", line 335, in do_train
-    do_test(cfg, model, iteration=iteration+1, storage=storage, mode='base')
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/tools/train_net.py", line 110, in do_test
-    eval_helper.evaluate(dataset_name)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/cubercnn/evaluation/omni3d_evaluation.py", line 328, in evaluate
-    self.results[dataset_name] = self.evaluators[dataset_name].evaluate()
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/evaluation/coco_evaluation.py", line 206, in evaluate
-    self._eval_predictions(predictions, img_ids=img_ids)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/cubercnn/evaluation/omni3d_evaluation.py", line 1170, in _eval_predictions
-    evals, log_strs = _evaluate_predictions_on_omni(
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/cubercnn/evaluation/omni3d_evaluation.py", line 1306, in _evaluate_predictions_on_omni
-    omni_dt = omni_gt.loadRes(omni_results)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/pycocotools/coco.py", line 329, in loadRes
-    if 'caption' in anns[0]:
-IndexError: list index out of range
-
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/structures/boxes.py:148: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/torch/csrc/utils/tensor_new.cpp:278.)
-  tensor = torch.as_tensor(tensor, dtype=torch.float32, device=torch.device("cpu"))
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/structures/boxes.py:148: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/torch/csrc/utils/tensor_new.cpp:278.)
-  tensor = torch.as_tensor(tensor, dtype=torch.float32, device=torch.device("cpu"))
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/structures/boxes.py:148: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/torch/csrc/utils/tensor_new.cpp:278.)
-  tensor = torch.as_tensor(tensor, dtype=torch.float32, device=torch.device("cpu"))
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/structures/boxes.py:148: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /opt/conda/conda-bld/pytorch_1724789116784/work/torch/csrc/utils/tensor_new.cpp:278.)
-  tensor = torch.as_tensor(tensor, dtype=torch.float32, device=torch.device("cpu"))
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
+[03/07 10:17:07 cubercnn.evaluation.omni3d_evaluation]: Inference done 11/4657. Dataloading: 0.0150 s/iter. Inference: 0.2164 s/iter. Eval: 0.0011 s/iter. Total: 0.2326 s/iter. ETA=0:18:00
+[03/07 10:17:12 cubercnn.evaluation.omni3d_evaluation]: Inference done 36/4657. Dataloading: 0.0127 s/iter. Inference: 0.1922 s/iter. Eval: 0.0014 s/iter. Total: 0.2064 s/iter. ETA=0:15:53
+[03/07 10:17:17 cubercnn.evaluation.omni3d_evaluation]: Inference done 62/4657. Dataloading: 0.0117 s/iter. Inference: 0.1902 s/iter. Eval: 0.0014 s/iter. Total: 0.2034 s/iter. ETA=0:15:34
+[03/07 10:17:23 cubercnn.evaluation.omni3d_evaluation]: Inference done 88/4657. Dataloading: 0.0108 s/iter. Inference: 0.1889 s/iter. Eval: 0.0014 s/iter. Total: 0.2012 s/iter. ETA=0:15:19
+[03/07 10:17:28 cubercnn.evaluation.omni3d_evaluation]: Inference done 111/4657. Dataloading: 0.0121 s/iter. Inference: 0.1931 s/iter. Eval: 0.0014 s/iter. Total: 0.2066 s/iter. ETA=0:15:39
+[03/07 10:17:33 cubercnn.evaluation.omni3d_evaluation]: Inference done 132/4657. Dataloading: 0.0125 s/iter. Inference: 0.1987 s/iter. Eval: 0.0014 s/iter. Total: 0.2126 s/iter. ETA=0:16:01
+[03/07 10:17:38 cubercnn.evaluation.omni3d_evaluation]: Inference done 157/4657. Dataloading: 0.0129 s/iter. Inference: 0.1970 s/iter. Eval: 0.0019 s/iter. Total: 0.2118 s/iter. ETA=0:15:53
+[03/07 10:17:43 cubercnn.evaluation.omni3d_evaluation]: Inference done 178/4657. Dataloading: 0.0115 s/iter. Inference: 0.2023 s/iter. Eval: 0.0018 s/iter. Total: 0.2156 s/iter. ETA=0:16:05
+[03/07 10:17:48 cubercnn.evaluation.omni3d_evaluation]: Inference done 203/4657. Dataloading: 0.0107 s/iter. Inference: 0.2017 s/iter. Eval: 0.0017 s/iter. Total: 0.2141 s/iter. ETA=0:15:53
+[03/07 10:17:53 cubercnn.evaluation.omni3d_evaluation]: Inference done 227/4657. Dataloading: 0.0112 s/iter. Inference: 0.2010 s/iter. Eval: 0.0017 s/iter. Total: 0.2140 s/iter. ETA=0:15:47
+[03/07 10:17:59 cubercnn.evaluation.omni3d_evaluation]: Inference done 251/4657. Dataloading: 0.0102 s/iter. Inference: 0.2022 s/iter. Eval: 0.0017 s/iter. Total: 0.2142 s/iter. ETA=0:15:43
+[03/07 10:18:04 cubercnn.evaluation.omni3d_evaluation]: Inference done 274/4657. Dataloading: 0.0098 s/iter. Inference: 0.2027 s/iter. Eval: 0.0019 s/iter. Total: 0.2145 s/iter. ETA=0:15:40
+[03/07 10:18:09 cubercnn.evaluation.omni3d_evaluation]: Inference done 295/4657. Dataloading: 0.0092 s/iter. Inference: 0.2055 s/iter. Eval: 0.0019 s/iter. Total: 0.2166 s/iter. ETA=0:15:44
+[03/07 10:18:14 cubercnn.evaluation.omni3d_evaluation]: Inference done 318/4657. Dataloading: 0.0091 s/iter. Inference: 0.2062 s/iter. Eval: 0.0018 s/iter. Total: 0.2172 s/iter. ETA=0:15:42
+[03/07 10:18:19 cubercnn.evaluation.omni3d_evaluation]: Inference done 343/4657. Dataloading: 0.0088 s/iter. Inference: 0.2056 s/iter. Eval: 0.0018 s/iter. Total: 0.2163 s/iter. ETA=0:15:32
+[03/07 10:18:24 cubercnn.evaluation.omni3d_evaluation]: Inference done 368/4657. Dataloading: 0.0085 s/iter. Inference: 0.2053 s/iter. Eval: 0.0018 s/iter. Total: 0.2157 s/iter. ETA=0:15:25
+[03/07 10:18:29 cubercnn.evaluation.omni3d_evaluation]: Inference done 394/4657. Dataloading: 0.0081 s/iter. Inference: 0.2045 s/iter. Eval: 0.0017 s/iter. Total: 0.2144 s/iter. ETA=0:15:13
+[03/07 10:18:34 cubercnn.evaluation.omni3d_evaluation]: Inference done 418/4657. Dataloading: 0.0083 s/iter. Inference: 0.2045 s/iter. Eval: 0.0017 s/iter. Total: 0.2145 s/iter. ETA=0:15:09
+[03/07 10:18:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 443/4657. Dataloading: 0.0081 s/iter. Inference: 0.2041 s/iter. Eval: 0.0018 s/iter. Total: 0.2141 s/iter. ETA=0:15:02
+[03/07 10:18:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 470/4657. Dataloading: 0.0079 s/iter. Inference: 0.2028 s/iter. Eval: 0.0020 s/iter. Total: 0.2127 s/iter. ETA=0:14:50
+[03/07 10:18:50 cubercnn.evaluation.omni3d_evaluation]: Inference done 493/4657. Dataloading: 0.0077 s/iter. Inference: 0.2032 s/iter. Eval: 0.0021 s/iter. Total: 0.2131 s/iter. ETA=0:14:47
+[03/07 10:18:55 cubercnn.evaluation.omni3d_evaluation]: Inference done 512/4657. Dataloading: 0.0075 s/iter. Inference: 0.2053 s/iter. Eval: 0.0021 s/iter. Total: 0.2150 s/iter. ETA=0:14:51
+[03/07 10:19:00 cubercnn.evaluation.omni3d_evaluation]: Inference done 536/4657. Dataloading: 0.0074 s/iter. Inference: 0.2051 s/iter. Eval: 0.0022 s/iter. Total: 0.2147 s/iter. ETA=0:14:44
+[03/07 10:19:05 cubercnn.evaluation.omni3d_evaluation]: Inference done 561/4657. Dataloading: 0.0071 s/iter. Inference: 0.2049 s/iter. Eval: 0.0021 s/iter. Total: 0.2142 s/iter. ETA=0:14:37
+[03/07 10:19:10 cubercnn.evaluation.omni3d_evaluation]: Inference done 585/4657. Dataloading: 0.0069 s/iter. Inference: 0.2049 s/iter. Eval: 0.0021 s/iter. Total: 0.2140 s/iter. ETA=0:14:31
+[03/07 10:19:15 cubercnn.evaluation.omni3d_evaluation]: Inference done 610/4657. Dataloading: 0.0067 s/iter. Inference: 0.2048 s/iter. Eval: 0.0021 s/iter. Total: 0.2135 s/iter. ETA=0:14:24
+[03/07 10:19:20 cubercnn.evaluation.omni3d_evaluation]: Inference done 634/4657. Dataloading: 0.0065 s/iter. Inference: 0.2048 s/iter. Eval: 0.0021 s/iter. Total: 0.2135 s/iter. ETA=0:14:18
+[03/07 10:19:25 cubercnn.evaluation.omni3d_evaluation]: Inference done 655/4657. Dataloading: 0.0063 s/iter. Inference: 0.2060 s/iter. Eval: 0.0021 s/iter. Total: 0.2145 s/iter. ETA=0:14:18
+[03/07 10:19:30 cubercnn.evaluation.omni3d_evaluation]: Inference done 678/4657. Dataloading: 0.0061 s/iter. Inference: 0.2064 s/iter. Eval: 0.0021 s/iter. Total: 0.2147 s/iter. ETA=0:14:14
+[03/07 10:19:35 cubercnn.evaluation.omni3d_evaluation]: Inference done 703/4657. Dataloading: 0.0060 s/iter. Inference: 0.2061 s/iter. Eval: 0.0021 s/iter. Total: 0.2142 s/iter. ETA=0:14:06
+[03/07 10:19:40 cubercnn.evaluation.omni3d_evaluation]: Inference done 728/4657. Dataloading: 0.0058 s/iter. Inference: 0.2059 s/iter. Eval: 0.0020 s/iter. Total: 0.2138 s/iter. ETA=0:14:00
+[03/07 10:19:45 cubercnn.evaluation.omni3d_evaluation]: Inference done 753/4657. Dataloading: 0.0060 s/iter. Inference: 0.2053 s/iter. Eval: 0.0020 s/iter. Total: 0.2134 s/iter. ETA=0:13:52
+[03/07 10:19:51 cubercnn.evaluation.omni3d_evaluation]: Inference done 779/4657. Dataloading: 0.0059 s/iter. Inference: 0.2048 s/iter. Eval: 0.0020 s/iter. Total: 0.2128 s/iter. ETA=0:13:45
+[03/07 10:19:56 cubercnn.evaluation.omni3d_evaluation]: Inference done 803/4657. Dataloading: 0.0059 s/iter. Inference: 0.2049 s/iter. Eval: 0.0021 s/iter. Total: 0.2129 s/iter. ETA=0:13:40
+[03/07 10:20:01 cubercnn.evaluation.omni3d_evaluation]: Inference done 822/4657. Dataloading: 0.0058 s/iter. Inference: 0.2063 s/iter. Eval: 0.0020 s/iter. Total: 0.2142 s/iter. ETA=0:13:41
+[03/07 10:20:06 cubercnn.evaluation.omni3d_evaluation]: Inference done 848/4657. Dataloading: 0.0059 s/iter. Inference: 0.2055 s/iter. Eval: 0.0021 s/iter. Total: 0.2135 s/iter. ETA=0:13:33
+[03/07 10:20:11 cubercnn.evaluation.omni3d_evaluation]: Inference done 874/4657. Dataloading: 0.0060 s/iter. Inference: 0.2049 s/iter. Eval: 0.0021 s/iter. Total: 0.2131 s/iter. ETA=0:13:26
+[03/07 10:20:16 cubercnn.evaluation.omni3d_evaluation]: Inference done 901/4657. Dataloading: 0.0063 s/iter. Inference: 0.2039 s/iter. Eval: 0.0021 s/iter. Total: 0.2123 s/iter. ETA=0:13:17
+[03/07 10:20:21 cubercnn.evaluation.omni3d_evaluation]: Inference done 927/4657. Dataloading: 0.0062 s/iter. Inference: 0.2035 s/iter. Eval: 0.0021 s/iter. Total: 0.2118 s/iter. ETA=0:13:10

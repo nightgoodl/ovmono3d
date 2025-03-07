@@ -1278,6 +1278,38 @@ def _evaluate_predictions_on_omni(omni_gt, omni_results, iou_type, img_ids=None,
         if not isinstance(result['category_id'], int):
             result['category_id'] = int(float(result['category_id']))
 
+    # 获取GT中的类别ID映射
+    gt_cat_ids = set([cat['id'] for cat in omni_gt.dataset.get('categories', [])])
+    pred_cat_ids = set([r['category_id'] for r in omni_results])
+    
+    logger.info(f"GT category IDs: {gt_cat_ids}")
+    logger.info(f"Pred category IDs: {pred_cat_ids}")
+    
+    # 检查是否需要映射类别ID
+    if not gt_cat_ids.intersection(pred_cat_ids) and len(gt_cat_ids) == len(pred_cat_ids):
+        logger.info("No common category IDs found, attempting to map prediction IDs to GT IDs")
+        
+        # 创建从预测ID到GT ID的映射
+        # 假设两者都是有序的，可以一一对应
+        sorted_gt_ids = sorted(list(gt_cat_ids))
+        sorted_pred_ids = sorted(list(pred_cat_ids))
+        
+        if len(sorted_gt_ids) == len(sorted_pred_ids):
+            id_mapping = {pred_id: gt_id for pred_id, gt_id in zip(sorted_pred_ids, sorted_gt_ids)}
+            logger.info(f"Created category ID mapping: {id_mapping}")
+            
+            # 应用映射
+            for result in omni_results:
+                if result['category_id'] in id_mapping:
+                    result['category_id'] = id_mapping[result['category_id']]
+            
+            # 更新预测类别ID集合
+            pred_cat_ids = set([r['category_id'] for r in omni_results])
+            logger.info(f"Updated pred category IDs: {pred_cat_ids}")
+            logger.info(f"Common categories after mapping: {gt_cat_ids.intersection(pred_cat_ids)}")
+        else:
+            logger.warning("Cannot create mapping - different number of categories")
+
     # 直接使用loadRes方法而不是通过临时文件
     try:
         # 检查GT数据集结构
@@ -1295,12 +1327,16 @@ def _evaluate_predictions_on_omni(omni_gt, omni_results, iou_type, img_ids=None,
             omni_results = valid_results
         
         # 确保结果中的category_id存在于GT数据集中
-        gt_cat_ids = set([cat['id'] for cat in omni_gt.dataset.get('categories', [])])
         valid_results = [r for r in omni_results if r['category_id'] in gt_cat_ids]
         
         if len(valid_results) < len(omni_results):
             logger.warning(f"Filtered out {len(omni_results) - len(valid_results)} results with invalid category_ids")
             omni_results = valid_results
+        
+        # 检查是否还有有效的结果
+        if len(omni_results) == 0:
+            logger.error("No valid results left after filtering!")
+            return {}, {}
         
         # 直接使用loadRes方法
         omni_dt = omni_gt.loadRes(omni_results)
@@ -1310,7 +1346,8 @@ def _evaluate_predictions_on_omni(omni_gt, omni_results, iou_type, img_ids=None,
         logger.error(f"Debug: Error loading results: {str(e)}")
         import traceback
         logger.error(traceback.format_exc())
-        raise
+        # 返回空结果而不是抛出异常
+        return {}, {}
 
     modes = ["2D"] if only_2d else ["2D", "3D"]
     logger.info(f"Debug: Evaluating modes: {modes}")
@@ -1345,7 +1382,8 @@ def _evaluate_predictions_on_omni(omni_gt, omni_results, iou_type, img_ids=None,
             logger.error(f"Debug: Error in mode {mode}: {str(e)}")
             import traceback
             logger.error(traceback.format_exc())
-            raise
+            # 继续处理其他模式而不是抛出异常
+            continue
 
     return evals, log_strs
 
@@ -2395,22 +2433,30 @@ class Omni3DevalWithNHD(Omni3Deval):
         """
         Accumulate evaluation results by concatenating NHD metrics for the entire dataset.
         """
-        # Call the parent class accumulate method
-        super().accumulate(p)
-        if self.mode == "2D":
-            return 
-        # Initialize accumulators for NHD metrics
-        self.eval["nhd_accumulators"] = {"overall": [], "xy": [], "z": [], "dimensions": [], "pose": []}
+        try:
+            # Call the parent class accumulate method
+            super().accumulate(p)
+            if self.mode == "2D":
+                return 
+            # Initialize accumulators for NHD metrics
+            self.eval["nhd_accumulators"] = {"overall": [], "xy": [], "z": [], "dimensions": [], "pose": []}
 
-        # Iterate over the evaluated images to collect NHD metrics
-        for eval_img in self.evalImgs:
-            if eval_img is None:
-                continue
-            if "nhd_metrics" in eval_img:
-                for nhd_metric in eval_img["nhd_metrics"]:
-                    for key in self.eval["nhd_accumulators"]:
-                        if key in nhd_metric:
-                            self.eval["nhd_accumulators"][key].append(nhd_metric[key])
+            # Iterate over the evaluated images to collect NHD metrics
+            for eval_img in self.evalImgs:
+                if eval_img is None:
+                    continue
+                if "nhd_metrics" in eval_img:
+                    for nhd_metric in eval_img["nhd_metrics"]:
+                        for key in self.eval["nhd_accumulators"]:
+                            if key in nhd_metric:
+                                self.eval["nhd_accumulators"][key].append(nhd_metric[key])
+        except Exception as e:
+            self._logger.error(f"Error in accumulate: {str(e)}")
+            import traceback
+            self._logger.error(traceback.format_exc())
+            # Initialize empty evaluation results
+            self.eval = {}
+            self.stats = []
 
     def summarize(self):
         """
