@@ -341,7 +341,7 @@ class Omni3DEvaluationHelper:
                 if isinstance(value, dict):
                     self._logger.info(f"    Dict keys: {list(value.keys())}")
             return False
-
+        
         logger.info('\n'+results['log_str_2D'].replace('mode=2D', '{} iter={} mode=2D'.format(dataset_name, self.iter_label)))
             
         # store the partially accumulated evaluations per category per area
@@ -1147,19 +1147,19 @@ class Omni3DEvaluator(COCOEvaluator):
                 gt_img_ids = set([img['id'] for img in self._omni_api.dataset.get('images', [])])
                 pred_img_ids = set([r['image_id'] for r in omni_results])
                 common_img_ids = gt_img_ids.intersection(pred_img_ids)
-                
+                '''
                 self._logger.info(f"GT dataset has {len(gt_img_ids)} images")
                 self._logger.info(f"Predictions cover {len(pred_img_ids)} images")
                 self._logger.info(f"Common images between GT and predictions: {len(common_img_ids)}")
-                
+                '''
                 gt_cat_ids = set([cat['id'] for cat in self._omni_api.dataset.get('categories', [])])
                 pred_cat_ids = set([r['category_id'] for r in omni_results])
                 common_cat_ids = gt_cat_ids.intersection(pred_cat_ids)
-                
+                '''
                 self._logger.info(f"GT dataset has {len(gt_cat_ids)} categories")
                 self._logger.info(f"Predictions cover {len(pred_cat_ids)} categories")
                 self._logger.info(f"Common categories between GT and predictions: {len(common_cat_ids)}")
-                
+                '''
                 if len(common_img_ids) == 0 or len(common_cat_ids) == 0:
                     self._logger.error("No common images or categories between GT and predictions!")
                     self._logger.info(f"GT image IDs (sample): {list(gt_img_ids)[:5]}")
@@ -1261,7 +1261,7 @@ def _evaluate_predictions_on_omni(omni_gt, omni_results, iou_type, img_ids=None,
 
     logger.info("Debug: Starting evaluation")
     logger.info(f"Debug: Number of results to evaluate: {len(omni_results)}")
-    logger.info(f"Debug: First result sample: {omni_results[0]}")
+    #logger.info(f"Debug: First result sample: {omni_results[0]}")
 
     # 确保所有必需的字段都存在
     required_fields = ['image_id', 'category_id', 'bbox', 'score']
@@ -1282,8 +1282,8 @@ def _evaluate_predictions_on_omni(omni_gt, omni_results, iou_type, img_ids=None,
     gt_cat_ids = set([cat['id'] for cat in omni_gt.dataset.get('categories', [])])
     pred_cat_ids = set([r['category_id'] for r in omni_results])
     
-    logger.info(f"GT category IDs: {gt_cat_ids}")
-    logger.info(f"Pred category IDs: {pred_cat_ids}")
+    #logger.info(f"GT category IDs: {gt_cat_ids}")
+    #logger.info(f"Pred category IDs: {pred_cat_ids}")
     
     # 检查是否需要映射类别ID
     if not gt_cat_ids.intersection(pred_cat_ids) and len(gt_cat_ids) == len(pred_cat_ids):
