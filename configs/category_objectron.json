@@ -1,0 +1,25 @@
+{
+    "_comment": "9 classes",
+    "thing_classes": [
+        "bicycle",
+        "books",
+        "bottle",
+        "camera",
+        "cereal box",
+        "chair",
+        "cup",
+        "laptop",
+        "shoes"
+    ],
+    "thing_dataset_id_to_contiguous_id": {
+        "11": 0,  
+        "14": 1,  
+        "15": 2,  
+        "16": 3,  
+        "17": 4,  
+        "18": 5,  
+        "19": 6,  
+        "20": 7,  
+        "21": 8   
+    }
+}

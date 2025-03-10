@@ -35,7 +35,7 @@ def get_cfg_defaults(cfg):
 
     cfg.DATASETS.TEST_BASE = ('Objectron_test',) 
     cfg.DATASETS.TEST_NOVEL = () 
-    cfg.DATASETS.CATEGORY_NAMES_BASE = ('chair', 'table', 'cabinet', 'car', 'lamp', 'books', 'sofa', 'pedestrian', 'picture', 'window', 'pillow', 'truck', 'door', 'blinds', 'sink', 'shelves', 'television', 'shoes', 'cup', 'bottle', 'bookcase', 'laptop', 'desk', 'cereal box', 'floor mat', 'traffic cone', 'mirror', 'barrier', 'counter', 'camera', 'bicycle', 'toilet', 'bus', 'bed', 'refrigerator', 'trailer', 'box', 'oven', 'clothes', 'van', 'towel', 'motorcycle', 'night stand', 'stove', 'machine', 'stationery', 'bathtub', 'cyclist', 'curtain', 'bin')
+    cfg.DATASETS.CATEGORY_NAMES_BASE = ('bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes')
     cfg.DATASETS.CATEGORY_NAMES_NOVEL = ()
 
     # Oracle 2D files for evaluation

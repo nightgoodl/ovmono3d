@@ -338,7 +338,7 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
     thing_classes = [c["name"] for c in sorted(cats, key=lambda x: x["id"])]
     meta.thing_classes = thing_classes
     if dataset_name.endswith(("_novel", "_test")):
-        category_path = "configs/category_meta.json" # TODO: hard coded
+        category_path = "configs/category_objectron.json" # TODO: hard coded
 
         metadata = util.load_json(category_path)
 
