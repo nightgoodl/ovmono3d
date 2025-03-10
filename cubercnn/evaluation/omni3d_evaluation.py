@@ -2320,13 +2320,17 @@ class Omni3DevalWithNHD(Omni3Deval):
         # 执行评估 - 使用父类的evaluateImg方法
         p = self.params
         catIds = p.catIds if p.useCats else [-1]
-        computeIoU = self.computeIoU
-
-        self.ious = {
-            (imgId, catId): computeIoU(imgId, catId)
-            for imgId in p.imgIds
-            for catId in catIds
-        }
+        
+        # 计算IoU - 同时计算2D和3D的IoU
+        self.ious = {}
+        self.ious2d = {}
+        
+        for imgId in p.imgIds:
+            for catId in catIds:
+                # 计算3D IoU
+                self.ious[(imgId, catId)] = self.computeIoU(imgId, catId)
+                # 计算2D IoU，明确指定mode为"2D"
+                self.ious2d[(imgId, catId)] = self.computeIoU(imgId, catId, mode="2D")
 
         maxDet = p.maxDets[-1]
         self.evalImgs = [
@@ -2366,15 +2370,16 @@ class Omni3DevalWithNHD(Omni3Deval):
         dtind = np.argsort([-d["score"] for d in dt], kind="mergesort")
         dt = [dt[i] for i in dtind[0:maxDet]]
 
-        # Load IoUs computed during evaluation - use original format
+        # Load IoUs computed during evaluation
         try:
-            if self.mode == "2D":
-                ious = self.ious2d[imgId, catId][0] if len(self.ious[imgId, catId][0]) > 0 else []
+            # 使用预先计算好的IoU
+            if self.mode == "3D":
+                ious = self.ious[(imgId, catId)][0] if len(self.ious[(imgId, catId)][0]) > 0 else []
             else:
-                ious = self.ious[imgId, catId][0] if len(self.ious[imgId, catId][0]) > 0 else []
-        except (KeyError, IndexError):
+                ious = self.ious2d[(imgId, catId)][0] if len(self.ious2d[(imgId, catId)][0]) > 0 else []
+        except (KeyError, IndexError) as e:
             # Handle case where IoUs are not available
-            self._logger.warning(f"IoUs not available for imgId={imgId}, catId={catId}")
+            self._logger.warning(f"IoUs not available for imgId={imgId}, catId={catId}: {e}")
             return result
 
         # Filter pairs based on IoU threshold - use original format with safety checks
@@ -2428,6 +2433,82 @@ class Omni3DevalWithNHD(Omni3Deval):
         result["nhd_metrics"] = nhd_metrics
         return result
     
+    def computeIoU(self, imgId, catId, mode=None):
+        """
+        ComputeIoU computes the IoUs by sorting based on "score"
+        for either 2D boxes (in 2D mode) or 3D boxes (in 3D mode)
+        """
+        original_mode = self.mode
+        if mode is not None:
+            self.mode = mode
+        device = (torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu"))
+
+        p = self.params
+        if p.useCats:
+            gt = self._gts[imgId, catId]
+            dt = self._dts[imgId, catId]
+
+        else:
+            gt = [_ for cId in p.catIds for _ in self._gts[imgId, cId]]
+            dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
+
+        if len(gt) == 0 and len(dt) == 0:
+            self.mode = original_mode
+            return []
+
+        inds = np.argsort([-d["score"] for d in dt], kind="mergesort")
+        dt = [dt[i] for i in inds]
+        if len(dt) > p.maxDets[-1]:
+            dt = dt[0 : p.maxDets[-1]]
+
+        if p.iouType == "bbox":
+            if self.mode == "2D":
+                g = [g["bbox"] for g in gt]
+                d = [d["bbox"] for d in dt]
+            elif self.mode == "3D":
+                g = [g["bbox3D"] for g in gt]
+                d = [d["bbox3D"] for d in dt]
+        else:
+            raise Exception("unknown iouType for iou computation")
+
+        # compute iou between each dt and gt region
+        # iscrowd is required in builtin maskUtils so we
+        # use a dummy buffer for it
+        iscrowd = [0 for o in gt]
+        if self.mode == "2D":
+            ious = maskUtils.iou(d, g, iscrowd)
+
+        elif len(d) > 0 and len(g) > 0:
+            
+            # For 3D eval, we want to run IoU in CUDA if available
+            if torch.cuda.is_available() and len(d) * len(g) < MAX_DTS_CROSS_GTS_FOR_IOU3D:
+                device = torch.device("cuda:0") 
+            else:
+                device = torch.device("cpu")
+            
+            dd = torch.tensor(d, device=device, dtype=torch.float32)
+            gg = torch.tensor(g, device=device, dtype=torch.float32)
+
+            ious = box3d_overlap(dd, gg).cpu().numpy()
+
+        else:
+            ious = []
+
+        in_prox = None
+
+        if self.eval_prox:
+            g = [g["bbox"] for g in gt]
+            d = [d["bbox"] for d in dt]
+            iscrowd = [0 for o in gt]
+            ious2d = maskUtils.iou(d, g, iscrowd)
+
+            if type(ious2d) == list:
+                in_prox = []
+
+            else:
+                in_prox = ious2d > p.proximity_thresh
+        self.mode = original_mode
+        return ious, in_prox
 
     def accumulate(self, p=None):
         """
