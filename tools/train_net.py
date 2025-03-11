@@ -97,8 +97,8 @@ def do_test(cfg, model, iteration='final', storage=None, mode="base"):
             mode=mode,
             mapper=DatasetMapper3D(cfg, is_train=False)
         )
-        #evaluator = Omni3DEvaluator(dataset_name, output_dir=output_folder, filter_settings=filter_settings)
-        results_json = inference_on_dataset(model, data_loader)
+        evaluator = Omni3DEvaluator(dataset_name, output_dir=output_folder, filter_settings=filter_settings)
+        results_json = inference_on_dataset(model, data_loader, evaluator)
 
         if comm.is_main_process():
             
