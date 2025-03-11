@@ -1692,13 +1692,13 @@ class Omni3Deval(COCOeval):
         Run per image evaluation on given images and store results in self.evalImgs
         """
         self._logger.info("Starting evaluation...")
-        
+
         if len(self._predictions) == 0:
             self._logger.warning("No predictions found, skipping evaluation")
             return {}
-            
+
         self._logger.info(f"Evaluating {len(self._predictions)} predictions")
-        
+
         # 添加调试信息
         if self._predictions:
             self._logger.info("Sample prediction structure:")
@@ -1708,13 +1708,54 @@ class Omni3Deval(COCOeval):
                 if isinstance(value, list) and value:
                     self._logger.info(f"    First item in list: {value[0]}")
 
-        # ... existing evaluation code ...
+        # 1. 准备评估参数
+        p = self.params
+        p.imgIds = list(np.unique(p.imgIds))
+        if p.useCats:
+            p.catIds = list(np.unique(p.catIds))
+        p.maxDets = sorted(p.maxDets)
+        self.params = p
 
-        # 在返回结果之前添加调试信息
+        self._prepare()
+
+        # 2. 获取类别ID
+        catIds = p.catIds if p.useCats else [-1]
+
+        # 3. 计算所有图像和类别的IoU
+        self.ious = {
+            (imgId, catId): self.computeIoU(imgId, catId)
+            for imgId in p.imgIds
+            for catId in catIds
+        }
+
+        # 如果是3D模式，同时计算2D IoU
+        if self.mode == "3D":
+            self.ious2d = {
+                (imgId, catId): self.computeIoU(imgId, catId, mode="2D")
+                for imgId in p.imgIds
+                for catId in catIds
+            }    
+
+        # 4. 对每个图像、类别和区域范围进行评估
+        maxDet = p.maxDets[-1]
+        self.evalImgs = [
+            self.evaluateImg(imgId, catId, areaRng, maxDet)
+            for catId in catIds
+            for areaRng in p.areaRng
+            for imgId in p.imgIds
+        ]
+
+        # 5. 保存评估参数
+        self._paramsEval = copy.deepcopy(self.params)
+
+        # 6. 累积结果
+        self.accumulate()
+
+        # 7. 生成结果
         results = self._derive_coco_results()
         self._logger.info("Evaluation completed")
         self._logger.info(f"Results keys: {list(results.keys())}")
-        
+
         # 确保必要的键存在
         if 'bbox_2D_evals_per_cat_area' not in results:
             self._logger.error("Required key 'bbox_2D_evals_per_cat_area' not found in results")
@@ -1723,7 +1764,7 @@ class Omni3Deval(COCOeval):
                 self._logger.info(f"  eval keys: {list(self.eval.keys())}")
             if hasattr(self, '_coco_eval'):
                 self._logger.info(f"  _coco_eval attributes: {dir(self._coco_eval)}")
-        
+
         return results
 
     def _derive_omni_results(self, omni_eval, iou_type, mode, class_names=None):
@@ -2223,6 +2264,74 @@ class Omni3Deval(COCOeval):
 
         return log_str
 
+    def computeIoU(self, imgId, catId):
+        """
+        Compute IoU between ground truth and detection boxes for a specific image and category.
+        Returns:
+            ious: IoU matrix of shape (num_dt, num_gt)
+        """
+        p = self.params
+        if p.useCats:
+            gt = self._gts[imgId, catId]
+            dt = self._dts[imgId, catId]
+        else:
+            gt = [_ for cId in p.catIds for _ in self._gts[imgId, cId]]
+            dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
+        
+        if len(gt) == 0 or len(dt) == 0:
+            return [], []
+        
+        # Sort detections by score (highest first)
+        inds = np.argsort([-d['score'] for d in dt], kind='mergesort')
+        dt = [dt[i] for i in inds]
+        
+        # Get ignore flag
+        ignore_flag = "ignore2D" if self.mode == "2D" else "ignore3D"
+        
+        # Get IoU matrix
+        if self.mode == "2D":
+            # Convert boxes to format expected by maskUtils.iou
+            # [x,y,w,h] format for both dt and gt
+            d = [{'segmentation': [], 'bbox': dt_box['bbox']} for dt_box in dt]
+            g = [{'segmentation': [], 'bbox': gt_box['bbox']} for gt_box in gt]
+            
+            # Get iscrowd flag
+            iscrowd = [int(gt_box.get('iscrowd', 0)) for gt_box in gt]
+            
+            # Convert to RLE format for maskUtils.iou
+            d_rle = maskUtils.frPyObjects([x['bbox'] for x in d], 1, 1)
+            g_rle = maskUtils.frPyObjects([x['bbox'] for x in g], 1, 1)
+            
+            # Compute IoU
+            ious = maskUtils.iou(d_rle, g_rle, iscrowd)
+            
+        elif self.mode == "3D":
+            # Get 3D boxes
+            dt_boxes3d = torch.tensor([dt_box['bbox3D'] for dt_box in dt], dtype=torch.float32)
+            gt_boxes3d = torch.tensor([gt_box['bbox3D'] for gt_box in gt], dtype=torch.float32)
+            
+            # Check if we should use GPU for IoU computation
+            use_gpu = torch.cuda.is_available() and MAX_DTS_CROSS_GTS_FOR_IOU3D > 0 and \
+                      len(dt) * len(gt) <= MAX_DTS_CROSS_GTS_FOR_IOU3D
+            
+            if use_gpu:
+                dt_boxes3d = dt_boxes3d.cuda()
+                gt_boxes3d = gt_boxes3d.cuda()
+            
+            # Compute 3D IoU using box3d_overlap function
+            ious = box3d_overlap(dt_boxes3d, gt_boxes3d)
+            
+            # Move back to CPU if needed
+            if use_gpu:
+                ious = ious.cpu()
+            
+            ious = ious.numpy()
+        
+        # Get ignore flag for each gt box
+        ignore = [gt_box.get(ignore_flag, 0) for gt_box in gt]
+        
+        return ious, ignore
+
 
 def calculate_nhd(pred_vertices, gt_vertices):
     """
@@ -2297,10 +2406,11 @@ class Omni3DevalWithNHD(Omni3Deval):
         self._logger = logging.getLogger(__name__)
         self._predictions = []
         
+    """ 
     def evaluate(self):
-        """
-        Run per image evaluation on given images and store results in self.evalImgs
-        """
+        
+            Run per image evaluation on given images and store results in self.evalImgs
+        
         self._logger.info("Starting evaluation...")
         
         # 检查cocoDt中的预测结果而不是self._predictions
@@ -2337,8 +2447,9 @@ class Omni3DevalWithNHD(Omni3Deval):
         ]
         self._paramsEval = copy.deepcopy(self.params)
         
-        return self.eval
-
+        return self.eval 
+    """
+        
     def evaluateImg(self, imgId, catId, aRng, maxDet):
         """
         Perform evaluation for single category and image with additional NHD metrics.
