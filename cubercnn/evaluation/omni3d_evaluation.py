@@ -2264,13 +2264,20 @@ class Omni3Deval(COCOeval):
 
         return log_str
 
-    def computeIoU(self, imgId, catId):
+    def computeIoU(self, imgId, catId, mode=None):
         """
         Compute IoU between ground truth and detection boxes for a specific image and category.
+        Args:
+            imgId: image ID
+            catId: category ID
+            mode: optional override for self.mode
         Returns:
             ious: IoU matrix of shape (num_dt, num_gt)
+            ignore: list of ignore flags for ground truth boxes
         """
         p = self.params
+        eval_mode = mode if mode is not None else self.mode
+        
         if p.useCats:
             gt = self._gts[imgId, catId]
             dt = self._dts[imgId, catId]
@@ -2286,49 +2293,49 @@ class Omni3Deval(COCOeval):
         dt = [dt[i] for i in inds]
         
         # Get ignore flag
-        ignore_flag = "ignore2D" if self.mode == "2D" else "ignore3D"
+        ignore_flag = "ignore2D" if eval_mode == "2D" else "ignore3D"
         
         # Get IoU matrix
-        if self.mode == "2D":
-            # Convert boxes to format expected by maskUtils.iou
-            # [x,y,w,h] format for both dt and gt
-            d = [{'segmentation': [], 'bbox': dt_box['bbox']} for dt_box in dt]
-            g = [{'segmentation': [], 'bbox': gt_box['bbox']} for gt_box in gt]
+        if eval_mode == "2D":
+            # Extract bboxes in [x,y,w,h] format
+            dt_bboxes = np.array([d['bbox'] for d in dt], dtype=np.float32)
+            gt_bboxes = np.array([g['bbox'] for g in gt], dtype=np.float32)
             
             # Get iscrowd flag
-            iscrowd = [int(gt_box.get('iscrowd', 0)) for gt_box in gt]
+            iscrowd = np.array([int(g.get('iscrowd', 0)) for g in gt], dtype=np.int8)
             
-            # Convert to RLE format for maskUtils.iou
-            d_rle = maskUtils.frPyObjects([x['bbox'] for x in d], 1, 1)
-            g_rle = maskUtils.frPyObjects([x['bbox'] for x in g], 1, 1)
+            # Compute IoU using maskUtils
+            ious = maskUtils.iou(dt_bboxes, gt_bboxes, iscrowd)
             
-            # Compute IoU
-            ious = maskUtils.iou(d_rle, g_rle, iscrowd)
-            
-        elif self.mode == "3D":
+        elif eval_mode == "3D":
             # Get 3D boxes
-            dt_boxes3d = torch.tensor([dt_box['bbox3D'] for dt_box in dt], dtype=torch.float32)
-            gt_boxes3d = torch.tensor([gt_box['bbox3D'] for gt_box in gt], dtype=torch.float32)
-            
-            # Check if we should use GPU for IoU computation
-            use_gpu = torch.cuda.is_available() and MAX_DTS_CROSS_GTS_FOR_IOU3D > 0 and \
-                      len(dt) * len(gt) <= MAX_DTS_CROSS_GTS_FOR_IOU3D
-            
-            if use_gpu:
-                dt_boxes3d = dt_boxes3d.cuda()
-                gt_boxes3d = gt_boxes3d.cuda()
-            
-            # Compute 3D IoU using box3d_overlap function
-            ious = box3d_overlap(dt_boxes3d, gt_boxes3d)
-            
-            # Move back to CPU if needed
-            if use_gpu:
-                ious = ious.cpu()
-            
-            ious = ious.numpy()
+            try:
+                dt_boxes3d = torch.tensor([d['bbox3D'] for d in dt], dtype=torch.float32)
+                gt_boxes3d = torch.tensor([g['bbox3D'] for g in gt], dtype=torch.float32)
+                
+                # Check if we should use GPU for IoU computation
+                use_gpu = torch.cuda.is_available() and MAX_DTS_CROSS_GTS_FOR_IOU3D > 0 and \
+                          len(dt) * len(gt) <= MAX_DTS_CROSS_GTS_FOR_IOU3D
+                
+                if use_gpu:
+                    dt_boxes3d = dt_boxes3d.cuda()
+                    gt_boxes3d = gt_boxes3d.cuda()
+                
+                # Compute 3D IoU using box3d_overlap function
+                ious = box3d_overlap(dt_boxes3d, gt_boxes3d)
+                
+                # Move back to CPU if needed
+                if use_gpu:
+                    ious = ious.cpu()
+                
+                ious = ious.numpy()
+            except Exception as e:
+                self._logger.error(f"Error computing 3D IoU: {e}")
+                # Return empty IoU matrix in case of error
+                ious = np.zeros((len(dt), len(gt)))
         
         # Get ignore flag for each gt box
-        ignore = [gt_box.get(ignore_flag, 0) for gt_box in gt]
+        ignore = [g.get(ignore_flag, 0) for g in gt]
         
         return ious, ignore
 
