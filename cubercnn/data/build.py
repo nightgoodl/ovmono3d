@@ -290,9 +290,11 @@ def test_data_collate_fn(batch):
             "width": per_image["width"],
         }
         
+        # Add image_id if it exists
+        if "image_id" in per_image:
+            data["image_id"] = per_image["image_id"]
         
         if "depth" in per_image:
-            #print("Found depth data with shape:", per_image["depth"].shape)
             data["depth"] = per_image["depth"]
         else:
             print("No depth data found in this sample")
