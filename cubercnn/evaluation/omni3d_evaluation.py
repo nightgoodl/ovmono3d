@@ -1001,6 +1001,19 @@ class Omni3DEvaluator(COCOEvaluator):
                 f.write(json.dumps(omni_results))
                 f.flush()
 
+            # Add checkpoint to allow updating omni_results
+            self._logger.info("Checkpoint: You can now update omni_instances_results.json with alternative model results")
+            # Read the potentially updated results
+            with PathManager.open(file_path, "r") as f:
+                try:
+                    updated_results = json.load(f)
+                    omni_results = updated_results
+                    self._logger.info("Successfully loaded updated results from omni_instances_results.json")
+                except Exception as e:
+                    self._logger.warning(f"Error loading updated results: {e}")
+                    self._logger.info("Continuing with original results")
+
+
         if not self._do_evaluation:
             self._logger.info("Annotations are not available for evaluation.")
             return
@@ -1476,17 +1489,16 @@ class Omni3Deval(COCOeval):
         """
         ComputeIoU计算IoU值，通过基于"score"排序
         对于2D模式下的2D边界框或3D模式下的3D边界框
-        
+
         Args:
             imgId: 图像ID
             catId: 类别ID
             mode: 可选，指定计算模式('2D'或'3D')，默认使用当前实例的模式
-            
+
         Returns:
             ious: IoU矩阵，形状为[num_dets, num_gts]
             in_prox: 接近度矩阵，用于部分标注数据集的评估
         """
-        # 保存原始模式，以便在函数结束时恢复
         original_mode = self.mode
         if mode is not None:
             self.mode = mode
@@ -1500,48 +1512,32 @@ class Omni3Deval(COCOeval):
             gt = [_ for cId in p.catIds for _ in self._gts[imgId, cId]]
             dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
 
-        # 如果GT或DT为空，返回空的IoU矩阵
         if len(gt) == 0 or len(dt) == 0:
-            # 添加调试信息
-            if len(gt) == 0:
-                print(f"Warning: No ground truth for image {imgId}, category {catId}")
-            if len(dt) == 0:
-                print(f"Warning: No detections for image {imgId}, category {catId}")
             self.mode = original_mode
             return [], []
 
         # 根据忽略标志和得分进行排序
         ignore_flag = "ignore2D" if self.mode == "2D" else "ignore3D"
-        
-        # 对GT进行排序，将忽略的放在最后
         gtind = np.argsort([g.get(ignore_flag, 0) for g in gt], kind="mergesort")
         gt = [gt[i] for i in gtind]
-        
-        # 对DT进行排序，将得分高的放在前面
         dtind = np.argsort([-d["score"] for d in dt], kind="mergesort")
         dt = [dt[i] for i in dtind[0:p.maxDets[-1]]]
 
-        # 计算IoU矩阵
+        # 计算主IoU矩阵（2D或3D）
         if self.mode == "2D":
-            # 2D模式下计算2D IoU
             ious = np.zeros((len(dt), len(gt)))
             for dind, d in enumerate(dt):
                 if len(d.get("bbox", [])) == 0:
                     print(f"Warning: Detection {dind} has empty bbox")
                     continue
-                    
                 bb = d["bbox"]
                 for gind, g in enumerate(gt):
                     if len(g.get("bbox", [])) == 0:
                         print(f"Warning: GT {gind} has empty bbox")
                         continue
-                        
                     gb = g["bbox"]
-                    # 计算2D IoU
                     ious[dind, gind] = maskUtils.iou([bb], [gb], [0])[0, 0]
         else:
-            # 3D模式下计算3D IoU
-            # 准备3D边界框数据
             try:
                 # 收集所有检测的3D边界框
                 dd = []
@@ -1613,13 +1609,6 @@ class Omni3Deval(COCOeval):
                     # 计算3D IoU
                     ious = box3d_overlap(dd_tensor, gg_tensor).cpu().numpy()
                     
-                    # 检查IoU结果
-                    if np.all(ious == 0):
-                        print(f"Warning: All 3D IoUs are zero for image {imgId}, category {catId}")
-                        # 打印一些边界框样本以便调试
-                        if len(dd) > 0 and len(gg) > 0:
-                            print(f"Sample detection box: {dd[0]}")
-                            print(f"Sample GT box: {gg[0]}")
                 else:
                     ious = np.zeros((len(dt), len(gt)))
                     print(f"Warning: Empty detection or GT boxes for image {imgId}, category {catId}")
@@ -1630,14 +1619,28 @@ class Omni3Deval(COCOeval):
                 traceback.print_exc()
                 ious = np.zeros((len(dt), len(gt)))
 
-        # 计算接近度矩阵（用于部分标注数据集）
+        # 单独计算接近度矩阵（无论2D/3D模式，均使用2D IoU）
         in_prox = np.zeros((len(dt), len(gt)))
         if self.eval_prox:
-            for dind, d in enumerate(dt):
-                for gind, g in enumerate(gt):
-                    in_prox[dind, gind] = 1 if ious[dind, gind] > self.params.proximity_thresh else 0
+            # 提取2D边界框（即使在3D模式下）
+            g_2d = []
+            d_2d = []
+            for g in gt:
+                if "bbox" in g and len(g["bbox"]) == 4:
+                    g_2d.append(g["bbox"])
+                else:
+                    g_2d.append([0, 0, 0, 0])  # 无效框填充
+            for d in dt:
+                if "bbox" in d and len(d["bbox"]) == 4:
+                    d_2d.append(d["bbox"])
+                else:
+                    d_2d.append([0, 0, 0, 0])  # 无效框填充
 
-        # 恢复原始模式
+            # 计算2D IoU用于接近度
+            iscrowd = [0] * len(g_2d)
+            ious2d = maskUtils.iou(d_2d, g_2d, iscrowd)
+            in_prox = (ious2d > self.params.proximity_thresh).astype(np.int32)
+
         self.mode = original_mode
         return ious, in_prox
 
