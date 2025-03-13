@@ -1619,27 +1619,26 @@ class Omni3Deval(COCOeval):
                 traceback.print_exc()
                 ious = np.zeros((len(dt), len(gt)))
 
-        # 单独计算接近度矩阵（无论2D/3D模式，均使用2D IoU）
         in_prox = np.zeros((len(dt), len(gt)))
         if self.eval_prox:
-            # 提取2D边界框（即使在3D模式下）
-            g_2d = []
-            d_2d = []
-            for g in gt:
-                if "bbox" in g and len(g["bbox"]) == 4:
-                    g_2d.append(g["bbox"])
-                else:
-                    g_2d.append([0, 0, 0, 0])  # 无效框填充
-            for d in dt:
-                if "bbox" in d and len(d["bbox"]) == 4:
-                    d_2d.append(d["bbox"])
-                else:
-                    d_2d.append([0, 0, 0, 0])  # 无效框填充
-
-            # 计算2D IoU用于接近度
-            iscrowd = [0] * len(g_2d)
-            ious2d = maskUtils.iou(d_2d, g_2d, iscrowd)
-            in_prox = (ious2d > self.params.proximity_thresh).astype(np.int32)
+            if self.mode == "2D":
+                # For 2D mode, use 2D IoU for proximity
+                in_prox = (ious > self.params.proximity_thresh).astype(np.int32)
+            else:
+                # For 3D mode, calculate proximity based on 3D distance
+                for dind, d in enumerate(dt):
+                    if "center_cam" not in d:
+                        continue
+                    d_center = np.array(d["center_cam"])
+                    for gind, g in enumerate(gt):
+                        if "center_cam" not in g:
+                            continue
+                        g_center = np.array(g["center_cam"])
+                        # Calculate 3D distance between centers
+                        dist = np.linalg.norm(d_center - g_center)
+                        # Use distance threshold proportional to ground truth object size
+                        size_thresh = np.mean(g["dimensions"]) if "dimensions" in g else 1.0
+                        in_prox[dind, gind] = int(dist < (size_thresh * self.params.proximity_thresh))
 
         self.mode = original_mode
         return ious, in_prox
