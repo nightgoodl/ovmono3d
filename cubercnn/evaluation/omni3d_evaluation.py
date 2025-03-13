@@ -660,6 +660,17 @@ def inference_on_dataset(model, data_loader):
                 total_eval_time = 0
 
             start_compute_time = time.perf_counter()
+            """ 
+            if "depth" in inputs[0]:
+                depth = torch.stack([x["depth"] for x in inputs])
+                if torch.cuda.is_available():
+                    depth = depth.cuda()
+                outputs = model(inputs, prompt_depth=depth)
+            else:
+                outputs = model(inputs) 
+            """
+
+
             outputs = model(inputs)
             if torch.cuda.is_available():
                 torch.cuda.synchronize()
