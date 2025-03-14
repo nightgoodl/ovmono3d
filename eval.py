@@ -220,7 +220,7 @@ class Omni3DEvaluationHelper:
             iter_label (str): an optional iteration/label used within the summary
             only_2d (bool): whether the evaluation mode should be 2D or 2D and 3D.
         """
-        self._logger = logging.getLogger(__name__)
+        
         self.dataset_names = dataset_names
         self.filter_settings = filter_settings
         self.output_folder = output_folder
@@ -324,24 +324,12 @@ class Omni3DEvaluationHelper:
         """
         
         if not dataset_name in self.results:
+            
             # run evaluation and cache
             self.results[dataset_name] = self.evaluators[dataset_name].evaluate()
 
         results = self.results[dataset_name]
-        
-        # 添加调试信息
-        self._logger.info(f"\nEvaluation results for {dataset_name}:")
-        self._logger.info(f"Available keys in results: {list(results.keys())}")
-        
-        if 'bbox_2D_evals_per_cat_area' not in results:
-            self._logger.error("Missing key 'bbox_2D_evals_per_cat_area' in results")
-            self._logger.info("Results content:")
-            for key, value in results.items():
-                self._logger.info(f"  {key}: {type(value)}")
-                if isinstance(value, dict):
-                    self._logger.info(f"    Dict keys: {list(value.keys())}")
-            return False
-        
+
         logger.info('\n'+results['log_str_2D'].replace('mode=2D', '{} iter={} mode=2D'.format(dataset_name, self.iter_label)))
             
         # store the partially accumulated evaluations per category per area
@@ -623,11 +611,24 @@ class Omni3DEvaluationHelper:
             for instance in img["instances"]:
                 instance["category_name"] = category_names_official[instance["category_id"]]
 
-def inference_on_dataset(model, data_loader, evaluator):
+def inference_on_dataset(model, data_loader):
     """
     Run model on the data_loader. 
     Also benchmark the inference speed of `model.__call__` accurately.
     The model will be used in eval mode.
+
+    Args:
+        model (callable): a callable which takes an object from
+            `data_loader` and returns some outputs.
+
+            If it's an nn.Module, it will be temporarily set to `eval` mode.
+            If you wish to evaluate a model in `training` mode instead, you can
+            wrap the given model and override its behavior of `.eval()` and `.train()`.
+        data_loader: an iterable object with a length.
+            The elements it generates will be the inputs to the model.
+
+    Returns:
+        The return value of `evaluator.evaluate()`
     """
     
     num_devices = get_world_size()
@@ -635,6 +636,7 @@ def inference_on_dataset(model, data_loader, evaluator):
     logger.info("Start inference on {} batches".format(len(data_loader)))
 
     total = len(data_loader)  # inference data loader must have a fixed length
+
     num_warmup = min(5, total - 1)
     start_time = time.perf_counter()
     total_data_time = 0
@@ -658,13 +660,7 @@ def inference_on_dataset(model, data_loader, evaluator):
                 total_eval_time = 0
 
             start_compute_time = time.perf_counter()
-            if "depth" in inputs[0]:
-                depth = torch.stack([x["depth"] for x in inputs])
-                if torch.cuda.is_available():
-                    depth = depth.cuda()
-                outputs = model(inputs, prompt_depth=depth)
-            else:
-                outputs = model(inputs)
+            outputs = model(inputs)
             if torch.cuda.is_available():
                 torch.cuda.synchronize()
             total_compute_time += time.perf_counter() - start_compute_time
@@ -672,15 +668,19 @@ def inference_on_dataset(model, data_loader, evaluator):
             start_eval_time = time.perf_counter()
 
             for input, output in zip(inputs, outputs):
+
                 prediction = {
-                    "image_id": input.get("image_id", input.get("file_name", str(idx))),
+                    "image_id": input["image_id"],
                     "K": input["K"],
                     "width": input["width"],
                     "height": input["height"],
                 }
 
+                # convert to json format
                 instances = output["instances"].to('cpu')
-                prediction["instances"] = evaluator.instances_to_coco_json(instances, prediction["image_id"])
+                prediction["instances"] = instances_to_coco_json(instances, input["image_id"])
+
+                # store in overall predictions
                 inference_json.append(prediction)
 
             total_eval_time += time.perf_counter() - start_eval_time
@@ -706,13 +706,21 @@ def inference_on_dataset(model, data_loader, evaluator):
                 )
             start_data_time = time.perf_counter()
 
-    # 计算总时间
+    # Measure the time only for this worker (before the synchronization barrier)
     total_time = time.perf_counter() - start_time
-
-    # 只保留最基本的统计信息
-    logger.info(f"\nFinal Statistics:")
-    logger.info(f"Total inference time: {str(datetime.timedelta(seconds=int(total_time)))} ({total_time / (total - num_warmup):.6f} s / iter per device, on {num_devices} devices)")
-    logger.info(f"Total inference pure compute time: {str(datetime.timedelta(seconds=int(total_compute_time)))} ({total_compute_time / (total - num_warmup):.6f} s / iter per device, on {num_devices} devices)")
+    total_time_str = str(datetime.timedelta(seconds=total_time))
+    # NOTE this format is parsed by grep
+    logger.info(
+        "Total inference time: {} ({:.6f} s / iter per device, on {} devices)".format(
+            total_time_str, total_time / (total - num_warmup), num_devices
+        )
+    )
+    total_compute_time_str = str(datetime.timedelta(seconds=int(total_compute_time)))
+    logger.info(
+        "Total inference pure compute time: {} ({:.6f} s / iter per device, on {} devices)".format(
+            total_compute_time_str, total_compute_time / (total - num_warmup), num_devices
+        )
+    )
 
     if distributed:
         comm.synchronize()
@@ -721,15 +729,6 @@ def inference_on_dataset(model, data_loader, evaluator):
 
         if not comm.is_main_process():
             return []
-
-    # 添加调试信息
-    logger.info(f"Number of predictions collected: {len(inference_json)}")
-    if inference_json:
-        logger.info(f"Sample prediction structure:")
-        logger.info(f"Keys in first prediction: {list(inference_json[0].keys())}")
-        logger.info(f"Number of instances in first prediction: {len(inference_json[0]['instances'])}")
-        if inference_json[0]['instances']:
-            logger.info(f"Keys in first instance: {list(inference_json[0]['instances'][0].keys())}")
 
     return inference_json
 
@@ -847,7 +846,7 @@ class Omni3DEvaluator(COCOEvaluator):
             # tensor instances format
             else: 
                 instances = output["instances"].to(self._cpu_device)
-                prediction["instances"] = self.instances_to_coco_json(
+                prediction["instances"] = instances_to_coco_json(
                     instances, input["image_id"]
                 )
 
@@ -951,179 +950,56 @@ class Omni3DEvaluator(COCOEvaluator):
         Evaluate predictions. Fill self._results with the metrics of the tasks.
         """
         self._logger.info("Preparing results for COCO format ...")
-        self._logger.info(f"Number of predictions to process: {len(predictions)}")
-        
-        # 添加更详细的预测信息日志
-        if predictions:
-            self._logger.info("First prediction structure:")
-            self._logger.info(f"Keys: {list(predictions[0].keys())}")
-            if 'instances' in predictions[0]:
-                self._logger.info(f"Number of instances: {len(predictions[0]['instances'])}")
-                if predictions[0]['instances']:
-                    self._logger.info(f"Instance keys: {list(predictions[0]['instances'][0].keys())}")
-                    self._logger.info(f"Category ID of first instance: {predictions[0]['instances'][0]['category_id']}")
-
-        # 创建文件名到image_id的映射
-        self.filename_to_id = {
-            img['file_path'].split('/')[-1]: img['id']
-            for img in self._omni_api.dataset['images']
-        }
-        self._logger.info(f"Created filename to ID mapping for {len(self.filename_to_id)} images")
-        
-        # 创建反向映射用于保存原始映射关系
-        id_to_filename = {v: k for k, v in self.filename_to_id.items()}
-        
-        # 保存原始image_id映射关系到数据集中
-        for img in self._omni_api.dataset['images']:
-            img['original_image_id'] = img['id']
-        
-        # 保存原始image_id映射关系到预测结果中
-        self._logger.info("Processing predictions and updating image IDs...")
-        processed_count = 0
-        for pred in predictions:
-            pred['original_image_id'] = pred['image_id']
-            
-            # 修改预测结果中的image_id
-            if isinstance(pred['image_id'], str):
-                file_name = pred['image_id'].split('/')[-1]  # 只取文件名部分
-                if file_name in self.filename_to_id:
-                    new_id = self.filename_to_id[file_name]
-                    pred['image_id'] = new_id
-                    
-                    # 确保instances中的image_id与pred的image_id一致，同时保存原始id
-                    for instance in pred['instances']:
-                        instance['original_image_id'] = instance['image_id']
-                        instance['image_id'] = new_id
-            else:
-                # 如果image_id已经是整数，确保instances使用相同的id
-                for instance in pred['instances']:
-                    instance['original_image_id'] = instance['image_id']
-                    instance['image_id'] = pred['image_id']
-        
-            processed_count += 1
-            if processed_count % 1000 == 0:
-                self._logger.info(f"Processed {processed_count}/{len(predictions)} predictions")
-        
-        self._logger.info(f"Finished processing all {processed_count} predictions")
-        
         omni_results = list(itertools.chain(*[x["instances"] for x in predictions]))
-        self._logger.info(f"Total number of instances after flattening: {len(omni_results)}")
-        
         tasks = self._tasks or self._tasks_from_predictions(omni_results)
-        self._logger.info(f"Tasks to evaluate: {tasks}")
-
         if self._metadata.name.endswith(("_novel", "_test")):
             category_path = "configs/category_meta.json" # TODO: hard coded
-            self._logger.info(f"Loading category metadata from: {category_path}")
             metadata = util.load_json(category_path)
             omni3d_global_categories = metadata['thing_classes']
         else:
             omni3d_global_categories = MetadataCatalog.get('omni3d_model').thing_classes
-        
-        self._logger.info(f"Number of global categories: {len(omni3d_global_categories)}")
 
-        # 过滤结果以只包含数据集中存在的类别
+        # the dataset results will store only the categories that are present
+        # in the corresponding dataset, all others will be dropped. 
         dataset_results = []
         
         # unmap the category ids for COCO
         if hasattr(self._metadata, "thing_dataset_id_to_contiguous_id"):
-            dataset_id_to_contiguous_id = self._metadata.thing_dataset_id_to_contiguous_id
+            dataset_id_to_contiguous_id = (
+                self._metadata.thing_dataset_id_to_contiguous_id
+            )
             all_contiguous_ids = list(dataset_id_to_contiguous_id.values())
             num_classes = len(all_contiguous_ids)
-            self._logger.info(f"Number of classes in dataset: {num_classes}")
+            assert (
+                min(all_contiguous_ids) == 0
+                and max(all_contiguous_ids) == num_classes - 1
+            )
 
             reverse_id_mapping = {v: k for k, v in dataset_id_to_contiguous_id.items()}
-            filtered_count = 0
-            invalid_categories = set()
-            
-            # Before filtering, add debug information about the category mappings
-            self._logger.info(f"Dataset thing classes: {self._metadata.thing_classes}")
-            self._logger.info(f"Dataset ID to contiguous ID mapping: {dataset_id_to_contiguous_id}")
-            self._logger.info(f"First few predictions category IDs: {[r['category_id'] for r in omni_results[:5]]}")
-
-            # When filtering results, ensure proper category mapping
             for result in omni_results:
                 category_id = result["category_id"]
-                
-                # Check if the category_id is already a dataset ID (not a contiguous ID)
-                if category_id in dataset_id_to_contiguous_id:
-                    # It's already a dataset ID, keep it as is
-                    dataset_results.append(result)
-                    filtered_count += 1
-                    continue
-                    
-                # If it's a contiguous ID, try to map it
-                if category_id < num_classes:
-                    # Map contiguous ID to dataset ID
-                    if category_id in reverse_id_mapping:
-                        result["category_id"] = reverse_id_mapping[category_id]
-                        dataset_results.append(result)
-                        filtered_count += 1
-                    else:
-                        # Try to find the category by name
-                        try:
-                            cat_name = omni3d_global_categories[category_id]
-                            if cat_name in self._metadata.thing_classes:
-                                cat_idx = self._metadata.thing_classes.index(cat_name)
-                                # Find the dataset ID for this category
-                                for dataset_id, contiguous_id in dataset_id_to_contiguous_id.items():
-                                    if contiguous_id == cat_idx:
-                                        result["category_id"] = dataset_id
-                                        dataset_results.append(result)
-                                        filtered_count += 1
-                                        break
-                        except (IndexError, ValueError):
-                            invalid_categories.add(category_id)
-                else:
-                    invalid_categories.add(category_id)
-            
-            if invalid_categories:
-                self._logger.warning(f"Found predictions with invalid category IDs: {invalid_categories}")
-            
-            self._logger.info(f"Filtered results: {filtered_count} valid instances kept")
+                assert category_id < num_classes, (
+                    f"A prediction has class={category_id}, "
+                    f"but the dataset only has {num_classes} classes and "
+                    f"predicted class id should be in [0, {num_classes - 1}]."
+                )
+                result["category_id"] = reverse_id_mapping[category_id]
 
-        # replace the results with the filtered instances
+                cat_name = omni3d_global_categories[category_id]
+
+                if cat_name in self._metadata.thing_classes:
+                    dataset_results.append(result)
+
+        # replace the results with the filtered
+        # instances that are in vocabulary. 
         omni_results = dataset_results
 
         if self._output_dir:
             file_path = os.path.join(self._output_dir, "omni_instances_results.json")
             self._logger.info("Saving results to {}".format(file_path))
-            
-            self._logger.info(f"Final check before saving:")
-            self._logger.info(f"Number of results to save: {len(omni_results)}")
-            self._logger.info(f"Results type: {type(omni_results)}")
-            
-            if omni_results:
-                self._logger.info(f"First result structure:")
-                for key, value in omni_results[0].items():
-                    self._logger.info(f"  {key}: {type(value)}")
-                    if isinstance(value, (list, dict)):
-                        self._logger.info(f"    Length/Size: {len(value)}")
-            
-            try:
-                with PathManager.open(file_path, "w") as f:
-                    json.dump(omni_results, f)
-                    f.flush()
-                    os.fsync(f.fileno())
-                
-                # 验证文件是否正确写入
-                if os.path.exists(file_path):
-                    file_size = os.path.getsize(file_path)
-                    self._logger.info(f"File successfully written, size: {file_size} bytes")
-                    
-                    # 读取文件验证内容
-                    with PathManager.open(file_path, "r") as f:
-                        saved_results = json.load(f)
-                        self._logger.info(f"Successfully loaded saved results, count: {len(saved_results)}")
-                        if len(saved_results) != len(omni_results):
-                            self._logger.warning(f"Warning: Number of saved results ({len(saved_results)}) "
-                                               f"differs from original ({len(omni_results)})")
-                else:
-                    self._logger.error("File was not created!")
-            except Exception as e:
-                self._logger.error(f"Error saving results: {str(e)}")
-                import traceback
-                self._logger.error(traceback.format_exc())
+            with PathManager.open(file_path, "w") as f:
+                f.write(json.dumps(omni_results))
+                f.flush()
 
         if not self._do_evaluation:
             self._logger.info("Annotations are not available for evaluation.")
@@ -1136,38 +1012,8 @@ class Omni3DEvaluator(COCOEvaluator):
         )
         for task in sorted(tasks):
             assert task in {"bbox"}, f"Got unknown task: {task}!"
-            
-            if len(omni_results) == 0:
-                self._logger.warning("No predictions found, skipping evaluation")
-                # 当没有预测结果时，返回空的评估结果
-                evals = {"2D": None, "3D": None}
-                log_strs = {"2D": "", "3D": ""}
-            else:
-                # 检查GT数据集和预测结果的匹配情况
-                gt_img_ids = set([img['id'] for img in self._omni_api.dataset.get('images', [])])
-                pred_img_ids = set([r['image_id'] for r in omni_results])
-                common_img_ids = gt_img_ids.intersection(pred_img_ids)
-                '''
-                self._logger.info(f"GT dataset has {len(gt_img_ids)} images")
-                self._logger.info(f"Predictions cover {len(pred_img_ids)} images")
-                self._logger.info(f"Common images between GT and predictions: {len(common_img_ids)}")
-                '''
-                gt_cat_ids = set([cat['id'] for cat in self._omni_api.dataset.get('categories', [])])
-                pred_cat_ids = set([r['category_id'] for r in omni_results])
-                common_cat_ids = gt_cat_ids.intersection(pred_cat_ids)
-                '''
-                self._logger.info(f"GT dataset has {len(gt_cat_ids)} categories")
-                self._logger.info(f"Predictions cover {len(pred_cat_ids)} categories")
-                self._logger.info(f"Common categories between GT and predictions: {len(common_cat_ids)}")
-                '''
-                if len(common_img_ids) == 0 or len(common_cat_ids) == 0:
-                    self._logger.error("No common images or categories between GT and predictions!")
-                    self._logger.info(f"GT image IDs (sample): {list(gt_img_ids)[:5]}")
-                    self._logger.info(f"Pred image IDs (sample): {list(pred_img_ids)[:5]}")
-                    self._logger.info(f"GT category IDs: {gt_cat_ids}")
-                    self._logger.info(f"Pred category IDs: {pred_cat_ids}")
-                
-                evals, log_strs = _evaluate_predictions_on_omni(
+            evals, log_strs = (
+                _evaluate_predictions_on_omni(
                     self._omni_api,
                     omni_results,
                     task,
@@ -1175,11 +1021,12 @@ class Omni3DEvaluator(COCOEvaluator):
                     only_2d=self._only_2d,
                     eval_prox=self._eval_prox,
                 )
+                if len(omni_results) > 0
+                else None  # cocoapi does not handle empty results very well
+            )
 
-            modes = evals.keys() if evals else []
+            modes = evals.keys()
             for mode in modes:
-                if evals[mode] is None:
-                    continue
                 res = self._derive_omni_results(
                     evals[mode],
                     task,
@@ -1191,201 +1038,90 @@ class Omni3DEvaluator(COCOEvaluator):
                 self._results[task + "_" + format(mode) + '_evals_per_cat_area'] = evals[mode].evals_per_cat_area
                 if mode == "3D":
                     self._results[task + "_" + format(mode) + '_nhd_accumulators'] = evals[mode].eval["nhd_accumulators"]
+            self._results["log_str_2D"] = log_strs["2D"]
             
-            if "2D" in log_strs:
-                self._results["log_str_2D"] = log_strs["2D"]
             if "3D" in log_strs:
                 self._results["log_str_3D"] = log_strs["3D"]
 
-    def instances_to_coco_json(self, instances, img_id):
-        """
-        Convert detection results to COCO json format
-        """
-        num_instance = len(instances)
-        if num_instance == 0:
-            return []
-        
-        # 确保img_id是整数
-        if isinstance(img_id, str):
-            # 如果是文件路径,只取文件名部分
-            img_id = img_id.split('/')[-1]
-            # 从filename_to_id映射中获取对应的整数id
-            if hasattr(self, 'filename_to_id') and img_id in self.filename_to_id:
-                img_id = self.filename_to_id[img_id]
-            else:
-                # 如果找不到映射,使用hash作为备选
-                img_id = hash(img_id) % (10 ** 8)
 
-        boxes = instances.pred_boxes.tensor.numpy()
-        boxes = BoxMode.convert(boxes, BoxMode.XYXY_ABS, BoxMode.XYWH_ABS)
-        boxes = boxes.tolist()
-        scores = instances.scores.tolist()
-        classes = instances.pred_classes.tolist()
-
-        has_3d = False
-        if instances.has('pred_bbox3D'):
-            has_3d = True
-            bbox3D = instances.pred_bbox3D.numpy()
-            center_cam = instances.pred_center_cam.numpy()
-            center_2D = instances.pred_center_2D.numpy()
-            dimensions = instances.pred_dimensions.numpy()
-            pose = instances.pred_pose.numpy()
-
-        results = []
-        for k in range(num_instance):
-            result = {
-                "image_id": img_id,
-                "category_id": classes[k],
-                "bbox": boxes[k],
-                "score": scores[k],
-            }
-
-            if has_3d:
-                result["bbox3D"] = bbox3D[k].tolist()
-                result["center_cam"] = center_cam[k].tolist()
-                result["center_2D"] = center_2D[k].tolist()
-                result["dimensions"] = dimensions[k].tolist()
-                result["pose"] = pose[k].tolist()
-                result["depth"] = float(center_cam[k][2])
-
-            results.append(result)
-        return results
-
-
-def _evaluate_predictions_on_omni(omni_gt, omni_results, iou_type, img_ids=None, only_2d=False, eval_prox=False):
+def _evaluate_predictions_on_omni(
+    omni_gt,
+    omni_results,
+    iou_type,
+    img_ids=None,
+    only_2d=False,
+    eval_prox=False,
+):
     """
     Evaluate the coco results using COCOEval API.
     """
     assert len(omni_results) > 0
     log_strs, evals = {}, {}
 
-    logger.info("Debug: Starting evaluation")
-    logger.info(f"Debug: Number of results to evaluate: {len(omni_results)}")
-    #logger.info(f"Debug: First result sample: {omni_results[0]}")
-
-    # 确保所有必需的字段都存在
-    required_fields = ['image_id', 'category_id', 'bbox', 'score']
-    for result in omni_results:
-        missing_fields = [field for field in required_fields if field not in result]
-        if missing_fields:
-            logger.warning(f"Missing required fields in result: {missing_fields}")
-            continue
-
-    # 确保image_id和category_id是整数
-    for result in omni_results:
-        if not isinstance(result['image_id'], int):
-            result['image_id'] = int(float(result['image_id']))
-        if not isinstance(result['category_id'], int):
-            result['category_id'] = int(float(result['category_id']))
-
-    # 获取GT中的类别ID映射
-    gt_cat_ids = set([cat['id'] for cat in omni_gt.dataset.get('categories', [])])
-    pred_cat_ids = set([r['category_id'] for r in omni_results])
-    
-    #logger.info(f"GT category IDs: {gt_cat_ids}")
-    #logger.info(f"Pred category IDs: {pred_cat_ids}")
-    
-    # 检查是否需要映射类别ID
-    if not gt_cat_ids.intersection(pred_cat_ids) and len(gt_cat_ids) == len(pred_cat_ids):
-        logger.info("No common category IDs found, attempting to map prediction IDs to GT IDs")
-        
-        # 创建从预测ID到GT ID的映射
-        # 假设两者都是有序的，可以一一对应
-        sorted_gt_ids = sorted(list(gt_cat_ids))
-        sorted_pred_ids = sorted(list(pred_cat_ids))
-        
-        if len(sorted_gt_ids) == len(sorted_pred_ids):
-            id_mapping = {pred_id: gt_id for pred_id, gt_id in zip(sorted_pred_ids, sorted_gt_ids)}
-            logger.info(f"Created category ID mapping: {id_mapping}")
-            
-            # 应用映射
-            for result in omni_results:
-                if result['category_id'] in id_mapping:
-                    result['category_id'] = id_mapping[result['category_id']]
-            
-            # 更新预测类别ID集合
-            pred_cat_ids = set([r['category_id'] for r in omni_results])
-            logger.info(f"Updated pred category IDs: {pred_cat_ids}")
-            logger.info(f"Common categories after mapping: {gt_cat_ids.intersection(pred_cat_ids)}")
-        else:
-            logger.warning("Cannot create mapping - different number of categories")
-
-    # 直接使用loadRes方法而不是通过临时文件
-    try:
-        # 检查GT数据集结构
-        logger.info("Debug: GT dataset structure:")
-        logger.info(f"Images: {len(omni_gt.dataset.get('images', []))}")
-        logger.info(f"Categories: {len(omni_gt.dataset.get('categories', []))}")
-        logger.info(f"Annotations: {len(omni_gt.dataset.get('annotations', []))}")
-        
-        # 确保结果中的image_id存在于GT数据集中
-        gt_img_ids = set([img['id'] for img in omni_gt.dataset.get('images', [])])
-        valid_results = [r for r in omni_results if r['image_id'] in gt_img_ids]
-        
-        if len(valid_results) < len(omni_results):
-            logger.warning(f"Filtered out {len(omni_results) - len(valid_results)} results with invalid image_ids")
-            omni_results = valid_results
-        
-        # 确保结果中的category_id存在于GT数据集中
-        valid_results = [r for r in omni_results if r['category_id'] in gt_cat_ids]
-        
-        if len(valid_results) < len(omni_results):
-            logger.warning(f"Filtered out {len(omni_results) - len(valid_results)} results with invalid category_ids")
-            omni_results = valid_results
-        
-        # 检查是否还有有效的结果
-        if len(omni_results) == 0:
-            logger.error("No valid results left after filtering!")
-            return {}, {}
-        
-        # 直接使用loadRes方法
-        omni_dt = omni_gt.loadRes(omni_results)
-        logger.info("Debug: Successfully loaded results into COCO format")
-        
-    except Exception as e:
-        logger.error(f"Debug: Error loading results: {str(e)}")
-        import traceback
-        logger.error(traceback.format_exc())
-        # 返回空结果而不是抛出异常
-        return {}, {}
+    omni_dt = omni_gt.loadRes(omni_results)
 
     modes = ["2D"] if only_2d else ["2D", "3D"]
-    logger.info(f"Debug: Evaluating modes: {modes}")
 
     for mode in modes:
-        logger.info(f"\nDebug: Processing mode {mode}")
-        try:
-            omni_eval = Omni3DevalWithNHD(
-                omni_gt, omni_dt, 
-                iouType=iou_type, 
-                mode=mode, 
-                eval_prox=eval_prox
-            )
-            logger.info("Debug: Created evaluator")
+        omni_eval = Omni3DevalWithNHD(
+            omni_gt, omni_dt, iou_threshold_for_disentangled_metrics=0.75, iouType=iou_type, mode=mode, eval_prox=eval_prox
+        )
+        if img_ids is not None:
+            omni_eval.params.imgIds = img_ids
 
-            if img_ids is not None:
-                omni_eval.params.imgIds = img_ids
-
-            omni_eval.evaluate()
-            logger.info("Debug: Finished evaluate()")
-
-            omni_eval.accumulate()
-            logger.info("Debug: Finished accumulate()")
-
-            log_str = omni_eval.summarize()
-            logger.info("Debug: Finished summarize()")
-
-            log_strs[mode] = log_str
-            evals[mode] = omni_eval
-
-        except Exception as e:
-            logger.error(f"Debug: Error in mode {mode}: {str(e)}")
-            import traceback
-            logger.error(traceback.format_exc())
-            # 继续处理其他模式而不是抛出异常
-            continue
+        omni_eval.evaluate()
+        omni_eval.accumulate()
+        log_str = omni_eval.summarize()
+        log_strs[mode] = log_str
+        evals[mode] = omni_eval
 
     return evals, log_strs
+
+
+def instances_to_coco_json(instances, img_id):
+
+    num_instances = len(instances)
+
+    if num_instances == 0:
+        return []
+
+    boxes = BoxMode.convert(
+        instances.pred_boxes.tensor.numpy(), BoxMode.XYXY_ABS, BoxMode.XYWH_ABS
+    ).tolist()
+    scores = instances.scores.tolist()
+    classes = instances.pred_classes.tolist()
+
+    if hasattr(instances, "pred_bbox3D"):
+        bbox3D = instances.pred_bbox3D.tolist()
+        center_cam = instances.pred_center_cam.tolist()
+        center_2D = instances.pred_center_2D.tolist()
+        dimensions = instances.pred_dimensions.tolist()
+        pose = instances.pred_pose.tolist()
+    else:
+        # dummy
+        bbox3D = np.ones([num_instances, 8, 3]).tolist()
+        center_cam = np.ones([num_instances, 3]).tolist()
+        center_2D = np.ones([num_instances, 2]).tolist()
+        dimensions = np.ones([num_instances, 3]).tolist()
+        pose = np.ones([num_instances, 3, 3]).tolist()
+
+    results = []
+    for k in range(num_instances):
+        result = {
+            "image_id": img_id,
+            "category_id": classes[k],
+            "bbox": boxes[k],
+            "score": scores[k],
+            "depth": np.array(bbox3D[k])[:, 2].mean(),
+            "bbox3D": bbox3D[k],
+            "center_cam": center_cam[k],
+            "center_2D": center_2D[k],
+            "dimensions": dimensions[k],
+            "pose": pose[k],
+        }
+
+        results.append(result)
+    return results
 
 
 # ---------------------------------------------------------------------
@@ -1689,660 +1425,249 @@ class Omni3Deval(COCOeval):
 
     def evaluate(self):
         """
-        Run per image evaluation on given images and store results in self.evalImgs
+        Run per image evaluation on given images and store results (a list of dict) in self.evalImgs
         """
-        self._logger.info("Starting evaluation...")
+
+        print("Running per image evaluation...")
         
-        if len(self._predictions) == 0:
-            self._logger.warning("No predictions found, skipping evaluation")
-            return {}
-            
-        self._logger.info(f"Evaluating {len(self._predictions)} predictions")
+        p = self.params
+        print("Evaluate annotation type *{}*".format(p.iouType))
+
+        tic = time.time()
+
+        p.imgIds = list(np.unique(p.imgIds))
+        if p.useCats:
+            p.catIds = list(np.unique(p.catIds))
+
+        p.maxDets = sorted(p.maxDets)
+        self.params = p
+
+        self._prepare()
         
-        # 添加调试信息
-        if self._predictions:
-            self._logger.info("Sample prediction structure:")
-            sample_pred = self._predictions[0]
-            for key, value in sample_pred.items():
-                self._logger.info(f"  {key}: {type(value)}")
-                if isinstance(value, list) and value:
-                    self._logger.info(f"    First item in list: {value[0]}")
+        catIds = p.catIds if p.useCats else [-1]
 
-        # ... existing evaluation code ...
-
-        # 在返回结果之前添加调试信息
-        results = self._derive_coco_results()
-        self._logger.info("Evaluation completed")
-        self._logger.info(f"Results keys: {list(results.keys())}")
-        
-        # 确保必要的键存在
-        if 'bbox_2D_evals_per_cat_area' not in results:
-            self._logger.error("Required key 'bbox_2D_evals_per_cat_area' not found in results")
-            self._logger.info("Available evaluation data:")
-            if hasattr(self, 'eval'):
-                self._logger.info(f"  eval keys: {list(self.eval.keys())}")
-            if hasattr(self, '_coco_eval'):
-                self._logger.info(f"  _coco_eval attributes: {dir(self._coco_eval)}")
-        
-        return results
-
-    def _derive_omni_results(self, omni_eval, iou_type, mode, class_names=None):
-        """
-        Derive the desired score numbers from summarized COCOeval.
-        Args:
-            omni_eval (None or Omni3Deval): None represents no predictions from model.
-            iou_type (str):
-            mode (str): either "2D" or "3D"
-            class_names (None or list[str]): if provided, will use it to predict
-                per-category AP.
-        Returns:
-            a dict of {metric name: score}
-        """
-        assert mode in ["2D", "3D"]
-
-        metrics = {
-            "2D": ["AP", "AP50", "AP75", "AP95", "APs", "APm", "APl", "AR1", "AR10", "AR100",],
-            "3D": ["AP", "AP15", "AP25", "AP50", "APn", "APm", "APf", "AR1", "AR10", "AR100",],
-        }[mode]
-
-        if iou_type != "bbox":
-            raise ValueError("Support only for bbox evaluation.")
-
-        if omni_eval is None:
-            self._logger.warn("No predictions from the model!")
-            return {metric: float("nan") for metric in metrics}
-
-        # the standard metrics
-        results = {
-            metric: float(
-                omni_eval.stats[idx] * 100 if omni_eval.stats[idx] >= 0 else "nan"
-            )
-            for idx, metric in enumerate(metrics)
+        # loop through images, area range, max detection number
+        self.ious = {
+            (imgId, catId): self.computeIoU(imgId, catId)
+            for imgId in p.imgIds
+            for catId in catIds
         }
-        if mode == "3D":
-            addtional_metrics = ["overall", "xy", "z", "dimensions", "pose"]
-            for metric in addtional_metrics:
-                if metric == "overall":
-                    results[metric + "_NHD"] = float(omni_eval.eval["average_nhd"][metric] if omni_eval.eval["average_nhd"][metric] >= 0 else "nan")
-                else:
-                    results["disent_"+metric + "_NHD"] = float(omni_eval.eval["average_nhd"][metric] if omni_eval.eval["average_nhd"][metric] >= 0 else "nan")
-        self._logger.info(
-            "Evaluation results for {} in {} mode: \n".format(iou_type, mode)
-            + create_small_table(results)
-        )
-        if not np.isfinite(sum(results.values())):
-            self._logger.info("Some metrics cannot be computed and is shown as NaN.")
+        if self.mode =="3D":
+            self.ious2d = {
+                (imgId, catId): self.computeIoU(imgId, catId, mode="2D")
+                for imgId in p.imgIds
+                for catId in catIds
+            }    
+        maxDet = p.maxDets[-1]
 
-        if class_names is None or len(class_names) <= 1:
-            return results
-        # Compute per-category AP and AR
-        # from https://github.com/facebookresearch/Detectron/blob/a6a835f5b8208c45d0dce217ce9bbda915f44df7/detectron/datasets/json_dataset_evaluator.py#L222-L252 # noqa
-        precisions = omni_eval.eval["precision"]
-        recalls = omni_eval.eval["recall"]
-        # precision has dims (iou, recall, cls, area range, max dets)
-        assert len(class_names) == precisions.shape[2]
+        self.evalImgs = [
+            self.evaluateImg(imgId, catId, areaRng, maxDet)
+            for catId in catIds
+            for areaRng in p.areaRng
+            for imgId in p.imgIds
+        ]
 
-        results_per_category = []
-        for idx, name in enumerate(class_names):
-            # area range index 0: all area ranges
-            # max dets index -1: typically 100 per image
-            precision = precisions[:, :, idx, 0, -1]
-            precision = precision[precision > -1]
-            ap = np.mean(precision) if precision.size else float("nan")
+        self._paramsEval = copy.deepcopy(self.params)
 
-            recall = recalls[:, idx, 0, -1]
-            recall = recall[recall > -1]
-            ar = np.mean(recall) if recall.size else float("nan")
+        toc = time.time()
+        print("DONE (t={:0.2f}s).".format(toc - tic))
 
-            results_per_category.append(("{} (AP)".format(name), float(ap * 100)))
-            results_per_category.append(("{} (AR)".format(name), float(ar * 100)))
-
-        # tabulate it
-        N_COLS = min(4, len(results_per_category) * 2)
-        results_flatten = list(itertools.chain(*results_per_category))
-        results_table = itertools.zip_longest(
-            *[results_flatten[i::N_COLS] for i in range(N_COLS)]
-        )
-        table = tabulate(
-            results_table,
-            tablefmt="pipe",
-            floatfmt=".3f",
-            headers=["category", "metric"] * (N_COLS // 2),
-            numalign="left",
-        )
-        self._logger.info(
-            "Per-category {} AP/AR in {} mode: \n".format(iou_type, mode) + table
-        )
-        results.update({"AP-" + name.replace(" (AP)", ""): ap for name, ap in results_per_category if "(AP)" in name})
-        results.update({"AR-" + name.replace(" (AR)", ""): ar for name, ar in results_per_category if "(AR)" in name})
-
-        return results
-
-    def _eval_predictions(self, predictions, img_ids=None):
+    def computeIoU(self, imgId, catId, mode=None):
         """
-        Evaluate predictions. Fill self._results with the metrics of the tasks.
+        ComputeIoU computes the IoUs by sorting based on "score"
+        for either 2D boxes (in 2D mode) or 3D boxes (in 3D mode)
         """
-        self._logger.info("Preparing results for COCO format ...")
-        self._logger.info(f"Number of predictions to process: {len(predictions)}")
-        
-        # 添加更详细的预测信息日志
-        if predictions:
-            self._logger.info("First prediction structure:")
-            self._logger.info(f"Keys: {list(predictions[0].keys())}")
-            iimport json
-import logging
-from cubercnn.evaluation.omni3d_evaluation import Omni3DEvaluationHelper
-from detectron2.data import MetadataCatalog
-from cubercnn.data import simple_register
-from detectron2.data import MetadataCatalog, DatasetCatalog
+        original_mode = self.mode
+        if mode != None:
+            self.mode = mode
+        device = (torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu"))
 
-def evaluate_predictions_from_file(
-    json_path,
-    dataset_names,
-    filter_settings,
-    output_folder,
-    eval_categories=None,
-    category_mapping=None,
-    use_category_names=False
-):
-    """
-    直接从JSON文件读取预测结果并进行评估
-    
-    Args:
-        json_path (str): omni_instances_results.json的路径
-        dataset_names (list[str]): 要评估的数据集名称列表
-        filter_settings (dict): 数据集过滤设置
-        output_folder (str): 输出文件夹路径
-        eval_categories (set): 要评估的类别集合
-        category_mapping (dict): 类别ID映射字典，将预测结果中的类别ID映射到数据集中的类别ID
-        use_category_names (bool): 是否使用类别名称进行匹配而不是ID
-    """
-    # 设置日志
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
+        p = self.params
+        if p.useCats:
+            gt = self._gts[imgId, catId]
+            dt = self._dts[imgId, catId]
 
-    # 读取预测结果
-    logger.info(f"Loading predictions from {json_path}")
-    with open(json_path, 'r') as f:
-        predictions = json.load(f)
-    logger.info(f"Loaded {len(predictions)} predictions")
-    
-    # 检查预测结果格式
-    if predictions and isinstance(predictions, list):
-        # 检查第一个元素是否有'instances'键
-        if predictions and isinstance(predictions[0], dict) and 'instances' not in predictions[0]:
-            logger.info("Detected flat prediction format without 'instances' key")
-            logger.info(f"Sample prediction: {predictions[0]}")
-            
-            # 将扁平格式转换为带有instances的格式
-            # 按image_id分组
-            predictions_by_image = {}
-            for pred in predictions:
-                image_id = pred.get('image_id')
-                if image_id not in predictions_by_image:
-                    predictions_by_image[image_id] = {
-                        'image_id': image_id,
-                        'instances': []
-                    }
-                predictions_by_image[image_id]['instances'].append(pred)
-            
-            # 转换为列表
-            predictions = list(predictions_by_image.values())
-            logger.info(f"Converted to {len(predictions)} image predictions with instances")
-    
-    # 创建评估器
-    evaluator = Omni3DEvaluationHelper(
-        dataset_names=dataset_names,
-        filter_settings=filter_settings,
-        output_folder=output_folder,
-        eval_categories=eval_categories
-    )
-
-    # 按数据集组织预测结果
-    predictions_by_dataset = {dataset: [] for dataset in dataset_names}
-    
-    # 创建image_id到dataset的映射
-    image_to_dataset = {}
-    for dataset_name in dataset_names:
-        dataset = DatasetCatalog.get(dataset_name)
-        for img in dataset:
-            image_to_dataset[img['image_id']] = dataset_name
-
-    # 获取数据集的类别映射信息
-    dataset_category_maps = {}
-    
-    # 如果提供了自定义映射，使用它
-    if category_mapping:
-        logger.info("Using custom category mapping")
-        logger.info(f"Category mapping: {category_mapping}")
-    else:
-        # 如果没有提供映射，尝试从元数据中获取
-        logger.info("No custom mapping provided, attempting to create mapping from metadata")
-        for dataset_name in dataset_names:
-            metadata = MetadataCatalog.get(dataset_name)
-            
-            # 检查是否有thing_classes和thing_dataset_id_to_contiguous_id
-            if hasattr(metadata, 'thing_classes') and hasattr(metadata, 'thing_dataset_id_to_contiguous_id'):
-                # 创建类别名称到ID的映射
-                category_map = {name: i for i, name in enumerate(metadata.thing_classes)}
-                dataset_category_maps[dataset_name] = {
-                    'name_to_id': category_map,
-                    'dataset_to_contiguous': metadata.thing_dataset_id_to_contiguous_id,
-                    'contiguous_to_dataset': {v: k for k, v in metadata.thing_dataset_id_to_contiguous_id.items()}
-                }
-                logger.info(f"Created category mapping for {dataset_name}")
-                logger.info(f"  Thing classes: {metadata.thing_classes}")
-                logger.info(f"  Dataset ID to contiguous ID: {metadata.thing_dataset_id_to_contiguous_id}")
-    
-    # 检查预测结果中的类别ID
-    pred_category_ids = set()
-    for pred in predictions:
-        for instance in pred.get('instances', []):
-            if 'category_id' in instance:
-                pred_category_ids.add(instance['category_id'])
-    
-    logger.info(f"Prediction category IDs: {pred_category_ids}")
-    
-    # 如果使用类别名称进行匹配，创建ID到名称的映射
-    id_to_name_mapping = {}
-    name_to_id_mapping = {}
-    
-    if use_category_names:
-        logger.info("Using category names for matching")
-        # 假设预测ID是从0开始的连续整数，对应于模型的类别列表
-        model_categories = list(eval_categories)  # 使用评估类别作为模型类别
-        logger.info(f"Model categories (in order): {model_categories}")
-        
-        for i, cat_name in enumerate(model_categories):
-            id_to_name_mapping[i] = cat_name
-        
-        # 为每个数据集创建名称到ID的映射
-        for dataset_name in dataset_names:
-            metadata = MetadataCatalog.get(dataset_name)
-            if hasattr(metadata, 'thing_classes') and hasattr(metadata, 'thing_dataset_id_to_contiguous_id'):
-                for dataset_id, contiguous_id in metadata.thing_dataset_id_to_contiguous_id.items():
-                    if contiguous_id < len(metadata.thing_classes):
-                        cat_name = metadata.thing_classes[contiguous_id]
-                        name_to_id_mapping[cat_name] = dataset_id
-        
-        logger.info(f"Created ID to name mapping: {id_to_name_mapping}")
-        logger.info(f"Created name to ID mapping: {name_to_id_mapping}")
-        
-        # 创建基于名称的类别映射
-        name_based_mapping = {}
-        for pred_id, cat_name in id_to_name_mapping.items():
-            if cat_name in name_to_id_mapping:
-                name_based_mapping[pred_id] = name_to_id_mapping[cat_name]
-        
-        if name_based_mapping:
-            logger.info(f"Created name-based category mapping: {name_based_mapping}")
-            category_mapping = name_based_mapping
-    
-    # 检查数据集中的类别ID
-    for dataset_name in dataset_names:
-        metadata = MetadataCatalog.get(dataset_name)
-        if hasattr(metadata, 'thing_dataset_id_to_contiguous_id'):
-            dataset_ids = set(metadata.thing_dataset_id_to_contiguous_id.keys())
-            logger.info(f"Dataset {dataset_name} category IDs: {dataset_ids}")
-            
-            # 检查是否需要自动创建映射
-            if not category_mapping and not pred_category_ids.intersection(dataset_ids) and len(pred_category_ids) > 0:
-                logger.info(f"No overlap between prediction category IDs and dataset category IDs for {dataset_name}")
-                logger.info("Attempting to create automatic mapping...")
-                
-                # 如果预测ID是连续的整数（0, 1, 2...），可能是模型输出的contiguous ID
-                if all(isinstance(id, int) for id in pred_category_ids) and max(pred_category_ids) < len(metadata.thing_classes):
-                    # 创建从contiguous ID到dataset ID的映射
-                    auto_mapping = {}
-                    for pred_id in pred_category_ids:
-                        if pred_id < len(metadata.thing_classes):
-                            # 找到对应的dataset ID
-                            cat_name = metadata.thing_classes[pred_id]
-                            for dataset_id, contiguous_id in metadata.thing_dataset_id_to_contiguous_id.items():
-                                if contiguous_id == pred_id:
-                                    auto_mapping[pred_id] = dataset_id
-                                    break
-                    
-                    if auto_mapping:
-                        logger.info(f"Created automatic mapping: {auto_mapping}")
-                        category_mapping = auto_mapping
-
-    # 将预测结果分配到对应的数据集，并应用类别映射
-    for pred in predictions:
-        dataset = image_to_dataset.get(pred['image_id'])
-        if dataset:
-            # 创建预测结果的副本，以便修改类别ID
-            pred_copy = pred.copy()
-            pred_copy['instances'] = []
-            
-            # 确保pred有'instances'键
-            instances = pred.get('instances', [])
-            # 如果instances为空且pred本身可能是一个实例，则将其视为单个实例
-            if not instances and 'category_id' in pred:
-                instances = [pred]
-            
-            for instance in instances:
-                # 创建实例的副本
-                instance_copy = instance.copy()
-                
-                # 应用类别ID映射
-                if category_mapping and 'category_id' in instance_copy:
-                    original_id = instance_copy['category_id']
-                    if original_id in category_mapping:
-                        instance_copy['category_id'] = category_mapping[original_id]
-                        logger.debug(f"Mapped category ID {original_id} to {instance_copy['category_id']}")
-                
-                pred_copy['instances'].append(instance_copy)
-            
-            predictions_by_dataset[dataset].append(pred_copy)
-
-    # 对每个数据集进行评估
-    for dataset_name in dataset_names:
-        logger.info(f"\nEvaluating dataset: {dataset_name}")
-        dataset_predictions = predictions_by_dataset[dataset_name]
-        logger.info(f"Found {len(dataset_predictions)} predictions for this dataset")
-        
-        # 添加预测结果到评估器
-        evaluator.add_predictions(dataset_name, dataset_predictions)
-        
-        # 执行评估
-        evaluator.evaluate(dataset_name)
-
-    # 汇总所有数据集的结果
-    logger.info("\nGenerating summary for all datasets...")
-    evaluator.summarize_all()
-
-    return evaluator.results_analysis, evaluator.results_omni3d
-
-# 使用示例:
-if __name__ == "__main__":
-    # 配置参数
-    json_path = "../../output/ovmono3d_depth/inference/iter_base/Objectron_test/omni_instances_results.json"
-    dataset_names = ["Objectron_test"]  # 根据实际情况修改
-    
-    # 过滤设置示例
-    filter_settings = {
-        'category_names': ["bottle", "bowl", "camera", "can", "laptop", "mug"],  # 需要评估的类别
-        'ignore_names': [],  # 需要忽略的类别
-        'truncation_thres': 0.99,  # 截断阈值
-        'visibility_thres': 0.01,  # 可见度阈值
-        'min_height_thres': 0.00,  # 最小高度阈值
-        'max_height_thres': 1.50,  # 最大高度阈值
-        'modal_2D_boxes': False,  # 是否使用modal 2D边界框
-        'trunc_2D_boxes': False,  # 是否使用截断的2D边界框
-        'max_depth': 1e8,  # 最大深度
-    }
-    
-    output_folder = "evaluation_results"
-    
-    # 要评估的类别
-    eval_categories = {
-       'bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes'
-    }  # 根据实际情况修改
-    
-    # 类别ID映射示例 - 将预测结果中的类别ID映射到数据集中的类别ID
-    # 例如，如果预测结果中bottle的ID是1，但在数据集中是0
-    category_mapping = {
-        1: 0,  # bottle
-        2: 1,  # bowl
-        3: 2,  # camera
-        # 根据实际情况添加更多映射
-    }
-    
-    # 运行评估
-    results_analysis, results_omni3d = evaluate_predictions_from_file(
-        json_path,
-        dataset_names,
-        filter_settings,
-        output_folder,
-        eval_categories,
-        category_mapping=None,  # 设置为None以使用基于名称的自动映射
-        use_category_names=True  # 启用基于类别名称的匹配
-    )
-    
-    # 打印结果
-    print("\nAnalysis Results:")
-    print(results_analysis)
-    print("\nOmni3D Results:")
-    print(results_omni3d)f 'instances' in predictions[0]:
-                self._logger.info(f"Number of instances: {len(predictions[0]['instances'])}")
-                if predictions[0]['instances']:
-                    self._logger.info(f"Instance keys: {list(predictions[0]['instances'][0].keys())}")
-                    self._logger.info(f"Category ID of first instance: {predictions[0]['instances'][0]['category_id']}")
-
-        # 创建文件名到image_id的映射
-        self.filename_to_id = {
-            img['file_path'].split('/')[-1]: img['id']
-            for img in self._omni_api.dataset['images']
-        }
-        self._logger.info(f"Created filename to ID mapping for {len(self.filename_to_id)} images")
-        
-        # 创建反向映射用于保存原始映射关系
-        id_to_filename = {v: k for k, v in self.filename_to_id.items()}
-        
-        # 保存原始image_id映射关系到数据集中
-        for img in self._omni_api.dataset['images']:
-            img['original_image_id'] = img['id']
-        
-        # 保存原始image_id映射关系到预测结果中
-        self._logger.info("Processing predictions and updating image IDs...")
-        processed_count = 0
-        for pred in predictions:
-            pred['original_image_id'] = pred['image_id']
-            
-            # 修改预测结果中的image_id
-            if isinstance(pred['image_id'], str):
-                file_name = pred['image_id'].split('/')[-1]  # 只取文件名部分
-                if file_name in self.filename_to_id:
-                    new_id = self.filename_to_id[file_name]
-                    pred['image_id'] = new_id
-                    
-                    # 确保instances中的image_id与pred的image_id一致，同时保存原始id
-                    for instance in pred['instances']:
-                        instance['original_image_id'] = instance['image_id']
-                        instance['image_id'] = new_id
-            else:
-                # 如果image_id已经是整数，确保instances使用相同的id
-                for instance in pred['instances']:
-                    instance['original_image_id'] = instance['image_id']
-                    instance['image_id'] = pred['image_id']
-        
-            processed_count += 1
-            if processed_count % 1000 == 0:
-                self._logger.info(f"Processed {processed_count}/{len(predictions)} predictions")
-        
-        self._logger.info(f"Finished processing all {processed_count} predictions")
-        
-        omni_results = list(itertools.chain(*[x["instances"] for x in predictions]))
-        self._logger.info(f"Total number of instances after flattening: {len(omni_results)}")
-        
-        tasks = self._tasks or self._tasks_from_predictions(omni_results)
-        self._logger.info(f"Tasks to evaluate: {tasks}")
-
-        if self._metadata.name.endswith(("_novel", "_test")):
-            category_path = "configs/category_meta.json" # TODO: hard coded
-            self._logger.info(f"Loading category metadata from: {category_path}")
-            metadata = util.load_json(category_path)
-            omni3d_global_categories = metadata['thing_classes']
         else:
-            omni3d_global_categories = MetadataCatalog.get('omni3d_model').thing_classes
-        
-        self._logger.info(f"Number of global categories: {len(omni3d_global_categories)}")
+            gt = [_ for cId in p.catIds for _ in self._gts[imgId, cId]]
+            dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
 
-        # 过滤结果以只包含数据集中存在的类别
-        dataset_results = []
-        
-        # unmap the category ids for COCO
-        if hasattr(self._metadata, "thing_dataset_id_to_contiguous_id"):
-            dataset_id_to_contiguous_id = self._metadata.thing_dataset_id_to_contiguous_id
-            all_contiguous_ids = list(dataset_id_to_contiguous_id.values())
-            num_classes = len(all_contiguous_ids)
-            self._logger.info(f"Number of classes in dataset: {num_classes}")
+        if len(gt) == 0 and len(dt) == 0:
+            self.mode = original_mode
+            return []
 
-            reverse_id_mapping = {v: k for k, v in dataset_id_to_contiguous_id.items()}
-            filtered_count = 0
-            invalid_categories = set()
-            
-            # Before filtering, add debug information about the category mappings
-            self._logger.info(f"Dataset thing classes: {self._metadata.thing_classes}")
-            self._logger.info(f"Dataset ID to contiguous ID mapping: {dataset_id_to_contiguous_id}")
-            self._logger.info(f"First few predictions category IDs: {[r['category_id'] for r in omni_results[:5]]}")
+        inds = np.argsort([-d["score"] for d in dt], kind="mergesort")
+        dt = [dt[i] for i in inds]
+        if len(dt) > p.maxDets[-1]:
+            dt = dt[0 : p.maxDets[-1]]
 
-            # When filtering results, ensure proper category mapping
-            for result in omni_results:
-                category_id = result["category_id"]
-                
-                # Check if the category_id is already a dataset ID (not a contiguous ID)
-                if category_id in dataset_id_to_contiguous_id:
-                    # It's already a dataset ID, keep it as is
-                    dataset_results.append(result)
-                    filtered_count += 1
-                    continue
-                    
-                # If it's a contiguous ID, try to map it
-                if category_id < num_classes:
-                    # Map contiguous ID to dataset ID
-                    if category_id in reverse_id_mapping:
-                        result["category_id"] = reverse_id_mapping[category_id]
-                        dataset_results.append(result)
-                        filtered_count += 1
-                    else:
-                        # Try to find the category by name
-                        try:
-                            cat_name = omni3d_global_categories[category_id]
-                            if cat_name in self._metadata.thing_classes:
-                                cat_idx = self._metadata.thing_classes.index(cat_name)
-                                # Find the dataset ID for this category
-                                for dataset_id, contiguous_id in dataset_id_to_contiguous_id.items():
-                                    if contiguous_id == cat_idx:
-                                        result["category_id"] = dataset_id
-                                        dataset_results.append(result)
-                                        filtered_count += 1
-                                        break
-                        except (IndexError, ValueError):
-                            invalid_categories.add(category_id)
-                else:
-                    invalid_categories.add(category_id)
-            
-            if invalid_categories:
-                self._logger.warning(f"Found predictions with invalid category IDs: {invalid_categories}")
-            
-            self._logger.info(f"Filtered results: {filtered_count} valid instances kept")
+        if p.iouType == "bbox":
+            if self.mode == "2D":
+                g = [g["bbox"] for g in gt]
+                d = [d["bbox"] for d in dt]
+            elif self.mode == "3D":
+                g = [g["bbox3D"] for g in gt]
+                d = [d["bbox3D"] for d in dt]
+        else:
+            raise Exception("unknown iouType for iou computation")
 
-        # replace the results with the filtered instances
-        omni_results = dataset_results
+        # compute iou between each dt and gt region
+        # iscrowd is required in builtin maskUtils so we
+        # use a dummy buffer for it
+        iscrowd = [0 for o in gt]
+        if self.mode == "2D":
+            ious = maskUtils.iou(d, g, iscrowd)
 
-        if self._output_dir:
-            file_path = os.path.join(self._output_dir, "omni_instances_results.json")
-            self._logger.info("Saving results to {}".format(file_path))
+        elif len(d) > 0 and len(g) > 0:
             
-            self._logger.info(f"Final check before saving:")
-            self._logger.info(f"Number of results to save: {len(omni_results)}")
-            self._logger.info(f"Results type: {type(omni_results)}")
-            
-            if omni_results:
-                self._logger.info(f"First result structure:")
-                for key, value in omni_results[0].items():
-                    self._logger.info(f"  {key}: {type(value)}")
-                    if isinstance(value, (list, dict)):
-                        self._logger.info(f"    Length/Size: {len(value)}")
-            
-            try:
-                with PathManager.open(file_path, "w") as f:
-                    json.dump(omni_results, f)
-                    f.flush()
-                    os.fsync(f.fileno())
-                
-                # 验证文件是否正确写入
-                if os.path.exists(file_path):
-                    file_size = os.path.getsize(file_path)
-                    self._logger.info(f"File successfully written, size: {file_size} bytes")
-                    
-                    # 读取文件验证内容
-                    with PathManager.open(file_path, "r") as f:
-                        saved_results = json.load(f)
-                        self._logger.info(f"Successfully loaded saved results, count: {len(saved_results)}")
-                        if len(saved_results) != len(omni_results):
-                            self._logger.warning(f"Warning: Number of saved results ({len(saved_results)}) "
-                                               f"differs from original ({len(omni_results)})")
-                else:
-                    self._logger.error("File was not created!")
-            except Exception as e:
-                self._logger.error(f"Error saving results: {str(e)}")
-                import traceback
-                self._logger.error(traceback.format_exc())
-
-        if not self._do_evaluation:
-            self._logger.info("Annotations are not available for evaluation.")
-            return
-
-        self._logger.info(
-            "Evaluating predictions with {} COCO API...".format(
-                "unofficial" if self._use_fast_impl else "official"
-            )
-        )
-        for task in sorted(tasks):
-            assert task in {"bbox"}, f"Got unknown task: {task}!"
-            
-            if len(omni_results) == 0:
-                self._logger.warning("No predictions found, skipping evaluation")
-                # 当没有预测结果时，返回空的评估结果
-                evals = {"2D": None, "3D": None}
-                log_strs = {"2D": "", "3D": ""}
+            # For 3D eval, we want to run IoU in CUDA if available
+            if torch.cuda.is_available() and len(d) * len(g) < MAX_DTS_CROSS_GTS_FOR_IOU3D:
+                device = torch.device("cuda:0") 
             else:
-                # 检查GT数据集和预测结果的匹配情况
-                gt_img_ids = set([img['id'] for img in self._omni_api.dataset.get('images', [])])
-                pred_img_ids = set([r['image_id'] for r in omni_results])
-                common_img_ids = gt_img_ids.intersection(pred_img_ids)
-                
-                self._logger.info(f"GT dataset has {len(gt_img_ids)} images")
-                self._logger.info(f"Predictions cover {len(pred_img_ids)} images")
-                self._logger.info(f"Common images between GT and predictions: {len(common_img_ids)}")
-                
-                gt_cat_ids = set([cat['id'] for cat in self._omni_api.dataset.get('categories', [])])
-                pred_cat_ids = set([r['category_id'] for r in omni_results])
-                common_cat_ids = gt_cat_ids.intersection(pred_cat_ids)
-                
-                self._logger.info(f"GT dataset has {len(gt_cat_ids)} categories")
-                self._logger.info(f"Predictions cover {len(pred_cat_ids)} categories")
-                self._logger.info(f"Common categories between GT and predictions: {len(common_cat_ids)}")
-                
-                if len(common_img_ids) == 0 or len(common_cat_ids) == 0:
-                    self._logger.error("No common images or categories between GT and predictions!")
-                    self._logger.info(f"GT image IDs (sample): {list(gt_img_ids)[:5]}")
-                    self._logger.info(f"Pred image IDs (sample): {list(pred_img_ids)[:5]}")
-                    self._logger.info(f"GT category IDs: {gt_cat_ids}")
-                    self._logger.info(f"Pred category IDs: {pred_cat_ids}")
-                
-                evals, log_strs = _evaluate_predictions_on_omni(
-                    self._omni_api,
-                    omni_results,
-                    task,
-                    img_ids=img_ids,
-                    only_2d=self._only_2d,
-                    eval_prox=self._eval_prox,
-                )
-
-            modes = evals.keys() if evals else []
-            for mode in modes:
-                if evals[mode] is None:
-                    continue
-                res = self._derive_omni_results(
-                    evals[mode],
-                    task,
-                    mode,
-                    class_names=self._metadata.get("thing_classes"),
-                )
-                self._results[task + "_" + format(mode)] = res
-                self._results[task + "_" + format(mode) + '_evalImgs'] = evals[mode].evalImgs
-                self._results[task + "_" + format(mode) + '_evals_per_cat_area'] = evals[mode].evals_per_cat_area
-                if mode == "3D":
-                    self._results[task + "_" + format(mode) + '_nhd_accumulators'] = evals[mode].eval["nhd_accumulators"]
+                device = torch.device("cpu")
             
-            if "2D" in log_strs:
-                self._results["log_str_2D"] = log_strs["2D"]
-            if "3D" in log_strs:
-                self._results["log_str_3D"] = log_strs["3D"]
+            dd = torch.tensor(d, device=device, dtype=torch.float32)
+            gg = torch.tensor(g, device=device, dtype=torch.float32)
+
+            ious = box3d_overlap(dd, gg).cpu().numpy()
+
+        else:
+            ious = []
+
+        in_prox = None
+
+        if self.eval_prox:
+            g = [g["bbox"] for g in gt]
+            d = [d["bbox"] for d in dt]
+            iscrowd = [0 for o in gt]
+            ious2d = maskUtils.iou(d, g, iscrowd)
+
+            if type(ious2d) == list:
+                in_prox = []
+
+            else:
+                in_prox = ious2d > p.proximity_thresh
+        self.mode = original_mode
+        return ious, in_prox
+
+    def evaluateImg(self, imgId, catId, aRng, maxDet):
+        """
+        Perform evaluation for single category and image
+        Returns:
+            dict (single image results)
+        """
+
+        p = self.params
+        if p.useCats:
+            gt = self._gts[imgId, catId]
+            dt = self._dts[imgId, catId]
+
+        else:
+            gt = [_ for cId in p.catIds for _ in self._gts[imgId, cId]]
+            dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
+
+        if len(gt) == 0 and len(dt) == 0:
+            return None
+
+        flag_range = "area" if self.mode == "2D" else "depth"
+        flag_ignore = "ignore2D" if self.mode == "2D" else "ignore3D"
+
+        for g in gt:
+            if g[flag_ignore] or (g[flag_range] < aRng[0] or g[flag_range] > aRng[1]):
+                g["_ignore"] = 1
+            else:
+                g["_ignore"] = 0
+
+        # sort dt highest score first, sort gt ignore last
+        gtind = np.argsort([g["_ignore"] for g in gt], kind="mergesort")
+        gt = [gt[i] for i in gtind]
+        dtind = np.argsort([-d["score"] for d in dt], kind="mergesort")
+        dt = [dt[i] for i in dtind[0:maxDet]]
+
+        # load computed ious
+        ious = (
+            self.ious[imgId, catId][0][:, gtind]
+            if len(self.ious[imgId, catId][0]) > 0
+            else self.ious[imgId, catId][0]
+        )
+
+        if self.eval_prox:
+            in_prox = (
+                self.ious[imgId, catId][1][:, gtind]
+                if len(self.ious[imgId, catId][1]) > 0
+                else self.ious[imgId, catId][1]
+            )
+
+        T = len(p.iouThrs)
+        G = len(gt)
+        D = len(dt)
+        gtm = np.zeros((T, G))
+        dtm = np.zeros((T, D))
+        gtIg = np.array([g["_ignore"] for g in gt])
+        dtIg = np.zeros((T, D))
+
+        if not len(ious) == 0:
+            for tind, t in enumerate(p.iouThrs):
+                for dind, d in enumerate(dt):
+
+                    # information about best match so far (m=-1 -> unmatched)
+                    iou = min([t, 1 - 1e-10])
+                    m = -1
+
+                    for gind, g in enumerate(gt):
+                        # in case of proximity evaluation, if not in proximity continue
+                        if self.eval_prox and not in_prox[dind, gind]:
+                            continue
+
+                        # if this gt already matched, continue
+                        if gtm[tind, gind] > 0:
+                            continue
+
+                        # if dt matched to reg gt, and on ignore gt, stop
+                        if m > -1 and gtIg[m] == 0 and gtIg[gind] == 1:
+                            break
+
+                        # continue to next gt unless better match made
+                        if ious[dind, gind] < iou:
+                            continue
+
+                        # if match successful and best so far, store appropriately
+                        iou = ious[dind, gind]
+                        m = gind
+
+                    # if match made store id of match for both dt and gt
+                    if m == -1:
+                        continue
+
+                    dtIg[tind, dind] = gtIg[m]
+                    dtm[tind, dind] = gt[m]["id"]
+                    gtm[tind, m] = d["id"]
+
+        # set unmatched detections outside of area range to ignore
+        a = np.array(
+            [d[flag_range] < aRng[0] or d[flag_range] > aRng[1] for d in dt]
+        ).reshape((1, len(dt)))
+
+        dtIg = np.logical_or(dtIg, np.logical_and(dtm == 0, np.repeat(a, T, 0)))
+
+        # in case of proximity evaluation, ignore detections which are far from gt regions
+        if self.eval_prox and len(in_prox) > 0:
+            dt_far = in_prox.any(1) == 0
+            dtIg = np.logical_or(dtIg, np.repeat(dt_far.reshape((1, len(dt))), T, 0))
+
+        # store results for given image and category
+        return {
+            "image_id": imgId,
+            "category_id": catId,
+            "aRng": aRng,
+            "maxDet": maxDet,
+            "dtIds": [d["id"] for d in dt],
+            "gtIds": [g["id"] for g in gt],
+            "dtMatches": dtm,
+            "gtMatches": gtm,
+            "dtScores": [d["score"] for d in dt],
+            "gtIgnore": gtIg,
+            "dtIgnore": dtIg,
+        }
 
     def summarize(self):
         """
@@ -2569,50 +1894,6 @@ class Omni3DevalWithNHD(Omni3Deval):
     def __init__(self, *args, iou_threshold_for_disentangled_metrics=0.5, **kwargs):
         super().__init__(*args, **kwargs)
         self.iou_threshold = iou_threshold_for_disentangled_metrics
-        self._logger = logging.getLogger(__name__)
-        self._predictions = []
-        
-    def evaluate(self):
-        """
-        Run per image evaluation on given images and store results in self.evalImgs
-        """
-        self._logger.info("Starting evaluation...")
-        
-        # 检查cocoDt中的预测结果而不是self._predictions
-        if not self.cocoDt or len(self.cocoDt.getAnnIds()) == 0:
-            self._logger.warning("No predictions found in cocoDt, skipping evaluation")
-            self.evalImgs = {}
-            return {}
-            
-        # 准备评估
-        self._prepare()
-        
-        # 对每个图像进行评估
-        self.evalImgs = defaultdict(list)  # 清除旧的评估结果
-        self.eval = {}                     # 清除旧的评估结果
-        self.stats = []                    # 清除旧的统计结果
-
-        # 执行评估 - 使用父类的evaluateImg方法
-        p = self.params
-        catIds = p.catIds if p.useCats else [-1]
-        computeIoU = self.computeIoU
-
-        self.ious = {
-            (imgId, catId): computeIoU(imgId, catId)
-            for imgId in p.imgIds
-            for catId in catIds
-        }
-
-        maxDet = p.maxDets[-1]
-        self.evalImgs = [
-            self.evaluateImg(imgId, catId, areaRng, maxDet)
-            for catId in catIds
-            for areaRng in p.areaRng
-            for imgId in p.imgIds
-        ]
-        self._paramsEval = copy.deepcopy(self.params)
-        
-        return self.eval
 
     def evaluateImg(self, imgId, catId, aRng, maxDet):
         """
@@ -2631,9 +1912,6 @@ class Omni3DevalWithNHD(Omni3Deval):
         else:
             gt = [_ for cId in p.catIds for _ in self._gts[imgId, cId]]
             dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
-        
-        if len(gt) == 0 or len(dt) == 0:
-            return result
 
         # sort dt highest score first, sort gt ignore last
         gtind = np.argsort([g["_ignore"] for g in gt], kind="mergesort")
@@ -2641,64 +1919,40 @@ class Omni3DevalWithNHD(Omni3Deval):
         dtind = np.argsort([-d["score"] for d in dt], kind="mergesort")
         dt = [dt[i] for i in dtind[0:maxDet]]
 
-        # Load IoUs computed during evaluation - use original format
-        try:
-            if self.mode == "2D":
-                ious = self.ious2d[imgId, catId][0] if len(self.ious[imgId, catId][0]) > 0 else []
-            else:
-                ious = self.ious[imgId, catId][0] if len(self.ious[imgId, catId][0]) > 0 else []
-        except (KeyError, IndexError):
-            # Handle case where IoUs are not available
-            self._logger.warning(f"IoUs not available for imgId={imgId}, catId={catId}")
-            return result
+        # Load IoUs computed during evaluation
+        ious = self.ious2d[imgId, catId][0] if len(self.ious[imgId, catId][0]) > 0 else []
 
-        # Filter pairs based on IoU threshold - use original format with safety checks
+        # Filter pairs based on 2D IoU threshold
         matched_pairs = []
         for dt_idx, dt_bbox in enumerate(dt):
             # Find the gt with the highest IoU for the current dt
             best_iou = 0
             best_gt_idx = -1
-            
-            try:
-                for gt_idx, gt_bbox in enumerate(gt):
-                    # Use original indexing style but with try/except for safety
-                    try:
-                        current_iou = ious[dt_idx, gt_idx]
-                        if current_iou > best_iou:
-                            best_iou = current_iou
-                            best_gt_idx = gt_idx
-                    except (IndexError, KeyError):
-                        continue
-                    
-                if best_iou >= self.iou_threshold and best_gt_idx >= 0:
-                    matched_pairs.append((dt[dt_idx], gt[best_gt_idx]))
-            except Exception as e:
-                self._logger.warning(f"Error matching detection {dt_idx}: {e}")
-                continue
+            for gt_idx, gt_bbox in enumerate(gt):
+                if ious[dt_idx, gt_idx] > best_iou:
+                    best_iou = ious[dt_idx, gt_idx]
+                    best_gt_idx = gt_idx
+            if best_iou >= self.iou_threshold:
+                matched_pairs.append((dt[dt_idx], gt[best_gt_idx]))
 
         # Calculate NHD and disentangled metrics for each matched pair
-        components = ["xy", "z", "dimensions", "pose"]  # Use original components list
+        components = ["xy", "z", "dimensions", "pose"]
         nhd_metrics = []
         for dt_bbox, gt_bbox in matched_pairs:
-            try:
-                pred_box = {
-                    "xy": dt_bbox["center_cam"][:2],
-                    "z": dt_bbox["depth"],
-                    "dimensions": dt_bbox["dimensions"],
-                    "pose": dt_bbox["pose"]
-                }
-                gt_box = {
-                    "xy": gt_bbox["center_cam"][:2],
-                    "z": gt_bbox["depth"],
-                    "dimensions": gt_bbox["dimensions"],
-                    "pose": gt_bbox["R_cam"]
-                }
-                # Use original call with components parameter
-                disentangled_results = disentangled_nhd(pred_box, gt_box, components)
-                nhd_metrics.append(disentangled_results)
-            except Exception as e:
-                self._logger.warning(f"Error computing NHD metrics: {e}")
-                continue
+            pred_box = {
+                "xy": dt_bbox["center_cam"][:2],
+                "z": dt_bbox["depth"],
+                "dimensions": dt_bbox["dimensions"],
+                "pose": dt_bbox["pose"]
+            }
+            gt_box = {
+                "xy": gt_bbox["center_cam"][:2],
+                "z": gt_bbox["depth"],
+                "dimensions": gt_bbox["dimensions"],
+                "pose": gt_bbox["R_cam"]
+            }
+            disentangled_results = disentangled_nhd(pred_box, gt_box, components)
+            nhd_metrics.append(disentangled_results)
 
         result["nhd_metrics"] = nhd_metrics
         return result
@@ -2708,30 +1962,22 @@ class Omni3DevalWithNHD(Omni3Deval):
         """
         Accumulate evaluation results by concatenating NHD metrics for the entire dataset.
         """
-        try:
-            # Call the parent class accumulate method
-            super().accumulate(p)
-            if self.mode == "2D":
-                return 
-            # Initialize accumulators for NHD metrics
-            self.eval["nhd_accumulators"] = {"overall": [], "xy": [], "z": [], "dimensions": [], "pose": []}
+        # Call the parent class accumulate method
+        super().accumulate(p)
+        if self.mode == "2D":
+            return 
+        # Initialize accumulators for NHD metrics
+        self.eval["nhd_accumulators"] = {"overall": [], "xy": [], "z": [], "dimensions": [], "pose": []}
 
-            # Iterate over the evaluated images to collect NHD metrics
-            for eval_img in self.evalImgs:
-                if eval_img is None:
-                    continue
-                if "nhd_metrics" in eval_img:
-                    for nhd_metric in eval_img["nhd_metrics"]:
-                        for key in self.eval["nhd_accumulators"]:
-                            if key in nhd_metric:
-                                self.eval["nhd_accumulators"][key].append(nhd_metric[key])
-        except Exception as e:
-            self._logger.error(f"Error in accumulate: {str(e)}")
-            import traceback
-            self._logger.error(traceback.format_exc())
-            # Initialize empty evaluation results
-            self.eval = {}
-            self.stats = []
+        # Iterate over the evaluated images to collect NHD metrics
+        for eval_img in self.evalImgs:
+            if eval_img is None:
+                continue
+            if "nhd_metrics" in eval_img:
+                for nhd_metric in eval_img["nhd_metrics"]:
+                    for key in self.eval["nhd_accumulators"]:
+                        if key in nhd_metric:
+                            self.eval["nhd_accumulators"][key].append(nhd_metric[key])
 
     def summarize(self):
         """

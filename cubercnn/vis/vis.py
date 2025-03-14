@@ -107,9 +107,6 @@ def visualize_from_instances(detections, dataset, dataset_name, min_size_test, o
         
         write_sample = ((imind % 50) == 0)
         
-        if not write_sample:  # 如果不需要写入样本，直接跳过
-            continue
-            
         annos = dataset._dataset[imind]['annotations']
         gt_boxes_2d = np.array([anno['bbox'] for anno in annos])
         
@@ -121,85 +118,53 @@ def visualize_from_instances(detections, dataset, dataset_name, min_size_test, o
 
         gt_boxes_cat = np.array([anno['category_id'] for anno in annos])
 
-        data_obj = dataset[imind]
-        matched = False
-        '''
-        # 添加调试信息
-        print(f"Debug: Checking image_id match:")
-        print(f"data_obj: id={data_obj.get('image_id')}, original={data_obj.get('original_image_id')}")
-        print(f"im_obj: id={im_obj.get('image_id')}, original={im_obj.get('original_image_id')}")
-        '''
-        # 如果im_obj使用文件路径作为image_id，尝试从文件名匹配
-        if isinstance(im_obj.get('image_id'), str):
-            im_file = im_obj['image_id'].split('/')[-1]
-            data_file = data_obj['file_name'].split('/')[-1]
-            
-            #print(f"Debug: Comparing files - im_file: {im_file}, data_file: {data_file}")
-            
-            # 使用文件名进行匹配
-            if im_file == data_file:
-                #print("Debug: Files match")
-                matched = True
-            else:
-                print(f"Warning: Files do not match")
-        
-        # 如果都是数字ID，直接比较
-        elif isinstance(data_obj.get('image_id'), int) and isinstance(im_obj.get('image_id'), int):
-            if data_obj['image_id'] == im_obj['image_id']:
-                #print("Debug: IDs match")
-                matched = True
-        
-        if not matched:
-            print(f"Warning: Could not match images")
-            print(f"Full data_obj: {data_obj}")
-            print(f"Full im_obj: {im_obj}")
-            continue
-            
-        # 读取和复制图像
-        im = util.imread(data_obj['file_name'])
-        im_gt_2d = im.copy()
-        im_gt_all_classes_2d = im.copy()
-        im_pred_2d = im.copy()
-        im_gt_3d = im.copy()
-        im_gt_all_classes_3d = im.copy()
-        im_pred_3d = im.copy()
+        if write_sample:
+            data_obj = dataset[imind]
+            assert(data_obj['image_id'] == im_obj['image_id'])
+            im = util.imread(data_obj['file_name'])
+            im_gt_2d = im.copy()
+            im_gt_all_classes_2d = im.copy()
+            im_pred_2d = im.copy()
+            im_gt_3d = im.copy()
+            im_gt_all_classes_3d = im.copy()
+            im_pred_3d = im.copy()
 
         K = np.array(im_obj['K'])
         K_inv = np.linalg.inv(K)
-        sf = im_obj['height'] / min_size_test
 
-        # 绘制标注和预测结果
-        for anno in annos:
-            if category_names_official[anno['category_id']] not in prompted_category_names:
-                continue
-            x1, y1, x2, y2 = anno['bbox'][0], anno['bbox'][1], anno['bbox'][0] + anno['bbox'][2], anno['bbox'][1] + anno['bbox'][3]
-            color = util.get_color(anno['category_id'])
-            cv2.rectangle(im_gt_2d, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
-            # Add category label
-            cv2.putText(im_gt_2d, category_names_official[anno['category_id']], (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-            gt_x3d, gt_y3d, gt_z3d = anno['center_cam']
-            gt_w3d, gt_h3d, gt_l3d = anno['dimensions']
-            gt_cen_2d = K @ np.array([gt_x3d, gt_y3d, gt_z3d])
-            gt_cen_2d /= gt_cen_2d[2]
-            gt_pose = anno['pose']
-            gt_ry3d = np.array(gt_pose)
-            draw_3d_box(im_gt_3d, K, [gt_x3d, gt_y3d, gt_z3d, gt_w3d, gt_h3d, gt_l3d], gt_ry3d, color=color, thickness=int(np.round(3*im.shape[0]/500)), draw_back=False)
-            draw_text(im_gt_3d, category_names_official[anno['category_id']], anno['bbox'], scale=0.50*im.shape[0]/500, bg_color=color)
-        # drawing ground truth 2d and 3d bboxes for all classes
-        for anno in annos:
-            x1, y1, x2, y2 = anno['bbox'][0], anno['bbox'][1], anno['bbox'][0] + anno['bbox'][2], anno['bbox'][1] + anno['bbox'][3]
-            color = util.get_color(anno['category_id'])
-            cv2.rectangle(im_gt_all_classes_2d, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
-            # Add category label
-            cv2.putText(im_gt_all_classes_2d, category_names_official[anno['category_id']], (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-            gt_x3d, gt_y3d, gt_z3d = anno['center_cam']
-            gt_w3d, gt_h3d, gt_l3d = anno['dimensions']
-            gt_cen_2d = K @ np.array([gt_x3d, gt_y3d, gt_z3d])
-            gt_cen_2d /= gt_cen_2d[2]
-            gt_pose = anno['pose']
-            gt_ry3d = np.array(gt_pose)
-            draw_3d_box(im_gt_all_classes_3d, K, [gt_x3d, gt_y3d, gt_z3d, gt_w3d, gt_h3d, gt_l3d], gt_ry3d, color=color, thickness=int(np.round(3*im.shape[0]/500)), draw_back=False)
-            draw_text(im_gt_all_classes_3d, category_names_official[anno['category_id']], anno['bbox'], scale=0.50*im.shape[0]/500, bg_color=color)
+        sf = im_obj['height'] / min_size_test
+        if write_sample:
+            for anno in annos:
+                if category_names_official[anno['category_id']] not in prompted_category_names:
+                    continue
+                x1, y1, x2, y2 = anno['bbox'][0], anno['bbox'][1], anno['bbox'][0] + anno['bbox'][2], anno['bbox'][1] + anno['bbox'][3]
+                color = util.get_color(anno['category_id'])
+                cv2.rectangle(im_gt_2d, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
+                # Add category label
+                cv2.putText(im_gt_2d, category_names_official[anno['category_id']], (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                gt_x3d, gt_y3d, gt_z3d = anno['center_cam']
+                gt_w3d, gt_h3d, gt_l3d = anno['dimensions']
+                gt_cen_2d = K @ np.array([gt_x3d, gt_y3d, gt_z3d])
+                gt_cen_2d /= gt_cen_2d[2]
+                gt_pose = anno['pose']
+                gt_ry3d = np.array(gt_pose)
+                draw_3d_box(im_gt_3d, K, [gt_x3d, gt_y3d, gt_z3d, gt_w3d, gt_h3d, gt_l3d], gt_ry3d, color=color, thickness=int(np.round(3*im.shape[0]/500)), draw_back=False)
+                draw_text(im_gt_3d, category_names_official[anno['category_id']], anno['bbox'], scale=0.50*im.shape[0]/500, bg_color=color)
+            # drawing ground truth 2d and 3d bboxes for all classes
+            for anno in annos:
+                x1, y1, x2, y2 = anno['bbox'][0], anno['bbox'][1], anno['bbox'][0] + anno['bbox'][2], anno['bbox'][1] + anno['bbox'][3]
+                color = util.get_color(anno['category_id'])
+                cv2.rectangle(im_gt_all_classes_2d, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
+                # Add category label
+                cv2.putText(im_gt_all_classes_2d, category_names_official[anno['category_id']], (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                gt_x3d, gt_y3d, gt_z3d = anno['center_cam']
+                gt_w3d, gt_h3d, gt_l3d = anno['dimensions']
+                gt_cen_2d = K @ np.array([gt_x3d, gt_y3d, gt_z3d])
+                gt_cen_2d /= gt_cen_2d[2]
+                gt_pose = anno['pose']
+                gt_ry3d = np.array(gt_pose)
+                draw_3d_box(im_gt_all_classes_3d, K, [gt_x3d, gt_y3d, gt_z3d, gt_w3d, gt_h3d, gt_l3d], gt_ry3d, color=color, thickness=int(np.round(3*im.shape[0]/500)), draw_back=False)
+                draw_text(im_gt_all_classes_3d, category_names_official[anno['category_id']], anno['bbox'], scale=0.50*im.shape[0]/500, bg_color=color)
         
         for instance in im_obj['instances']:
             
@@ -278,9 +243,7 @@ def visualize_from_instances(detections, dataset, dataset_name, min_size_test, o
             combined_image = cv2.vconcat([top_row, bottom_row])
 
             # Save the stitched image.
-            vis_path = os.path.join(vis_folder, f"{dataset_name}_{imind:06d}.jpg")
-            cv2.imwrite(vis_path, combined_image)
-            #print(f"Debug: Saved to {vis_path}")
+            cv2.imwrite(os.path.join(vis_folder, 'combined_{:06d}.jpg'.format(imind)), combined_image)
 
     # safety in case all rotation matrices failed. 
     if len(ry_errors) == 0:
