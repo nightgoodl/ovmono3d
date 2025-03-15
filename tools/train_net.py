@@ -106,11 +106,11 @@ def do_test(cfg, model, iteration='final', storage=None, mode="base"):
             '''
             Optionally, visualize some instances
             '''
-            category_path = "configs/category_meta.json" # TODO: hard coded
+            category_path = "configs/category_objectron.json" # TODO: hard coded
             metadata = util.load_json(category_path)
             category_names_official =  metadata['thing_classes']
             # if mode == "novel":
-            #     category_path = "configs/category_meta.json" # TODO: hard coded
+            #     category_path = "configs/category_objectron.json" # TODO: hard coded
             #     metadata = util.load_json(category_path)
             #     category_names_official =  metadata['thing_classes']
             # else:
@@ -378,7 +378,7 @@ def main(args):
     priors = None
 
     if args.eval_only:
-        category_path = os.path.join(util.file_parts(args.config_file)[0], 'category_meta.json')
+        category_path = os.path.join(util.file_parts(args.config_file)[0], 'category_objectron.json')
         
         # store locally if needed
         if category_path.startswith(util.CubeRCNNHandler.PREFIX):

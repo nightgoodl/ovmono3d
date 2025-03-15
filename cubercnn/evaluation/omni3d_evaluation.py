@@ -426,7 +426,7 @@ class Omni3DEvaluationHelper:
                 self.evaluate(dataset_name)
 
         if self.dataset_names[0].endswith(("_novel", "_test")):
-            category_path = "configs/category_meta.json" # TODO: hard coded
+            category_path = "configs/category_objectron.json" # TODO: hard coded
             metadata = util.load_json(category_path)
             thing_classes = metadata['thing_classes']
             catId2contiguous = {int(key):val for key, val in metadata['thing_dataset_id_to_contiguous_id'].items()}
@@ -953,7 +953,7 @@ class Omni3DEvaluator(COCOEvaluator):
         omni_results = list(itertools.chain(*[x["instances"] for x in predictions]))
         tasks = self._tasks or self._tasks_from_predictions(omni_results)
         if self._metadata.name.endswith(("_novel", "_test")):
-            category_path = "configs/category_meta.json" # TODO: hard coded
+            category_path = "configs/category_objectron.json" # TODO: hard coded
             metadata = util.load_json(category_path)
             omni3d_global_categories = metadata['thing_classes']
         else:

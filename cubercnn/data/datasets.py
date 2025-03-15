@@ -293,7 +293,7 @@ class Omni3D(COCO):
 
 def register_and_store_model_metadata(datasets, output_dir, filter_settings=None):
 
-    output_file = os.path.join(output_dir, 'category_meta.json')
+    output_file = os.path.join(output_dir, 'category_objectron.json')
 
     omni3d_stats = util.load_json(os.path.join('/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets', 'Omni3D', 'stats.json'))
     thing_classes = filter_settings['category_names']
@@ -338,7 +338,7 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
     thing_classes = [c["name"] for c in sorted(cats, key=lambda x: x["id"])]
     meta.thing_classes = thing_classes
     if dataset_name.endswith(("_novel", "_test")):
-        category_path = "configs/category_meta.json" # TODO: hard coded
+        category_path = "configs/category_objectron.json" # TODO: hard coded
 
         metadata = util.load_json(category_path)
 
