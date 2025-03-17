@@ -2,8 +2,8 @@ nohup: ignoring input
 Command Line Args: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=True, machine_rank=0, num_gpus=2, num_machines=1, opts=['OUTPUT_DIR', '../../output/ovmono3d_depth/', 'MODEL.WEIGHTS', './checkpoints/ovmono3d_lift.pth', 'TEST.CAT_MODE', 'base', 'DATASETS.ORACLE2D_FILES.EVAL_MODE', 'target_aware'], resume=False)
 /baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
   warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-[03/17 03:57:05 detectron2]: Rank of current process: 0. World size: 2
-[03/17 03:57:06 detectron2]: Environment info:
+[03/17 05:26:13 detectron2]: Rank of current process: 0. World size: 2
+[03/17 05:26:14 detectron2]: Environment info:
 -------------------------------  -----------------------------------------------------------------------------------------------------------
 sys.platform                     linux
 Python                           3.8.20 (default, Oct  3 2024, 15:24:27) [GCC 11.2.0]
@@ -42,8 +42,8 @@ PyTorch built with:
   - Magma 2.6.1
   - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.4, CUDNN_VERSION=9.1.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.4.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
 
-[03/17 03:57:06 detectron2]: Command line arguments: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=True, machine_rank=0, num_gpus=2, num_machines=1, opts=['OUTPUT_DIR', '../../output/ovmono3d_depth/', 'MODEL.WEIGHTS', './checkpoints/ovmono3d_lift.pth', 'TEST.CAT_MODE', 'base', 'DATASETS.ORACLE2D_FILES.EVAL_MODE', 'target_aware'], resume=False)
-[03/17 03:57:06 detectron2]: Contents of args.config_file=configs/OVMono3D_dinov2_SFP.yaml:
+[03/17 05:26:14 detectron2]: Command line arguments: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=True, machine_rank=0, num_gpus=2, num_machines=1, opts=['OUTPUT_DIR', '../../output/ovmono3d_depth/', 'MODEL.WEIGHTS', './checkpoints/ovmono3d_lift.pth', 'TEST.CAT_MODE', 'base', 'DATASETS.ORACLE2D_FILES.EVAL_MODE', 'target_aware'], resume=False)
+[03/17 05:26:14 detectron2]: Contents of args.config_file=configs/OVMono3D_dinov2_SFP.yaml:
 [38;5;204m_BASE_[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186mBase.yaml[39m[38;5;186m"[39m
 [38;5;204mSOLVER[39m[38;5;15m:[39m
 [38;5;15m  [39m[38;5;204mTYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186msgd[39m[38;5;186m"[39m
@@ -89,7 +89,7 @@ PyTorch built with:
 [38;5;15m    [39m[38;5;204mNUM_CLASSES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m50[39m
 [38;5;15m    [39m[38;5;204mIN_FEATURES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;186m'[39m[38;5;186mp2[39m[38;5;186m'[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186mp3[39m[38;5;186m'[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186mp4[39m[38;5;186m'[39m[38;5;15m][39m
 
-[03/17 03:57:06 detectron2]: Running with full config:
+[03/17 05:26:14 detectron2]: Running with full config:
 [38;5;204mCUDNN_BENCHMARK[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
 [38;5;204mDATALOADER[39m[38;5;15m:[39m
 [38;5;15m  [39m[38;5;204mASPECT_RATIO_GROUPING[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
@@ -594,35 +594,6 @@ PyTorch built with:
 [38;5;204mVERSION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2[39m
 [38;5;204mVIS_PERIOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2320[39m
 
-[03/17 03:57:06 detectron2]: Full config saved to ../../output/ovmono3d_depth/config.yaml
-[03/17 03:57:06 d2.utils.env]: Using a generated random seed 10340736
-[03/17 03:57:06 cubercnn]: Preprocessing Training Datasets
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-[rank0]:[W317 03:57:07.564712604 ProcessGroupNCCL.cpp:1168] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
-W0317 03:57:08.091613 140513406801152 torch/multiprocessing/spawn.py:146] Terminating process 4007282 via signal SIGTERM
-Traceback (most recent call last):
-  File "tools/train_net.py", line 540, in <module>
-    launch(
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/engine/launch.py", line 69, in launch
-    mp.start_processes(
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 238, in start_processes
-    while not context.join():
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 189, in join
-    raise ProcessRaisedException(msg, error_index, failed_process.pid)
-torch.multiprocessing.spawn.ProcessRaisedException: 
-
--- Process 1 terminated with the following error:
-Traceback (most recent call last):
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch/multiprocessing/spawn.py", line 76, in _wrap
-    fn(i, *args)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2/engine/launch.py", line 123, in _distributed_worker
-    main_func(*args)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/tools/train_net.py", line 387, in main
-    metadata = util.load_json(category_path)
-  File "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/code/ovmono3d/cubercnn/util/util.py", line 29, in load_json
-    with open(path, 'r') as fp:
-FileNotFoundError: [Errno 2] No such file or directory: 'configs/category_objectron.json'
-
+[03/17 05:26:14 detectron2]: Full config saved to ../../output/ovmono3d_depth/config.yaml
+[03/17 05:26:15 d2.utils.env]: Using a generated random seed 19104836
+[03/17 05:26:15 cubercnn]: Preprocessing Training Datasets
