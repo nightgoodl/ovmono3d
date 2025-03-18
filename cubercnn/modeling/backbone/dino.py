@@ -10,7 +10,47 @@ import torch.nn.functional as F
 import einops as E
 import unittest
 
-# reference: https://github.com/mbanani/probe3d/blob/c52d00b069d949b2f00c544d4991716df68d5233/evals/models/dino.py
+class DepthFusionBlock(nn.Module):
+    def __init__(self, features):
+        super().__init__()
+        
+        # depth feature extraction
+        self.depth_conv = nn.Sequential(
+            nn.Conv2d(1, features // 4, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(features // 4, features // 2, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(features // 2, features, kernel_size=3, stride=1, padding=1)
+        )
+        
+        # zero init depth fusion
+        for m in self.depth_conv[-1].modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.zeros_(m.weight)
+                nn.init.zeros_(m.bias)
+        
+        # net after depth fusion
+        self.fusion_conv = nn.Conv2d(
+            features, features, kernel_size=3, stride=1, padding=1
+        )
+        
+        self.skip_add = nn.quantized.FloatFunctional()
+    
+    def forward(self, x, depth):
+        if depth.shape[-2:] != x.shape[-2:]:
+            depth = F.interpolate(depth, size=x.shape[-2:], mode='bilinear', align_corners=False)
+        
+        # extract depth feature
+        depth_feat = self.depth_conv(depth)
+        
+        # depth fusion
+        fused = self.skip_add.add(x, depth_feat)
+        
+        # feature fusion
+        out = self.fusion_conv(fused)
+        
+        return out
+
 class DINOBackbone(Backbone):
     def __init__(self, cfg, input_shape, dino_name="dino", model_name="vitb16", output="dense", layer=-1, return_multilayer=False, out_feature="last_feat",):
         super().__init__()
@@ -46,13 +86,9 @@ class DINOBackbone(Backbone):
         ]
         
         self.use_depth_fusion = cfg.MODEL.FPN.USE_DEPTH_FUSION
+        #use depth fusion
         if self.use_depth_fusion:
-            
-            self.depth_fusion = nn.Conv2d(
-                in_channels=feat_dim + 1,
-                out_channels=feat_dim,
-                kernel_size=1
-            )
+            self.depth_fusion_block = DepthFusionBlock(feat_dim)
 
         if return_multilayer:
             self.feat_dim = [feat_dim, feat_dim, feat_dim, feat_dim]
@@ -78,34 +114,9 @@ class DINOBackbone(Backbone):
         else:
             x = self.vit.prepare_tokens(images)
 
-        # Initialize depth_tokens as None
-        depth_tokens = None
-        
-        # depth fusion
-        if self.use_depth_fusion and prompt_depth is not None:
-            # prompt_depth: [B, 1, H, W] -> upsample to patch size
-            depth_resized = F.interpolate(prompt_depth, size=(h, w), mode='bilinear')
-            depth_tokens = depth_resized.flatten(2).permute(0, 2, 1)  # [B, H*W, 1]
-
         embeds = []
         for i, blk in enumerate(self.vit.blocks):
             x = blk(x)
-            if self.use_depth_fusion and depth_tokens is not None and i == len(self.vit.blocks) - 1:
-                cls_token = x[:, :1]  # [B, 1, C]
-                patch_tokens = x[:, 1:]  # [B, H*W, C]
-                
-                patch_tokens = patch_tokens.permute(0, 2, 1)  # [B, C, H*W]
-                depth_tokens = depth_tokens.permute(0, 2, 1)  # [B, 1, H*W]
-                fused_tokens = torch.cat([patch_tokens, depth_tokens], dim=1)  # [B, C+1, H*W]
-                
-                fused_tokens = fused_tokens.view(fused_tokens.shape[0], -1, h, w)  # [B, C+1, H, W]
-                fused_tokens = self.depth_fusion(fused_tokens)  # [B, C, H, W]
-                
-                fused_tokens = fused_tokens.flatten(2)  # [B, C, H*W]
-                patch_tokens = fused_tokens.permute(0, 2, 1)  # [B, H*W, C]
-                
-                x = torch.cat([cls_token, patch_tokens], dim=1)  # [B, 1 + H*W, C]
-            
             if i in self.multilayers:
                 embeds.append(x)
                 if len(embeds) == len(self.multilayers):
@@ -113,10 +124,16 @@ class DINOBackbone(Backbone):
 
         num_spatial = h * w
         outputs = {}
+        
         for idx, x_i in enumerate(embeds):
             cls_tok = x_i[:, 0]
             spatial = x_i[:, -1 * num_spatial:]
             x_i = tokens_to_output(self.output, spatial, cls_tok, (h, w))
+            
+            # depth fusion to the last layer
+            if self.use_depth_fusion and prompt_depth is not None and idx == len(embeds) - 1:
+                x_i = self.depth_fusion_block(x_i, prompt_depth)
+                
             outputs[self._out_features[idx]] = x_i
 
         return outputs

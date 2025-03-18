@@ -99,7 +99,7 @@ def do_test(cfg, model, iteration='final', storage=None, mode="base"):
             mode=mode,
             mapper=DatasetMapper3D(cfg, is_train=False)
         )
-        results_json = inference_on_dataset(model, data_loader)
+        results_json = inference_on_dataset(model, data_loader, normalize_depth=True)
 
         if comm.is_main_process():
             
@@ -217,8 +217,20 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
                     depth = x["depth"]  # shape: [1, H, W]
                     h, w = depth.shape[1:]
                     depths[idx, :, :h, :w] = depth
-
-                loss_dict = model(data, prompt_depth=depths)
+                
+                # Apply normalization to the depth values
+                # Option 1: Simple min-max normalization per batch
+                valid_mask = depths > 0  # Assuming 0 is used for padding/invalid
+                if valid_mask.any():
+                    min_depth = depths[valid_mask].min()
+                    max_depth = depths[valid_mask].max()
+                    normalized_depths = (depths - min_depth) / (max_depth - min_depth + 1e-6)
+                    # Replace zeros with zeros in normalized space
+                    normalized_depths = torch.where(valid_mask, normalized_depths, torch.zeros_like(normalized_depths))
+                else:
+                    normalized_depths = depths
+                
+                loss_dict = model(data, prompt_depth=normalized_depths)
             else:
                 loss_dict = model(data)
             losses = sum(loss_dict.values())

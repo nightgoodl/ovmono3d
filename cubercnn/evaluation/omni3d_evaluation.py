@@ -662,14 +662,37 @@ def inference_on_dataset(model, data_loader):
             start_compute_time = time.perf_counter()
 
             if "depth" in inputs[0]:
-                depth = torch.stack([x["depth"] for x in inputs])
+                # get the max height and width of the depth images
+                batch_size = len(inputs)
+                max_h = max([x["depth"].shape[1] for x in inputs])
+                max_w = max([x["depth"].shape[2] for x in inputs])
+                
+                # create padded depth tensor
+                depths = torch.zeros((batch_size, 1, max_h, max_w), device=inputs[0]["depth"].device)
+                
+                # pad the depth images
+                for i, x in enumerate(inputs):
+                    depth = x["depth"]  # shape: [1, H, W]
+                    h, w = depth.shape[1:]
+                    depths[i, :, :h, :w] = depth
+                
                 if torch.cuda.is_available():
-                    depth = depth.cuda()
-                outputs = model(inputs, prompt_depth=depth)
+                    depths = depths.cuda()
+                
+                # add normalization
+                valid_mask = depths > 0  
+                if valid_mask.any():
+                    min_depth = depths[valid_mask].min()
+                    max_depth = depths[valid_mask].max()
+                    normalized_depths = (depths - min_depth) / (max_depth - min_depth + 1e-6)
+                    normalized_depths = torch.where(valid_mask, normalized_depths, torch.zeros_like(normalized_depths))
+                else:
+                    normalized_depths = depths
+                
+                outputs = model(inputs, prompt_depth=normalized_depths)
             else:
                 outputs = model(inputs) 
 
-            #outputs = model(inputs)
             if torch.cuda.is_available():
                 torch.cuda.synchronize()
             total_compute_time += time.perf_counter() - start_compute_time
