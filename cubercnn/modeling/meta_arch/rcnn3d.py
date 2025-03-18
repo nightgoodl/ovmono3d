@@ -38,7 +38,7 @@ class RCNN3D(GeneralizedRCNN):
             "pixel_std": cfg.MODEL.PIXEL_STD,
         }
 
-    def forward(self, batched_inputs: List[Dict[str, torch.Tensor]]):
+    def forward(self, batched_inputs: List[Dict[str, torch.Tensor]], prompt_depth=None):
         
         if not self.training:
             return self.inference(batched_inputs)
@@ -57,7 +57,7 @@ class RCNN3D(GeneralizedRCNN):
         else:
             gt_instances = None
 
-        features = self.backbone(images.tensor)
+        features = self.backbone(images.tensor, prompt_depth)
         proposals, proposal_losses = self.proposal_generator(images, features, gt_instances)
 
         instances, detector_losses = self.roi_heads(
@@ -81,6 +81,7 @@ class RCNN3D(GeneralizedRCNN):
         batched_inputs: List[Dict[str, torch.Tensor]],
         detected_instances: Optional[List[Instances]] = None,
         do_postprocess: bool = True,
+        prompt_depth=None
     ):
         assert not self.training
 
@@ -93,7 +94,7 @@ class RCNN3D(GeneralizedRCNN):
         # The unmodified intrinsics for the image
         Ks = [torch.FloatTensor(info['K']) for info in batched_inputs]
 
-        features = self.backbone(images.tensor)
+        features = self.backbone(images.tensor, prompt_depth)
 
         # Pass oracle 2D boxes into the RoI heads
         if type(batched_inputs == list) and np.any(['oracle2D' in b for b in batched_inputs]):

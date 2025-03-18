@@ -44,6 +44,15 @@ class DINOBackbone(Backbone):
             num_layers // 4 * 3 - 1,
             num_layers - 1,
         ]
+        
+        self.use_depth_fusion = cfg.MODEL.FPN.USE_DEPTH_FUSION
+        if self.use_depth_fusion:
+            
+            self.depth_fusion = nn.Conv2d(
+                in_channels=feat_dim + 1,
+                out_channels=feat_dim,
+                kernel_size=1
+            )
 
         if return_multilayer:
             self.feat_dim = [feat_dim, feat_dim, feat_dim, feat_dim]
@@ -60,7 +69,7 @@ class DINOBackbone(Backbone):
         self._out_feature_strides = {out_feature: self.patch_size}
         self._out_features = [out_feature]
 
-    def forward(self, images):
+    def forward(self, images, prompt_depth=None):
         h, w = images.shape[-2:]
         h, w = h // self.patch_size, w // self.patch_size
 
@@ -69,9 +78,34 @@ class DINOBackbone(Backbone):
         else:
             x = self.vit.prepare_tokens(images)
 
+        # Initialize depth_tokens as None
+        depth_tokens = None
+        
+        # depth fusion
+        if self.use_depth_fusion and prompt_depth is not None:
+            # prompt_depth: [B, 1, H, W] -> upsample to patch size
+            depth_resized = F.interpolate(prompt_depth, size=(h, w), mode='bilinear')
+            depth_tokens = depth_resized.flatten(2).permute(0, 2, 1)  # [B, H*W, 1]
+
         embeds = []
         for i, blk in enumerate(self.vit.blocks):
             x = blk(x)
+            if self.use_depth_fusion and depth_tokens is not None and i == len(self.vit.blocks) - 1:
+                cls_token = x[:, :1]  # [B, 1, C]
+                patch_tokens = x[:, 1:]  # [B, H*W, C]
+                
+                patch_tokens = patch_tokens.permute(0, 2, 1)  # [B, C, H*W]
+                depth_tokens = depth_tokens.permute(0, 2, 1)  # [B, 1, H*W]
+                fused_tokens = torch.cat([patch_tokens, depth_tokens], dim=1)  # [B, C+1, H*W]
+                
+                fused_tokens = fused_tokens.view(fused_tokens.shape[0], -1, h, w)  # [B, C+1, H, W]
+                fused_tokens = self.depth_fusion(fused_tokens)  # [B, C, H, W]
+                
+                fused_tokens = fused_tokens.flatten(2)  # [B, C, H*W]
+                patch_tokens = fused_tokens.permute(0, 2, 1)  # [B, H*W, C]
+                
+                x = torch.cat([cls_token, patch_tokens], dim=1)  # [B, 1 + H*W, C]
+            
             if i in self.multilayers:
                 embeds.append(x)
                 if len(embeds) == len(self.multilayers):
