@@ -41,7 +41,7 @@ class RCNN3D(GeneralizedRCNN):
     def forward(self, batched_inputs: List[Dict[str, torch.Tensor]], prompt_depth=None):
         
         if not self.training:
-            return self.inference(batched_inputs)
+            return self.inference(batched_inputs=batched_inputs, prompt_depth=prompt_depth)
 
         images = self.preprocess_image(batched_inputs)
 
