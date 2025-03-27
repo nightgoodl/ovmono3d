@@ -56,8 +56,41 @@ def do_test(args, cfg, model):
         if im is None:
             continue
         
+        # Load depth map
+        depth_path = os.path.join("/baai-cwm-nas/algorithm/chongjie.ye/data/images/demo_depth", 
+                                im_name + '.npz')
+        try:
+            depth_data = np.load(depth_path)['depth']
+            depth = torch.as_tensor(depth_data.astype("float32"))
+            
+            # Match depth size to image size
+            if depth.shape[:2] != im.shape[:2]:
+                depth = torch.nn.functional.interpolate(
+                    depth.unsqueeze(0).unsqueeze(0),
+                    size=im.shape[:2],
+                    mode='bilinear',
+                    align_corners=False
+                ).squeeze()
+                
+            # Normalize depth
+            valid_mask = depth > 0
+            if valid_mask.any():
+                min_depth = depth[valid_mask].min()
+                max_depth = depth[valid_mask].max()
+                normalized_depth = (depth - min_depth) / (max_depth - min_depth + 1e-6)
+                normalized_depth = torch.where(valid_mask, normalized_depth, torch.zeros_like(normalized_depth))
+            else:
+                normalized_depth = depth
+                
+            # Move to GPU
+            if torch.cuda.is_available():
+                normalized_depth = normalized_depth.cuda()
+                
+        except Exception as e:
+            print(f"Error reading depth file: {depth_path}")
+            normalized_depth = None
+            
         image_shape = im.shape[:2]  # h, w
-
         h, w = image_shape
         
         if focal_length == 0:
@@ -80,10 +113,19 @@ def do_test(args, cfg, model):
         image = aug_input.image
 
         batched = [{
-            'image': torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1))).cuda(), 
-            'height': image_shape[0], 'width': image_shape[1], 'K': K, 'category_list': cats
+            'image': torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1))).cuda(),
+            'height': image_shape[0], 
+            'width': image_shape[1],
+            'K': K,
+            'category_list': cats
         }]
-        dets = model(batched)[0]['instances']
+        
+        # Add depth to model input if available
+        if normalized_depth is not None:
+            dets = model(batched, prompt_depth=normalized_depth.unsqueeze(0).unsqueeze(0))[0]['instances']
+        else:
+            dets = model(batched)[0]['instances']
+            
         n_det = len(dets)
 
         meshes = []
@@ -116,8 +158,6 @@ def do_test(args, cfg, model):
                 vis.imshow(im_concat)
 
             util.imwrite(im_concat, os.path.join(output_dir, im_name+'_combine.jpg'))
-            # util.imwrite(im_drawn_rgb, os.path.join(output_dir, im_name+'_boxes.jpg'))
-            # util.imwrite(im_topdown, os.path.join(output_dir, im_name+'_novel.jpg'))
         else:
             util.imwrite(im, os.path.join(output_dir, im_name+'_boxes.jpg'))
 
