@@ -661,6 +661,8 @@ def inference_on_dataset(model, data_loader):
 
             start_compute_time = time.perf_counter()
 
+            # Process depth if available
+            depths = None
             if "depth" in inputs[0]:
                 # get the max height and width of the depth images
                 batch_size = len(inputs)
@@ -688,10 +690,35 @@ def inference_on_dataset(model, data_loader):
                     normalized_depths = torch.where(valid_mask, normalized_depths, torch.zeros_like(normalized_depths))
                 else:
                     normalized_depths = depths
+            
+            # Process NOCS if available
+            nocs_maps = None
+            if "nocs" in inputs[0]:
+                batch_size = len(inputs)
+                max_h = max([x["nocs"].shape[1] for x in inputs])
+                max_w = max([x["nocs"].shape[2] for x in inputs])
                 
+                # Create padded NOCS tensor - NOCS typically has 3 channels (x,y,z)
+                nocs_maps = torch.zeros((batch_size, 3, max_h, max_w), device=inputs[0]["nocs"].device)
+                
+                # Fill in the NOCS values
+                for i, x in enumerate(inputs):
+                    nocs = x["nocs"]  # shape: [3, H, W]
+                    h, w = nocs.shape[1:]
+                    nocs_maps[i, :, :h, :w] = nocs
+                
+                if torch.cuda.is_available():
+                    nocs_maps = nocs_maps.cuda()
+            
+            # Forward pass with depth and/or NOCS if available
+            if depths is not None and nocs_maps is not None:
+                outputs = model(inputs, prompt_depth=normalized_depths, prompt_nocs=nocs_maps)
+            elif depths is not None:
                 outputs = model(inputs, prompt_depth=normalized_depths)
+            elif nocs_maps is not None:
+                outputs = model(inputs, prompt_nocs=nocs_maps)
             else:
-                outputs = model(inputs) 
+                outputs = model(inputs)
 
             if torch.cuda.is_available():
                 torch.cuda.synchronize()

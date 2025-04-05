@@ -203,22 +203,41 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
             storage.iter = iteration
 
             # forward
-            if "depth" in data[0]:
+            if "depth" in data[0] or "nocs" in data[0]:
                 # Get batch size and max dimensions
                 batch_size = len(data)
-                max_h = max([x["depth"].shape[1] for x in data])
-                max_w = max([x["depth"].shape[2] for x in data])
-            
-                # Create padded depth tensor
-                depths = torch.zeros((batch_size, 1, max_h, max_w), device=data[0]["depth"].device)
-            
-                # Fill in the depth values
-                for idx, x in enumerate(data):
-                    depth = x["depth"]  # shape: [1, H, W]
-                    h, w = depth.shape[1:]
-                    depths[idx, :, :h, :w] = depth
-
-                loss_dict = model(data, prompt_depth=depths)
+                
+                # Process depth if available
+                depths = None
+                if "depth" in data[0]:
+                    max_h = max([x["depth"].shape[1] for x in data])
+                    max_w = max([x["depth"].shape[2] for x in data])
+                    
+                    # Create padded depth tensor
+                    depths = torch.zeros((batch_size, 1, max_h, max_w), device=data[0]["depth"].device)
+                    
+                    # Fill in the depth values
+                    for idx, x in enumerate(data):
+                        depth = x["depth"]  # shape: [1, H, W]
+                        h, w = depth.shape[1:]
+                        depths[idx, :, :h, :w] = depth
+                
+                # Process NOCS if available
+                nocs_maps = None
+                if "nocs" in data[0]:
+                    max_h = max([x["nocs"].shape[1] for x in data])
+                    max_w = max([x["nocs"].shape[2] for x in data])
+                    
+                    # Create padded NOCS tensor - NOCS typically has 3 channels (x,y,z)
+                    nocs_maps = torch.zeros((batch_size, 3, max_h, max_w), device=data[0]["nocs"].device)
+                    
+                    # Fill in the NOCS values
+                    for idx, x in enumerate(data):
+                        nocs = x["nocs"]  # shape: [3, H, W]
+                        h, w = nocs.shape[1:]
+                        nocs_maps[idx, :, :h, :w] = nocs 
+                
+                loss_dict = model(data, prompt_depth=depths, prompt_nocs=nocs_maps)
             else:
                 loss_dict = model(data)
             losses = sum(loss_dict.values())

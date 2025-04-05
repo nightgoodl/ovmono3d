@@ -125,10 +125,10 @@ def is_ignore(anno, filter_settings, image_height):
 def simple_register(dataset_name, filter_settings, filter_empty=False, datasets_root_path=None):
 
     if datasets_root_path is None:
-        datasets_root_path = path_to_json = os.path.join('/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets', 'Omni3D',)
+        datasets_root_path = path_to_json = os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data', 'omninocs_release_objectron',)
     
     path_to_json = os.path.join(datasets_root_path, dataset_name + '.json')
-    path_to_image_root = 'datasets'
+    path_to_image_root = '/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data/objectron'
 
     DatasetCatalog.register(dataset_name, lambda: load_omni3d_json(
         path_to_json, path_to_image_root, 
@@ -384,7 +384,9 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
         has_valid_annotation = False
 
         record = {}
-        record["file_name"] = os.path.join(image_root, img_dict["file_path"])
+        record["file_name"] = os.path.join(image_root, img_dict["file_path"] + '.png')
+        record["filepath"] = record["file_name"]  # 完整的文件路径
+        record["filename"] = img_dict["file_path"]  # 原始文件名
         record["dataset_id"] = img_dict["dataset_id"]
         record["height"] = img_dict["height"]
         record["width"] = img_dict["width"]
@@ -445,4 +447,4 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
     
     logger.info("Filtered out {}/{} images without valid annotations".format(invalid_count, len(imgs_anns)))
 
-    return dataset_dicts
+    return dataset_dicts 

@@ -51,6 +51,47 @@ class DepthFusionBlock(nn.Module):
         
         return out
 
+class NOCSFusionBlock(nn.Module):
+    def __init__(self, features):
+        super().__init__()
+        
+        # NOCS feature extraction (3 channels for RGB NOCS representation)
+        self.nocs_conv = nn.Sequential(
+            nn.Conv2d(3, features // 4, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(features // 4, features // 2, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(features // 2, features, kernel_size=3, stride=1, padding=1)
+        )
+        
+        # zero init NOCS fusion
+        for m in self.nocs_conv[-1].modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.zeros_(m.weight)
+                nn.init.zeros_(m.bias)
+        
+        # net after NOCS fusion
+        self.fusion_conv = nn.Conv2d(
+            features, features, kernel_size=3, stride=1, padding=1
+        )
+        
+        self.skip_add = nn.quantized.FloatFunctional()
+    
+    def forward(self, x, nocs):
+        if nocs.shape[-2:] != x.shape[-2:]:
+            nocs = F.interpolate(nocs, size=x.shape[-2:], mode='bilinear', align_corners=False)
+        
+        # extract NOCS feature
+        nocs_feat = self.nocs_conv(nocs)
+        
+        # NOCS fusion
+        fused = self.skip_add.add(x, nocs_feat)
+        
+        # feature fusion
+        out = self.fusion_conv(fused)
+        
+        return out
+
 class DINOBackbone(Backbone):
     def __init__(self, cfg, input_shape, dino_name="dino", model_name="vitb16", output="dense", layer=-1, return_multilayer=False, out_feature="last_feat",):
         super().__init__()
@@ -86,9 +127,15 @@ class DINOBackbone(Backbone):
         ]
         
         self.use_depth_fusion = cfg.MODEL.FPN.USE_DEPTH_FUSION
-        #use depth fusion
+        self.use_nocs_fusion = cfg.MODEL.FPN.USE_NOCS_FUSION
+        
+        # use depth fusion
         if self.use_depth_fusion:
             self.depth_fusion_block = DepthFusionBlock(feat_dim)
+            
+        # use NOCS fusion
+        if self.use_nocs_fusion:
+            self.nocs_fusion_block = NOCSFusionBlock(feat_dim)
 
         if return_multilayer:
             self.feat_dim = [feat_dim, feat_dim, feat_dim, feat_dim]
@@ -105,7 +152,7 @@ class DINOBackbone(Backbone):
         self._out_feature_strides = {out_feature: self.patch_size}
         self._out_features = [out_feature]
 
-    def forward(self, images, prompt_depth=None):
+    def forward(self, images, prompt_depth=None, prompt_nocs=None):
         h, w = images.shape[-2:]
         h, w = h // self.patch_size, w // self.patch_size
 
@@ -130,9 +177,15 @@ class DINOBackbone(Backbone):
             spatial = x_i[:, -1 * num_spatial:]
             x_i = tokens_to_output(self.output, spatial, cls_tok, (h, w))
             
-            # depth fusion to the last layer
-            if self.use_depth_fusion and prompt_depth is not None and idx == len(embeds) - 1:
-                x_i = self.depth_fusion_block(x_i, prompt_depth)
+            # Apply fusion at the last layer only
+            if idx == len(embeds) - 1:
+                # depth fusion
+                if self.use_depth_fusion and prompt_depth is not None:
+                    x_i = self.depth_fusion_block(x_i, prompt_depth)
+                
+                # NOCS fusion
+                if self.use_nocs_fusion and prompt_nocs is not None:
+                    x_i = self.nocs_fusion_block(x_i, prompt_nocs)
                 
             outputs[self._out_features[idx]] = x_i
 
