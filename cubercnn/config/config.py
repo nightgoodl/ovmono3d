@@ -221,7 +221,7 @@ def get_cfg_defaults(cfg):
     cfg.TEST.TRUNCATION_THRES = 1/2.0
 
     # If ORACLE2D is True, the ocacle 2d bboxes and categories will be loaded when evaluation. 
-    cfg.TEST.ORACLE2D = True
+    cfg.TEST.ORACLE2D = False
     cfg.TEST.CAT_MODE = "base" # "base" or "novel" or "all"
 
     cfg.INPUT.RANDOM_FLIP = "horizontal"

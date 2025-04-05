@@ -125,10 +125,10 @@ def is_ignore(anno, filter_settings, image_height):
 def simple_register(dataset_name, filter_settings, filter_empty=False, datasets_root_path=None):
 
     if datasets_root_path is None:
-        datasets_root_path = path_to_json = os.path.join('/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets', 'Omni3D',)
+        datasets_root_path = path_to_json = os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data', 'omninocs_release_objectron',)
     
     path_to_json = os.path.join(datasets_root_path, dataset_name + '.json')
-    path_to_image_root = 'datasets'
+    path_to_image_root = ''
 
     DatasetCatalog.register(dataset_name, lambda: load_omni3d_json(
         path_to_json, path_to_image_root, 

@@ -18,7 +18,8 @@ import os
 class DatasetMapper3D(DatasetMapper):
     def __init__(self, cfg, is_train = True):
         super().__init__(cfg, is_train)
-        self.depth_dir = "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/objectron_depth"
+        #self.depth_dir = "/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/objectron_depth"
+        self.depth_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data/objectron_depth"
         self.use_depth = cfg.MODEL.FPN.USE_DEPTH_FUSION
 
     def __call__(self, dataset_dict):
@@ -29,25 +30,35 @@ class DatasetMapper3D(DatasetMapper):
         detection_utils.check_image_size(dataset_dict, image)
 
         if self.use_depth:
-            file_name = os.path.basename(dataset_dict["file_name"])
-            base_name = os.path.splitext(file_name)[0]
-            split = "train" if self.is_train else "test"
-            depth_path = os.path.join(self.depth_dir, split, base_name + '.npz')
+            depth_path = os.path.join(self.depth_dir, dataset_dict["file_name"]+ '.npy')
             
             try:
-                depth_data = np.load(depth_path)['depth']
-                depth = torch.as_tensor(depth_data.astype("float32"))
-                
-                # match depth size to image size
-                if depth.shape[:2] != image.shape[:2]:
-                    depth = torch.nn.functional.interpolate(
-                        depth.unsqueeze(0).unsqueeze(0),
-                        size=image.shape[:2],
-                        mode='bilinear',
-                        align_corners=False
-                    ).squeeze()
+                if os.path.exists(depth_path):
+                    
+                    depth_data = np.load(depth_path)
+                   
+                    if len(depth_data.shape) > 2:
+                        
+                        if len(depth_data.shape) == 5:
+                            depth_data = depth_data[0, 0, :, :, 0]  
+                        elif len(depth_data.shape) == 3 and depth_data.shape[2] == 1:
+                            depth_data = depth_data[:, :, 0]  
+                    
+                    depth = torch.as_tensor(depth_data.astype("float32"))
+                    
+                    # match depth size to image size
+                    if depth.shape[:2] != image.shape[:2]:
+                        depth = torch.nn.functional.interpolate(
+                            depth.unsqueeze(0).unsqueeze(0),  # 确保是[N,C,H,W]格式
+                            size=image.shape[:2],
+                            mode='bilinear',
+                            align_corners=False
+                        ).squeeze()
+                else:
+                    print(f"Depth file does not exist: {depth_path}")
+                    depth = torch.zeros(image.shape[:2], dtype=torch.float32)
             except Exception as e:
-                print(f"Error reading depth file: {depth_path}")
+                print(f"Error reading depth file: {depth_path}, Error: {str(e)}")
                 depth = torch.zeros(image.shape[:2], dtype=torch.float32)
         else:
             depth = None
