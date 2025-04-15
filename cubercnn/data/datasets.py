@@ -128,7 +128,7 @@ def simple_register(dataset_name, filter_settings, filter_empty=False, datasets_
         datasets_root_path = path_to_json = os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data', 'omninocs_release_objectron',)
     
     path_to_json = os.path.join(datasets_root_path, dataset_name + '.json')
-    path_to_image_root = ''
+    path_to_image_root = '/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data/objectron'
 
     DatasetCatalog.register(dataset_name, lambda: load_omni3d_json(
         path_to_json, path_to_image_root, 
@@ -318,7 +318,11 @@ def register_and_store_model_metadata(datasets, output_dir, filter_settings=None
     MetadataCatalog.get('omni3d_model').thing_dataset_id_to_contiguous_id  = id_map
 
 
-def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filter_empty=False):
+def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filter_empty=False, visualize_samples=3):
+    import cv2
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import Axes3D
+    import numpy as np
     
     # read in the dataset
     timer = Timer()
@@ -384,7 +388,8 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
         has_valid_annotation = False
 
         record = {}
-        record["file_name"] = os.path.join(image_root, img_dict["file_path"])
+        record["file_path"] = os.path.join(image_root, img_dict["file_path"]+'.png')
+        record["file_name"] = img_dict["file_path"]
         record["dataset_id"] = img_dict["dataset_id"]
         record["height"] = img_dict["height"]
         record["width"] = img_dict["width"]
@@ -445,4 +450,191 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
     
     logger.info("Filtered out {}/{} images without valid annotations".format(invalid_count, len(imgs_anns)))
 
+    # 添加可视化代码
+    def visualize_sample(record, save_path):
+        # 读取图像
+        img = cv2.imread(record["file_path"])
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        
+        # 创建图像显示
+        fig = plt.figure(figsize=(15, 5))
+        
+        # 2D边界框可视化
+        ax1 = fig.add_subplot(121)
+        ax1.imshow(img)
+        
+        # 为不同类别准备不同的颜色
+        colors = plt.cm.rainbow(np.linspace(0, 1, len(meta.thing_classes)))
+        
+        # 获取相机内参
+        K = np.array(record["K"]).reshape(3, 3)
+        
+        for ann in record["annotations"]:
+            if ann["ignore"]:
+                continue
+                
+            # 获取类别颜色和名称
+            cat_id = ann["category_id"]
+            if cat_id == -1:  # ignored categories
+                color = 'gray'
+                category_name = 'ignored'
+            else:
+                color = colors[cat_id]
+                category_name = meta.thing_classes[cat_id]
+                
+            # 转换XYWH到XYXY格式用于绘制
+            bbox = ann["bbox"]
+            x1, y1 = bbox[0], bbox[1]
+            x2, y2 = bbox[0] + bbox[2], bbox[1] + bbox[3]
+            
+            # 绘制2D边界框
+            rect = plt.Rectangle((x1, y1), bbox[2], bbox[3], 
+                               fill=False, edgecolor=color, linewidth=2)
+            ax1.add_patch(rect)
+            
+            # 添加类别标签
+            if cat_id != -1:
+                ax1.text(x1, y1-5, category_name, 
+                        color=color, fontsize=8, backgroundcolor='white')
+            
+            # 获取3D边界框并投影到2D图像上
+            if "bbox3D_cam" in ann:
+                bbox3D = np.array(ann["bbox3D_cam"])
+                R = np.array(ann["pose"]).reshape(3, 3)
+                
+                # 定义边的连接关系
+                edges = [
+                    (0, 1), (1, 2), (2, 3), (3, 0),  # 底部矩形
+                    (4, 5), (5, 6), (6, 7), (7, 4),  # 顶部矩形
+                    (0, 4), (1, 5), (2, 6), (3, 7)   # 连接线
+                ]
+                
+                # 投影3D边界框到2D图像
+                points_2d = []
+                for point_3d in bbox3D:
+                    # 投影到图像平面
+                    point_cam = K @ point_3d
+                    # 归一化
+                    if point_cam[2] > 0:  # 确保在相机前方
+                        x_2d = point_cam[0] / point_cam[2]
+                        y_2d = point_cam[1] / point_cam[2]
+                        points_2d.append([x_2d, y_2d])
+                    else:
+                        points_2d.append(None)
+                
+                # 绘制投影的3D边界框
+                for i, j in edges:
+                    if points_2d[i] is not None and points_2d[j] is not None:
+                        ax1.plot([points_2d[i][0], points_2d[j][0]], 
+                                [points_2d[i][1], points_2d[j][1]], 
+                                color=color, linestyle='--', linewidth=1)
+        
+        ax1.set_title("2D Image with Projected 3D Boxes")
+        ax1.axis('off')
+        
+        # 3D边界框可视化
+        ax2 = fig.add_subplot(122, projection='3d')
+        
+        # 设置一个合适的3D视角
+        ax2.view_init(elev=20., azim=45)
+        
+        # 绘制坐标系
+        axis_length = 1.0
+        # X轴 - 红色
+        ax2.quiver(0, 0, 0, axis_length, 0, 0, color='red', arrow_length_ratio=0.1)
+        # Y轴 - 绿色
+        ax2.quiver(0, 0, 0, 0, axis_length, 0, color='green', arrow_length_ratio=0.1)
+        # Z轴 - 蓝色
+        ax2.quiver(0, 0, 0, 0, 0, axis_length, color='blue', arrow_length_ratio=0.1)
+        
+        # 添加坐标轴标签
+        ax2.set_xlabel('X')
+        ax2.set_ylabel('Y')
+        ax2.set_zlabel('Z')
+        
+        max_range = 0
+        
+        for ann in record["annotations"]:
+            if ann["ignore"]:
+                continue
+                
+            # 获取类别颜色和名称
+            cat_id = ann["category_id"]
+            if cat_id == -1:
+                color = 'gray'
+                category_name = 'ignored'
+            else:
+                color = colors[cat_id]
+                category_name = meta.thing_classes[cat_id]
+                
+            # 获取3D边界框顶点
+            bbox3D = np.array(ann["bbox3D_cam"])
+            
+            # 更新显示范围
+            max_range = max(max_range, np.abs(bbox3D).max())
+            
+            # 绘制3D边界框
+            def draw_line(p1, p2):
+                ax2.plot3D([p1[0], p2[0]], [p1[1], p2[1]], [p1[2], p2[2]], 
+                          color=color, linewidth=2)
+            
+            # 绘制底部矩形
+            for i in range(4):
+                j = (i + 1) % 4
+                draw_line(bbox3D[i], bbox3D[j])
+            
+            # 绘制顶部矩形
+            for i in range(4):
+                j = (i + 1) % 4
+                draw_line(bbox3D[i+4], bbox3D[j+4])
+            
+            # 绘制连接线
+            for i in range(4):
+                draw_line(bbox3D[i], bbox3D[i+4])
+            
+            # 添加中心点
+            center = bbox3D.mean(axis=0)
+            ax2.scatter(center[0], center[1], center[2], color=color, s=50)
+            
+            # 添加类别标签
+            if cat_id != -1:
+                ax2.text(center[0], center[1], center[2], 
+                        category_name, color=color)
+        
+        # 设置显示范围
+        ax2.set_xlim([-max_range, max_range])
+        ax2.set_ylim([-max_range, max_range])
+        ax2.set_zlim([0, max_range*2])  # 假设z轴向上
+        
+        ax2.set_title("3D Bounding Boxes")
+        plt.tight_layout()
+        
+        if save_path:
+            plt.savefig(save_path, dpi=300, bbox_inches='tight')
+            print(f"Saved visualization to {save_path}")
+        
+        plt.close(fig)  # 关闭图形以释放内存
+    
+    # 可视化前几个样本并保存
+    print(f"\nVisualizing and saving first {visualize_samples} valid samples...")
+    visualized = 0
+    save_dir = './output/input_coco'
+    # 如果提供了保存目录，创建它
+    if save_dir and not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    
+    for record in dataset_dicts:
+        if len(record["annotations"]) > 0:
+            # 生成保存路径
+            if save_dir:
+                filename = f"visualization_{record['image_id']}.png"
+                save_path = os.path.join(save_dir, filename)
+            else:
+                save_path = None
+                
+            visualize_sample(record, save_path)
+            visualized += 1
+            if visualized >= visualize_samples:
+                break
+    
     return dataset_dicts
