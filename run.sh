@@ -8,7 +8,7 @@ nohup python tools/train_net.py --resume\
     VIS_PERIOD 10000 \
     TEST.EVAL_PERIOD 10000 \
     MODEL.STABILIZE 0.03 \
-    SOLVER.BASE_LR 0.012 \
+    SOLVER.BASE_LR 0.0012 \
     SOLVER.CHECKPOINT_PERIOD 9999 \
     SOLVER.IMS_PER_BATCH 8 \
     > nohup.out 2>&1 &
