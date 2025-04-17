@@ -78,7 +78,7 @@ def get_cfg_defaults(cfg):
     cfg.MODEL.FPN.IN_FEATURE = None
     cfg.MODEL.FPN.SQUARE_PAD = 0
     cfg.MODEL.FPN.USE_DEPTH_FUSION = True
-    cfg.MODEL.FPN.USE_NOCS_FUSION = False
+    cfg.MODEL.FPN.USE_NOCS_FUSION = True
     # Threshold used for matching and filtering boxes
     # inside of ignore regions, within the RPN and ROIHeads
     cfg.MODEL.RPN.IGNORE_THRESHOLD = 0.5

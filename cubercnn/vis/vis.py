@@ -121,7 +121,7 @@ def visualize_from_instances(detections, dataset, dataset_name, min_size_test, o
         if write_sample:
             data_obj = dataset[imind]
             assert(data_obj['image_id'] == im_obj['image_id'])
-            im = util.imread(data_obj['file_name'])
+            im = util.imread(data_obj['file_path'])
             im_gt_2d = im.copy()
             im_gt_all_classes_2d = im.copy()
             im_pred_2d = im.copy()

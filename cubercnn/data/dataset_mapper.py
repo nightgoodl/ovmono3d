@@ -18,7 +18,7 @@ import os
 class DatasetMapper3D(DatasetMapper):
     def __init__(self, cfg, is_train = True):
         super().__init__(cfg, is_train)
-        self.depth_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data/objectron_depth"
+        self.depth_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_nocs"
         self.use_depth = cfg.MODEL.FPN.USE_DEPTH_FUSION
         self.nocs_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data/objectron_nocs"
         self.use_nocs = cfg.MODEL.FPN.USE_NOCS_FUSION 
@@ -27,12 +27,12 @@ class DatasetMapper3D(DatasetMapper):
         
         dataset_dict = copy.deepcopy(dataset_dict)  # it will be modified by code below
         
-        image = detection_utils.read_image(dataset_dict["file_name"], format=self.image_format)
+        image = detection_utils.read_image(dataset_dict["file_path"], format=self.image_format)
         detection_utils.check_image_size(dataset_dict, image)
 
 
         if self.use_depth:
-            depth_path = os.path.join(self.depth_dir, dataset_dict["filename"]+ '.npy')
+            depth_path = os.path.join(self.depth_dir, dataset_dict["file_name"]+ '.npy')
             
             try:
                 if os.path.exists(depth_path):
@@ -67,7 +67,7 @@ class DatasetMapper3D(DatasetMapper):
 
         # Load NOCS map from PNG image
         if self.use_nocs:
-            nocs_path = os.path.join(self.nocs_dir, dataset_dict["filename"] + '_nocs.png')
+            nocs_path = os.path.join(self.nocs_dir, dataset_dict["file_name"] + '_nocs.png')
             try:
                 nocs_image = detection_utils.read_image(nocs_path, format="RGB")
                 nocs = torch.as_tensor(nocs_image.astype("float32") / 255.0)  # Normalize to [0,1]
