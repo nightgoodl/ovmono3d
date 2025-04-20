@@ -113,11 +113,11 @@ def do_test(cfg, model, iteration='final', storage=None, mode="base"):
             '''
             Optionally, visualize some instances
             '''
-            category_path = "configs/category_objectron.json" # TODO: hard coded
+            category_path = "configs/category_meta.json" # TODO: hard coded
             metadata = util.load_json(category_path)
             category_names_official =  metadata['thing_classes']
             # if mode == "novel":
-            #     category_path = "configs/category_objectron.json" # TODO: hard coded
+            #     category_path = "configs/category_meta.json" # TODO: hard coded
             #     metadata = util.load_json(category_path)
             #     category_names_official =  metadata['thing_classes']
             # else:
@@ -351,7 +351,7 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
                 (do_eval and ((iteration + 1) % cfg.TEST.EVAL_PERIOD) == 0 and iteration != (max_iter - 1)):
 
                 logger.info('Starting test for iteration {}'.format(iteration+1))
-                #do_test(cfg, model, iteration=iteration+1, storage=storage, mode='novel')
+                do_test(cfg, model, iteration=iteration+1, storage=storage, mode='novel')
                 do_test(cfg, model, iteration=iteration+1, storage=storage, mode='base')
                 comm.synchronize()
                 
@@ -421,7 +421,7 @@ def main(args):
     priors = None
 
     if args.eval_only:
-        category_path = os.path.join(util.file_parts(args.config_file)[0], 'category_objectron.json')
+        category_path = os.path.join(util.file_parts(args.config_file)[0], 'category_meta.json')
         
         # store locally if needed
         if category_path.startswith(util.CubeRCNNHandler.PREFIX):
@@ -464,10 +464,10 @@ def main(args):
             )
 
             if cfg.TEST.CAT_MODE == 'all':  
-                do_test(cfg, model, 'novel')
-                do_test(cfg, model, 'base')
+                do_test(cfg, model, 'novel', mode='novel')
+                do_test(cfg, model, 'base', mode='base')
             else:
-                do_test(cfg, model, cfg.TEST.CAT_MODE)
+                do_test(cfg, model, cfg.TEST.CAT_MODE, mode=cfg.TEST.CAT_MODE)
                 
             return 
 
@@ -492,7 +492,7 @@ def main(args):
         # Exit if the model could not finish without diverging. 
         raise ValueError('Training failed')
         
-    #do_test(cfg, model, mode='novel')
+    do_test(cfg, model, mode='novel')
     do_test(cfg, model, mode='base')
     return 
 
@@ -527,7 +527,7 @@ def allreduce_dict(input_dict, average=True):
 
 def setup_training_dataset(cfg, filter_settings):
     # setup and join the data.
-    dataset_paths = [os.path.join('/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets', 'Omni3D', name + '.json') for name in cfg.DATASETS.TRAIN]
+    dataset_paths = [os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS', 'Omni3D', name + '.json') for name in cfg.DATASETS.TRAIN]
     datasets = data.Omni3D(dataset_paths, filter_settings=filter_settings)
 
     # determine the meta data given the datasets used. 

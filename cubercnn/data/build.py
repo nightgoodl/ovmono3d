@@ -25,6 +25,7 @@ from detectron2.data.build import (
     trivial_batch_collator
 )
 import random
+from detectron2.data import MetadataCatalog
 
 
 def sample_by_percentage(data_list, percentage, seed=None):
@@ -43,15 +44,44 @@ def xywh_to_xyxy(bbox):
 
 
 def merge_oracle2d_to_detection_dicts(dataset_dicts, oracle2d):
+    # 获取类别映射
+    metadata = MetadataCatalog.get('omni3d_model')
+    thing_dataset_id_to_contiguous_id = metadata.thing_dataset_id_to_contiguous_id
+    logger = logging.getLogger(__name__)
+    
+    # 记录类别统计
+    category_stats = defaultdict(int)
+
     for dataset, oracle in zip(dataset_dicts, oracle2d):
+        logger.info(f"Processing oracle2d file: {oracle}")
         with open(oracle, 'r') as file:
             oracle_data = json.load(file)
-        for data_dict, oracle_dict in zip(dataset,oracle_data):
+        for data_dict, oracle_dict in zip(dataset, oracle_data):
             assert data_dict['image_id'] == oracle_dict['image_id']
-            data_dict["oracle2D"] = {"gt_bbox2D": torch.tensor([xywh_to_xyxy(instance["bbox"]) for instance in oracle_dict["instances"]]), 
-                                     "gt_classes": torch.tensor([instance["category_id"] for instance in oracle_dict["instances"]]),
-                                     "gt_scores": torch.tensor([instance["score"] for instance in oracle_dict["instances"]]),
-                                     }
+            # 转换类别ID
+            category_ids = []
+            for instance in oracle_dict["instances"]:
+                orig_id = instance["category_id"]
+                category_stats[orig_id] += 1
+                if orig_id in thing_dataset_id_to_contiguous_id:
+                    mapped_id = thing_dataset_id_to_contiguous_id[orig_id]
+                    category_ids.append(mapped_id)
+                    if orig_id == 97:  # fireplace
+                        logger.info(f"Found fireplace in image {data_dict['image_id']}, mapped from {orig_id} to {mapped_id}")
+                else:
+                    logger.warning(f"Category ID {orig_id} not found in mapping for image {data_dict['image_id']}")
+                    category_ids.append(orig_id)
+            
+            data_dict["oracle2D"] = {
+                "gt_bbox2D": torch.tensor([xywh_to_xyxy(instance["bbox"]) for instance in oracle_dict["instances"]]), 
+                "gt_classes": torch.tensor(category_ids),
+                "gt_scores": torch.tensor([instance["score"] for instance in oracle_dict["instances"]]),
+            }
+    
+    # 输出类别统计信息
+    logger.info("Category statistics in oracle2d:")
+    for cat_id, count in category_stats.items():
+        logger.info(f"Category ID {cat_id}: {count} instances")
 
 
 def get_detection_dataset_dicts(names, filter_empty=True, oracle2d=None, **kwargs):

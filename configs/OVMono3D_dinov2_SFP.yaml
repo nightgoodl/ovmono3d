@@ -16,9 +16,9 @@ TEST:
   EVAL_PERIOD: 29000
 VIS_PERIOD: 2320
 DATASETS:
-  TRAIN: ('Objectron_train', 'Objectron_val')
-  TEST: ('Objectron_test',) 
-  CATEGORY_NAMES: ('bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes')
+  TRAIN: ('ARKitScenes_train', 'ARKitScenes_val')
+  TEST: ('ARKitScenes_test', 'ARKitScenes_test_novel') 
+  CATEGORY_NAMES: ("toilet", "fireplace", "table", "bed", "sofa", "television", "refrigerator", "chair", "cabinet", "stove", "oven", "shelves", "sink", "machine", "bathtub")
 MODEL:
   PIXEL_MEAN: [123.675, 116.280, 103.530]
   PIXEL_STD: [58.395, 57.120, 57.375]  # changed to rgb order
@@ -40,5 +40,5 @@ MODEL:
   RPN:
     IN_FEATURES: ['p2', 'p3', 'p4']
   ROI_HEADS:
-    NUM_CLASSES: 97
+    NUM_CLASSES: 15
     IN_FEATURES: ['p2', 'p3', 'p4']

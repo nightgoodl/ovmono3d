@@ -33,10 +33,10 @@ def get_cfg_defaults(cfg):
     # or if the 3D full projected boxes should be used.
     cfg.DATASETS.TRUNC_2D_BOXES = True
 
-    cfg.DATASETS.TEST_BASE = ('Objectron_test',) 
-    cfg.DATASETS.TEST_NOVEL = () 
-    cfg.DATASETS.CATEGORY_NAMES_BASE = ('bicycle', 'books', 'bottle', 'camera', 'cereal box', 'chair', 'cup', 'laptop', 'shoes')
-    cfg.DATASETS.CATEGORY_NAMES_NOVEL = ()
+    cfg.DATASETS.TEST_BASE = ('ARKitScenes_test',) 
+    cfg.DATASETS.TEST_NOVEL = ('ARKitScenes_test_novel',) 
+    cfg.DATASETS.CATEGORY_NAMES_BASE = ("toilet", "table", "bed", "sofa", "television", "refrigerator", "chair", "cabinet", "stove", "oven", "shelves", "sink", "machine", "bathtub")
+    cfg.DATASETS.CATEGORY_NAMES_NOVEL = ('fireplace',)
 
     # Oracle 2D files for evaluation
     cfg.DATASETS.ORACLE2D_FILES = CN()
@@ -51,7 +51,7 @@ def get_cfg_defaults(cfg):
         # Oracle 2D file for the Novel class dataset
         novel_datasets = {
             #'SUNRGBD_test_novel': 'sunrgbd',
-            #'ARKitScenes_test_novel': 'arkitscenes', 
+            'ARKitScenes_test_novel': 'arkitscenes', 
             #'KITTI_test_novel': 'kitti'
         }
         
@@ -59,8 +59,8 @@ def get_cfg_defaults(cfg):
         base_datasets = {
             #'SUNRGBD_test': 'sunrgbd',
             #'Hypersim_test': 'hypersim',
-            #'ARKitScenes_test': 'arkitscenes',
-            'Objectron_test': 'objectron',
+            'ARKitScenes_test': 'arkitscenes',
+            #'Objectron_test': 'objectron',
             #'KITTI_test': 'kitti',
             #'nuScenes_test': 'nuscenes'
         }
@@ -68,17 +68,17 @@ def get_cfg_defaults(cfg):
         # Set the file path for the novel class
         for dataset, dataset_name in novel_datasets.items():
             prefix = 'gdino_novel_previous_metric' if mode == 'previous_metric' else 'gdino'
-            cfg.DATASETS.ORACLE2D_FILES[mode].novel[dataset] = f'/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/{prefix}_{dataset_name}_novel_oracle_2d.json'
+            cfg.DATASETS.ORACLE2D_FILES[mode].novel[dataset] = f'/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/{prefix}_{dataset_name}_novel_oracle_2d.json'
 
         # Set the file path for the base class
         for dataset, dataset_name in base_datasets.items():
             prefix = 'gdino_previous_eval' if mode == 'previous_metric' else 'gdino'
-            cfg.DATASETS.ORACLE2D_FILES[mode].base[dataset] = f'/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets/Omni3D/{prefix}_{dataset_name}_base_oracle_2d.json'
+            cfg.DATASETS.ORACLE2D_FILES[mode].base[dataset] = f'/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/{prefix}_{dataset_name}_base_oracle_2d.json'
 
     cfg.MODEL.FPN.IN_FEATURE = None
     cfg.MODEL.FPN.SQUARE_PAD = 0
-    cfg.MODEL.FPN.USE_DEPTH_FUSION = True
-    cfg.MODEL.FPN.USE_NOCS_FUSION = True
+    cfg.MODEL.FPN.USE_DEPTH_FUSION = False
+    cfg.MODEL.FPN.USE_NOCS_FUSION = False
     # Threshold used for matching and filtering boxes
     # inside of ignore regions, within the RPN and ROIHeads
     cfg.MODEL.RPN.IGNORE_THRESHOLD = 0.5
@@ -222,8 +222,8 @@ def get_cfg_defaults(cfg):
     cfg.TEST.TRUNCATION_THRES = 1/2.0
 
     # If ORACLE2D is True, the ocacle 2d bboxes and categories will be loaded when evaluation. 
-    cfg.TEST.ORACLE2D = False
-    cfg.TEST.CAT_MODE = "base" # "base" or "novel" or "all"
+    cfg.TEST.ORACLE2D = True
+    cfg.TEST.CAT_MODE = "all" # "base" or "novel" or "all"
 
     cfg.INPUT.RANDOM_FLIP = "horizontal"
     cfg.INPUT.TRAIN_SET_PERCENTAGE = 1.0

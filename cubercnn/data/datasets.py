@@ -50,10 +50,11 @@ def save_global_dataset_stats(stats, path_to_stats=None):
 
 
 def get_filter_settings_from_cfg(cfg=None):
-
     if cfg is None:
         return {
             'category_names': [], 
+            'category_names_novel': [],
+            'category_names_base': [],
             'ignore_names': [], 
             'truncation_thres': 0.99, 
             'visibility_thres': 0.01,
@@ -65,7 +66,9 @@ def get_filter_settings_from_cfg(cfg=None):
         }
     else:
         return {
-            'category_names': cfg.DATASETS.CATEGORY_NAMES, 
+            'category_names': cfg.DATASETS.CATEGORY_NAMES,
+            'category_names_novel': cfg.DATASETS.CATEGORY_NAMES_NOVEL,
+            'category_names_base': cfg.DATASETS.CATEGORY_NAMES_BASE,
             'ignore_names': cfg.DATASETS.IGNORE_NAMES, 
             'truncation_thres': cfg.DATASETS.TRUNCATION_THRES, 
             'visibility_thres': cfg.DATASETS.VISIBILITY_THRES,
@@ -125,10 +128,10 @@ def is_ignore(anno, filter_settings, image_height):
 def simple_register(dataset_name, filter_settings, filter_empty=False, datasets_root_path=None):
 
     if datasets_root_path is None:
-        datasets_root_path = path_to_json = os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data', 'omninocs_release_objectron',)
+        datasets_root_path = path_to_json = os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS', 'Omni3D',)
     
     path_to_json = os.path.join(datasets_root_path, dataset_name + '.json')
-    path_to_image_root = '/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/objectron_data/objectron'
+    path_to_image_root = '/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes'
 
     DatasetCatalog.register(dataset_name, lambda: load_omni3d_json(
         path_to_json, path_to_image_root, 
@@ -293,9 +296,9 @@ class Omni3D(COCO):
 
 def register_and_store_model_metadata(datasets, output_dir, filter_settings=None):
 
-    output_file = os.path.join(output_dir, 'category_objectron.json')
+    output_file = os.path.join(output_dir, 'category_meta.json')
 
-    omni3d_stats = util.load_json(os.path.join('/baai-cwm-1/baai_cwm_ml/algorithm/chongjie.ye/data/datasets', 'Omni3D', 'stats.json'))
+    omni3d_stats = util.load_json(os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS', 'Omni3D', 'stats.json'))
     thing_classes = filter_settings['category_names']
 
     cat_ids = []
@@ -336,23 +339,33 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
     meta_model = MetadataCatalog.get('omni3d_model')
 
     # load the meta information
+    is_novel = dataset_name.endswith("_novel")
+    is_test = dataset_name.endswith("_test")
     meta = MetadataCatalog.get(dataset_name)
-    cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names']))
-    cats = coco_api.loadCats(cat_ids)
-    thing_classes = [c["name"] for c in sorted(cats, key=lambda x: x["id"])]
-    meta.thing_classes = thing_classes
-    if dataset_name.endswith(("_novel", "_test")):
-        category_path = "configs/category_objectron.json" # TODO: hard coded
+    
 
+    if is_novel:
+        logger.info(f"Loading novel test dataset: {dataset_name}")
+        category_path = "configs/category_meta.json"
         metadata = util.load_json(category_path)
-
-        # register the categories
-        id_map = {int(key):val for key, val in metadata['thing_dataset_id_to_contiguous_id'].items()}
-        meta.thing_dataset_id_to_contiguous_id = id_map
+        cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names_novel']))
+    elif is_test:
+        logger.info(f"Loading base test dataset: {dataset_name}")
+        cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names_base']))
     else:
-        # the id mapping must be based on the model!
-        id_map = meta_model.thing_dataset_id_to_contiguous_id
-        meta.thing_dataset_id_to_contiguous_id = id_map
+        logger.info(f"Loading training dataset: {dataset_name}")
+        cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names_base']))
+    
+        cats = coco_api.loadCats(cat_ids)
+        thing_classes = [c["name"] for c in sorted(cats, key=lambda x: x["id"])]
+        meta.thing_classes = thing_classes
+        
+        logger.info(f"Dataset {dataset_name} loaded with {len(thing_classes)} categories: {thing_classes}")
+
+    # the id mapping must be based on the model!
+    id_map = meta_model.thing_dataset_id_to_contiguous_id
+    meta.thing_dataset_id_to_contiguous_id = id_map
+    metadata = {"thing_classes": meta.thing_classes}  # 添加这行，确保metadata变量存在
 
     # sort indices for reproducible results
     img_ids = sorted(coco_api.imgs.keys())
@@ -388,8 +401,9 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
         has_valid_annotation = False
 
         record = {}
-        record["file_path"] = os.path.join(image_root, img_dict["file_path"]+'.png')
-        record["file_name"] = img_dict["file_path"]
+        record["file_path"] = os.path.join(image_root, img_dict["file_path"])
+        base_name, _ = os.path.splitext(img_dict["file_path"])
+        record["file_name"] = base_name
         record["dataset_id"] = img_dict["dataset_id"]
         record["height"] = img_dict["height"]
         record["width"] = img_dict["width"]
@@ -464,7 +478,8 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
         ax1.imshow(img)
         
         # 为不同类别准备不同的颜色
-        colors = plt.cm.rainbow(np.linspace(0, 1, len(meta.thing_classes)))
+        num_classes = len(MetadataCatalog.get('omni3d_model').thing_classes)
+        colors = plt.cm.rainbow(np.linspace(0, 1, num_classes))
         
         # 获取相机内参
         K = np.array(record["K"]).reshape(3, 3)
@@ -480,7 +495,8 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
                 category_name = 'ignored'
             else:
                 color = colors[cat_id]
-                category_name = meta.thing_classes[cat_id]
+                
+                category_name = MetadataCatalog.get('omni3d_model').thing_classes[cat_id]
                 
             # 转换XYWH到XYXY格式用于绘制
             bbox = ann["bbox"]
@@ -565,7 +581,7 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
                 category_name = 'ignored'
             else:
                 color = colors[cat_id]
-                category_name = meta.thing_classes[cat_id]
+                category_name = MetadataCatalog.get('omni3d_model').thing_classes[cat_id]
                 
             # 获取3D边界框顶点
             bbox3D = np.array(ann["bbox3D_cam"])
@@ -627,7 +643,7 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
         if len(record["annotations"]) > 0:
             # 生成保存路径
             if save_dir:
-                filename = f"visualization_{record['image_id']}.png"
+                filename = f"visualization_{record['image_id']}.jpg"
                 save_path = os.path.join(save_dir, filename)
             else:
                 save_path = None
