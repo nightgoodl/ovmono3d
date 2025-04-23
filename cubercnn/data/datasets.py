@@ -349,18 +349,24 @@ def load_omni3d_json(json_file, image_root, dataset_name, filter_settings, filte
         category_path = "configs/category_meta.json"
         metadata = util.load_json(category_path)
         cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names_novel']))
-    elif is_test:
-        logger.info(f"Loading base test dataset: {dataset_name}")
-        cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names_base']))
-    else:
-        logger.info(f"Loading training dataset: {dataset_name}")
-        cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names_base']))
-    
         cats = coco_api.loadCats(cat_ids)
         thing_classes = [c["name"] for c in sorted(cats, key=lambda x: x["id"])]
         meta.thing_classes = thing_classes
-        
-        logger.info(f"Dataset {dataset_name} loaded with {len(thing_classes)} categories: {thing_classes}")
+        logger.info(f"Dataset {dataset_name} loaded with {len(thing_classes)} novel categories: {thing_classes}")
+    elif is_test:
+        logger.info(f"Loading base test dataset: {dataset_name}")
+        cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names_base']))
+        cats = coco_api.loadCats(cat_ids)
+        thing_classes = [c["name"] for c in sorted(cats, key=lambda x: x["id"])]
+        meta.thing_classes = thing_classes
+        logger.info(f"Dataset {dataset_name} loaded with {len(thing_classes)} base test categories: {thing_classes}")
+    else:
+        logger.info(f"Loading training dataset: {dataset_name}")
+        cat_ids = sorted(coco_api.getCatIds(filter_settings['category_names_base']))
+        cats = coco_api.loadCats(cat_ids)
+        thing_classes = [c["name"] for c in sorted(cats, key=lambda x: x["id"])]
+        meta.thing_classes = thing_classes
+        logger.info(f"Dataset {dataset_name} loaded with {len(thing_classes)} training categories: {thing_classes}")
 
     # the id mapping must be based on the model!
     id_map = meta_model.thing_dataset_id_to_contiguous_id

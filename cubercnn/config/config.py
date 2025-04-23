@@ -77,7 +77,7 @@ def get_cfg_defaults(cfg):
 
     cfg.MODEL.FPN.IN_FEATURE = None
     cfg.MODEL.FPN.SQUARE_PAD = 0
-    cfg.MODEL.FPN.USE_DEPTH_FUSION = False
+    cfg.MODEL.FPN.USE_DEPTH_FUSION = True
     cfg.MODEL.FPN.USE_NOCS_FUSION = False
     # Threshold used for matching and filtering boxes
     # inside of ignore regions, within the RPN and ROIHeads
@@ -238,3 +238,13 @@ def get_cfg_defaults(cfg):
 
     # weight path specifically for pretraining (no checkpointables will be loaded)
     cfg.MODEL.WEIGHTS_PRETRAIN = ''
+
+    # VGGT backbone options
+    cfg.MODEL.VGGT = CN()
+    cfg.MODEL.VGGT.IMG_SIZE = [896, 672]
+    cfg.MODEL.VGGT.PATCH_SIZE = 14
+    cfg.MODEL.VGGT.EMBED_DIM = 1024
+    cfg.MODEL.VGGT.DEPTH = 24 
+    cfg.MODEL.VGGT.NUM_HEADS = 16
+    cfg.MODEL.VGGT.MLP_RATIO = 4.0
+    cfg.MODEL.VGGT.NUM_REGISTER_TOKENS = 4

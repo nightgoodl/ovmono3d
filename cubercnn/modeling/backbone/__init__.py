@@ -8,3 +8,4 @@ from .mae import *
 from .clip import *
 from .midas_final import *
 from .sam import *
+from .vggt import *

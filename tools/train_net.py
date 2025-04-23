@@ -221,6 +221,14 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
                         depth = x["depth"]  # shape: [1, H, W]
                         h, w = depth.shape[1:]
                         depths[idx, :, :h, :w] = depth
+                    
+                    # normalize depth
+                    valid_mask = depths > 0
+                    if valid_mask.any():
+                        min_depth = depths[valid_mask].min()
+                        max_depth = depths[valid_mask].max()
+                        depths = (depths - min_depth) / (max_depth - min_depth + 1e-6)
+                        depths = torch.where(valid_mask, depths, torch.zeros_like(depths))
                 
                 # Process NOCS if available
                 nocs_maps = None

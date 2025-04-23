@@ -18,7 +18,7 @@ import os
 class DatasetMapper3D(DatasetMapper):
     def __init__(self, cfg, is_train = True):
         super().__init__(cfg, is_train)
-        self.depth_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_depth"
+        self.depth_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_dep_pro"
         self.use_depth = cfg.MODEL.FPN.USE_DEPTH_FUSION
         self.nocs_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_nocs"
         self.use_nocs = cfg.MODEL.FPN.USE_NOCS_FUSION 

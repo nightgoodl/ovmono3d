@@ -1,0 +1,54 @@
+_BASE_: "Base.yaml"
+SOLVER:
+  TYPE: "sgd"
+  IMS_PER_BATCH: 64
+  BASE_LR: 0.12
+  STEPS: (69600, 92800)
+  MAX_ITER: 116000
+  WARMUP_ITERS: 3625
+INPUT: 
+  MIN_SIZE_TRAIN: (280, 308, 336, 364, 392, 420, 448, 476, 504, 532, 560, 588, 616, 644, 672, 700, 728, 756, 784, 812, 840, 868, 896, 924, 952, 980, 1008,)
+  MIN_SIZE_TEST: 532
+  MAX_SIZE_TRAIN: 896
+  MAX_SIZE_TEST: 896
+  FORMAT: "RGB"
+TEST:
+  EVAL_PERIOD: 29000
+VIS_PERIOD: 2320
+DATASETS:
+  TRAIN: ('ARKitScenes_train', 'ARKitScenes_val')
+  TEST: ('ARKitScenes_test', 'ARKitScenes_test_novel') 
+  CATEGORY_NAMES: ("toilet", "fireplace", "table", "bed", "sofa", "television", "refrigerator", "chair", "cabinet", "stove", "oven", "shelves", "sink", "machine", "bathtub")
+MODEL:
+  META_ARCHITECTURE: "RCNN3D"
+  PIXEL_MEAN: [123.675, 116.280, 103.530]
+  PIXEL_STD: [58.395, 57.120, 57.375]  # changed to rgb order
+  BACKBONE:
+    FREEZE_AT: 0 
+    NAME: 'build_vggt_backbone'
+  VGGT:
+    IMG_SIZE: [896, 672]
+    PATCH_SIZE: 14
+    EMBED_DIM: 256
+    DEPTH: 12
+    NUM_HEADS: 4
+    MLP_RATIO: 4.0
+    NUM_REGISTER_TOKENS: 4
+  DINO:
+    NAME: 'dinov2'
+    MODEL_NAME: 'vitb14'
+    OUTPUT: 'dense'
+    LAYER: -1
+    RETURN_MULTILAYER: False
+  FPN:
+    IN_FEATURE: 'last_feat'
+    NORM: 'LN'
+    SQUARE_PAD: 896
+    OUT_CHANNELS: 256
+  ANCHOR_GENERATOR:
+    SIZES: [[64], [256], [512]] 
+  RPN:
+    IN_FEATURES: ['p2', 'p3', 'p4']
+  ROI_HEADS:
+    NUM_CLASSES: 15
+    IN_FEATURES: ['p2', 'p3', 'p4']
