@@ -241,7 +241,7 @@ def get_cfg_defaults(cfg):
 
     # VGGT backbone options
     cfg.MODEL.VGGT = CN()
-    cfg.MODEL.VGGT.IMG_SIZE = [896, 672]
+    cfg.MODEL.VGGT.IMG_SIZE = (896, 672)
     cfg.MODEL.VGGT.PATCH_SIZE = 14
     cfg.MODEL.VGGT.EMBED_DIM = 1024
     cfg.MODEL.VGGT.DEPTH = 24 

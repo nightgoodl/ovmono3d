@@ -1,25 +1,57 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+
+import logging
 import torch
 import torch.nn as nn
-from typing import Optional, Tuple, Union, List, Dict
+import torch.nn.functional as F
+from typing import Optional, Tuple, Union, List, Dict, Any
 
-from .patch_embed import PatchEmbed
-from .block import Block
-from .rope import RotaryPositionEmbedding2D, PositionGetter
+from .layers import PatchEmbed
+from .layers.block import Block
+from .layers.rope import RotaryPositionEmbedding2D, PositionGetter
+from .layers.vision_transformer import vit_small, vit_base, vit_large, vit_giant2
+
+logger = logging.getLogger(__name__)
 
 _RESNET_MEAN = [0.485, 0.456, 0.406]
 _RESNET_STD = [0.229, 0.224, 0.225]
+
 
 class Aggregator(nn.Module):
     """
     The Aggregator applies alternating-attention over input frames,
     as described in VGGT: Visual Geometry Grounded Transformer.
+
+
+    Args:
+        img_size (int): Image size in pixels.
+        patch_size (int): Size of each patch for PatchEmbed.
+        embed_dim (int): Dimension of the token embeddings.
+        depth (int): Number of blocks.
+        num_heads (int): Number of attention heads.
+        mlp_ratio (float): Ratio of MLP hidden dim to embedding dim.
+        num_register_tokens (int): Number of register tokens.
+        block_fn (nn.Module): The block type used for attention (Block by default).
+        qkv_bias (bool): Whether to include bias in QKV projections.
+        proj_bias (bool): Whether to include bias in the output projection.
+        ffn_bias (bool): Whether to include bias in MLP layers.
+        patch_embed (str): Type of patch embed. e.g., "conv" or "dinov2_vitl14_reg".
+        aa_order (list[str]): The order of alternating attention, e.g. ["frame", "global"].
+        aa_block_size (int): How many blocks to group under each attention type before switching. If not necessary, set to 1.
+        qk_norm (bool): Whether to apply QK normalization.
+        rope_freq (int): Base frequency for rotary embedding. -1 to disable.
+        init_values (float): Init scale for layer scale.
     """
 
     def __init__(
         self,
         img_size=518,
         patch_size=14,
-        embed_dim=1024,
+        embed_dim=256,
         depth=24,
         num_heads=16,
         mlp_ratio=4.0,
@@ -28,7 +60,7 @@ class Aggregator(nn.Module):
         qkv_bias=True,
         proj_bias=True,
         ffn_bias=True,
-        patch_embed="conv",
+        patch_embed="dinov2_vitl14_reg",
         aa_order=["frame", "global"],
         aa_block_size=1,
         qk_norm=True,
@@ -121,16 +153,51 @@ class Aggregator(nn.Module):
         interpolate_offset=0.0,
         block_chunks=0,
         init_values=1.0,
-        embed_dim=1024,
+        embed_dim=256,
     ):
         """
         Build the patch embed layer. If 'conv', we use a
-        simple PatchEmbed conv layer.
+        simple PatchEmbed conv layer. Otherwise, we use a vision transformer.
         """
+
         if "conv" in patch_embed:
             self.patch_embed = PatchEmbed(img_size=img_size, patch_size=patch_size, in_chans=3, embed_dim=embed_dim)
         else:
-            raise ValueError(f"Unsupported patch_embed type: {patch_embed}")
+            vit_models = {
+                "dinov2_vitl14_reg": vit_large,
+                "dinov2_vitb14_reg": vit_base,
+                "dinov2_vits14_reg": vit_small,
+                "dinov2_vitg2_reg": vit_giant2,
+            }
+
+            # Get the ViT model's output dimension
+            vit_embed_dims = {
+                "dinov2_vitl14_reg": 1024,
+                "dinov2_vitb14_reg": 768,
+                "dinov2_vits14_reg": 384,
+                "dinov2_vitg2_reg": 1536,
+            }
+            vit_out_dim = vit_embed_dims[patch_embed]
+
+            self.patch_embed = vit_models[patch_embed](
+                img_size=img_size,
+                patch_size=patch_size,
+                num_register_tokens=num_register_tokens,
+                interpolate_antialias=interpolate_antialias,
+                interpolate_offset=interpolate_offset,
+                block_chunks=block_chunks,
+                init_values=init_values,
+            )
+
+            # Add a projection layer if the dimensions don't match
+            if vit_out_dim != embed_dim:
+                self.dim_proj = nn.Linear(vit_out_dim, embed_dim)
+            else:
+                self.dim_proj = nn.Identity()
+
+            # Disable gradient updates for mask token
+            if hasattr(self.patch_embed, "mask_token"):
+                self.patch_embed.mask_token.requires_grad_(False)
 
     def forward(
         self,
@@ -160,6 +227,9 @@ class Aggregator(nn.Module):
 
         if isinstance(patch_tokens, dict):
             patch_tokens = patch_tokens["x_norm_patchtokens"]
+
+        # Project to the target dimension if needed
+        patch_tokens = self.dim_proj(patch_tokens)
 
         _, P, C = patch_tokens.shape
 
@@ -206,6 +276,9 @@ class Aggregator(nn.Module):
                 concat_inter = torch.cat([frame_intermediates[i], global_intermediates[i]], dim=-1)
                 output_list.append(concat_inter)
 
+        del concat_inter
+        del frame_intermediates
+        del global_intermediates
         return output_list, self.patch_start_idx
 
     def _process_frame_attention(self, tokens, B, S, P, C, frame_idx, pos=None):

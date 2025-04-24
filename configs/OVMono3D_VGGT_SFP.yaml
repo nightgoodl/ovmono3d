@@ -27,7 +27,7 @@ MODEL:
     FREEZE_AT: 0 
     NAME: 'build_vggt_backbone'
   VGGT:
-    IMG_SIZE: [896, 672]
+    IMG_SIZE: (896, 672)
     PATCH_SIZE: 14
     EMBED_DIM: 256
     DEPTH: 12
@@ -46,9 +46,9 @@ MODEL:
     SQUARE_PAD: 896
     OUT_CHANNELS: 256
   ANCHOR_GENERATOR:
-    SIZES: [[64], [256], [512]] 
+    SIZES: [[512]] 
   RPN:
-    IN_FEATURES: ['p2', 'p3', 'p4']
+    IN_FEATURES: ['p4']
   ROI_HEADS:
     NUM_CLASSES: 15
-    IN_FEATURES: ['p2', 'p3', 'p4']
+    IN_FEATURES: ['p4']

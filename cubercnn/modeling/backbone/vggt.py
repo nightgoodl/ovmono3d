@@ -36,6 +36,7 @@ class DepthAttentionFusion(nn.Module):
         return self.fusion_conv(fused)
 
 class VGGTBackbone(Backbone):
+
     def __init__(self, cfg, input_shape, priors=None):
         super().__init__()
         
@@ -48,33 +49,36 @@ class VGGTBackbone(Backbone):
         self.mlp_ratio = cfg.MODEL.VGGT.MLP_RATIO
         self.num_register_tokens = cfg.MODEL.VGGT.NUM_REGISTER_TOKENS
         
-        # Enhanced depth encoder with residual blocks
+        # Enhanced depth encoder with more powerful architecture
         self.depth_encoder = nn.Sequential(
-            # Initial convolution without stride
-            nn.Conv2d(1, 32, kernel_size=7, stride=1, padding=3),
+            # Initial convolution 
+            nn.Conv2d(1, 32, kernel_size=7, stride=2, padding=3),
             nn.BatchNorm2d(32),
             nn.ReLU(inplace=True),
             
             # First residual block
-            self._make_residual_block(32),
-            
-            # Middle convolution without stride
-            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
+            self._make_residual_block(32, 64),
+            nn.MaxPool2d(kernel_size=2, stride=2),
             
             # Second residual block
-            self._make_residual_block(64),
+            self._make_residual_block(64, 128),
             
-            # Final convolution to get 3 channels
-            nn.Conv2d(64, 3, kernel_size=3, stride=1, padding=1),
+            # Final convolution to match channels with image input
+            nn.Conv2d(128, 3, kernel_size=1, stride=1),
             nn.BatchNorm2d(3),
-            nn.ReLU(inplace=True)
+            nn.ReLU(inplace=True),
+            
+            # Upsample to match the input size (compensate for the downsampling)
+            nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False)
         )
         
-        # Create VGGT Aggregator
+        # Create VGGT Aggregator with alternating attention
+        # Calculate the maximum dimension and ensure it's divisible by patch_size
+        max_size = max(self.img_size)
+        img_size_adjusted = ((max_size + self.patch_size - 1) // self.patch_size) * self.patch_size
+        
         self.aggregator = Aggregator(
-            img_size=self.img_size,
+            img_size=img_size_adjusted,  # Use adjusted square size
             patch_size=self.patch_size,
             embed_dim=self.embed_dim,
             depth=self.depth,
@@ -82,28 +86,41 @@ class VGGTBackbone(Backbone):
             mlp_ratio=self.mlp_ratio,
             num_register_tokens=self.num_register_tokens,
             aa_order=["frame", "global"],
-            aa_block_size=1
+            aa_block_size=1,
+            qk_norm=True,
+            rope_freq=100,
+            init_values=0.01,
         )
         
-        # Create FPN-like converter
-        self.fpn_converter = nn.ModuleDict({
-            "p2": nn.Conv2d(self.embed_dim * 2, cfg.MODEL.FPN.OUT_CHANNELS, kernel_size=1),
-            "p3": nn.Conv2d(self.embed_dim * 2, cfg.MODEL.FPN.OUT_CHANNELS, kernel_size=1),
-            "p4": nn.Conv2d(self.embed_dim * 2, cfg.MODEL.FPN.OUT_CHANNELS, kernel_size=1)
-        })
+        # Output projection layers to map VGGT features to detection features
+        # We'll use the same output channels as specified in FPN config
+        self.out_channels = cfg.MODEL.FPN.OUT_CHANNELS
         
-        # Define output feature information
-        self._out_features = ["p2", "p3", "p4"]
-        self._out_feature_channels = {k: cfg.MODEL.FPN.OUT_CHANNELS for k in self._out_features}
-        self._out_feature_strides = {"p2": 4, "p3": 8, "p4": 16}
+        # Projection layer to convert concatenated features to the right dimension
+        self.projection = nn.Sequential(
+            nn.Conv2d(self.embed_dim * 2, self.out_channels, kernel_size=1),
+            nn.BatchNorm2d(self.out_channels),
+            nn.ReLU(inplace=True)
+        )
+        
+        # Define output feature information - use a single feature level
+        feature_stride = self.patch_size  # assuming patch_size is the stride of feature map
+        self._out_features = ["p4"]
+        self._out_feature_channels = {k: self.out_channels for k in self._out_features}
+        self._out_feature_strides = {"p4": feature_stride}
+        self._size_divisibility = feature_stride
     
-    def _make_residual_block(self, channels):
+    @property
+    def size_divisibility(self):
+        return self._size_divisibility
+    
+    def _make_residual_block(self, in_channels, out_channels):
         return nn.Sequential(
-            nn.Conv2d(channels, channels, kernel_size=3, padding=1),
-            nn.BatchNorm2d(channels),
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
+            nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
-            nn.Conv2d(channels, channels, kernel_size=3, padding=1),
-            nn.BatchNorm2d(channels),
+            nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1),
+            nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True)
         )
     
@@ -113,23 +130,37 @@ class VGGTBackbone(Backbone):
         # Calculate actual grid size from input dimensions
         h, w = images.shape[-2:]
         
-        # Ensure input dimensions are divisible by patch_size
-        h_pad = (self.patch_size - h % self.patch_size) % self.patch_size
-        w_pad = (self.patch_size - w % self.patch_size) % self.patch_size
+        # Calculate the target size (should match the size used in initialization)
+        max_size = max(self.img_size)
+        target_size = ((max_size + self.patch_size - 1) // self.patch_size) * self.patch_size
         
+        # Calculate padding to make the image square
+        h_pad = target_size - h
+        w_pad = target_size - w
+        
+        # Apply padding to make the input square
         if h_pad > 0 or w_pad > 0:
             images = F.pad(images, (0, w_pad, 0, h_pad))
             if prompt_depth is not None:
                 prompt_depth = F.pad(prompt_depth, (0, w_pad, 0, h_pad))
         
         # Calculate grid size after padding
-        grid_h = (h + h_pad) // self.patch_size
-        grid_w = (w + w_pad) // self.patch_size
+        grid_h = target_size // self.patch_size
+        grid_w = target_size // self.patch_size
         
         if prompt_depth is not None:
-            # Process depth to get 3-channel features
+            # Process depth to get 3-channel features with similar structure as image
             depth_features = self.depth_encoder(prompt_depth)
-            # Stack image and depth features
+            
+            if depth_features.shape[-2:] != images.shape[-2:]:
+                depth_features = F.interpolate(
+                    depth_features, 
+                    size=images.shape[-2:],
+                    mode='bilinear',
+                    align_corners=False
+                )
+            
+            # Stack image and depth features for the alternating attention mechanism
             inputs = torch.stack([images, depth_features], dim=1)
         else:
             # If no depth, duplicate image
@@ -138,31 +169,23 @@ class VGGTBackbone(Backbone):
         # Process through VGGT Aggregator
         output_list, patch_start_idx = self.aggregator(inputs)
         
-        # Convert to FPN features
-        features = {}
-        
-        # Use last layer as p4
-        p4_features = output_list[-1]
-        
-        # Calculate feature map shape based on grid size
-        num_patches = p4_features.shape[2] - patch_start_idx
-        assert num_patches == grid_h * grid_w, f"Expected {grid_h * grid_w} patches but got {num_patches}"
+        # Use the last output from the aggregator
+        last_output = output_list[-1]  # Shape: [B, S, P, C]
         
         # Only take patch tokens, exclude special tokens
-        p4_tokens = p4_features[:, 0, patch_start_idx:, :].reshape(batch_size, grid_h, grid_w, -1).permute(0, 3, 1, 2)
-        features["p4"] = self.fpn_converter["p4"](p4_tokens)
+        patch_tokens = last_output[:, 0, patch_start_idx:, :]  # Shape: [B, num_patches, C]
         
-        # Upsample to get p3 (2x resolution)
-        p3_tokens = F.interpolate(p4_tokens, scale_factor=2, mode='bilinear', align_corners=False)
-        features["p3"] = self.fpn_converter["p3"](p3_tokens)
+        # Reshape to 2D feature map (B, C, H, W)
+        feature_map = patch_tokens.reshape(batch_size, grid_h, grid_w, -1).permute(0, 3, 1, 2)
         
-        # Upsample to get p2 (4x resolution)
-        p2_tokens = F.interpolate(p3_tokens, scale_factor=2, mode='bilinear', align_corners=False)
-        features["p2"] = self.fpn_converter["p2"](p2_tokens)
+        # Pass through projection layer
+        p4 = self.projection(feature_map)
+        
+        # Create the output dictionary
+        features = {"p4": p4}
         
         return features
 
 @BACKBONE_REGISTRY.register()
 def build_vggt_backbone(cfg, input_shape, priors=None):
-    """Build VGGT backbone"""
     return VGGTBackbone(cfg, input_shape, priors)
