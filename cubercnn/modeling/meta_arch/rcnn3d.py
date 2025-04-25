@@ -100,6 +100,7 @@ class RCNN3D(GeneralizedRCNN):
         # Pass oracle 2D boxes into the RoI heads
         if type(batched_inputs == list) and np.any(['oracle2D' in b for b in batched_inputs]):
             oracles = [b['oracle2D'] for b in batched_inputs]
+            print(oracles)
             results, _ = self.roi_heads(images, features, oracles, Ks, im_scales_ratio, None)
         
         # normal inference

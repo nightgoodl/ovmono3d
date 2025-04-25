@@ -18,7 +18,7 @@ import os
 class DatasetMapper3D(DatasetMapper):
     def __init__(self, cfg, is_train = True):
         super().__init__(cfg, is_train)
-        self.depth_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_dep_pro"
+        self.depth_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_vggt"
         self.use_depth = cfg.MODEL.FPN.USE_DEPTH_FUSION
         self.nocs_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_nocs"
         self.use_nocs = cfg.MODEL.FPN.USE_NOCS_FUSION 
@@ -36,22 +36,30 @@ class DatasetMapper3D(DatasetMapper):
             
             try:
                 if os.path.exists(depth_path):
-                    # 直接加载npy文件
                     depth_data = np.load(depth_path)
                    
-                    if len(depth_data.shape) > 2:
-                        # 检查是否为5维数据 [1, 1, H, W, 1]
-                        if len(depth_data.shape) == 5:
-                            depth_data = depth_data[0, 0, :, :, 0]  
-                        elif len(depth_data.shape) == 3 and depth_data.shape[2] == 1:
-                            depth_data = depth_data[:, :, 0]  
+                    # Properly normalize depth data
+                    # First handle possible nan or inf values
+                    depth_data = np.nan_to_num(depth_data)
                     
+                    # Get min and max for normalization (ignoring zeros if they represent invalid measurements)
+                    mask = depth_data > 0
+                    if mask.sum() > 0:
+                        min_depth = depth_data[mask].min()
+                        max_depth = depth_data[mask].max()
+                        
+                        # Normalize to 0-1 range for valid depths
+                        if max_depth > min_depth:
+                            depth_data[mask] = (depth_data[mask] - min_depth) / (max_depth - min_depth)
+                    
+                    # Scale to 0-255 for consistent processing downstream
+                    depth_data = (depth_data * 255.0).clip(0, 255)
                     depth = torch.as_tensor(depth_data.astype("float32"))
                     
                     # match depth size to image size
                     if depth.shape[:2] != image.shape[:2]:
                         depth = torch.nn.functional.interpolate(
-                            depth.unsqueeze(0).unsqueeze(0),  # 确保是[N,C,H,W]格式
+                            depth.unsqueeze(0).unsqueeze(0), 
                             size=image.shape[:2],
                             mode='bilinear',
                             align_corners=False
