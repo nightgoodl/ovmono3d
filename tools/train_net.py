@@ -22,6 +22,14 @@ from detectron2.engine import (
 from detectron2.solver import build_lr_scheduler
 from detectron2.utils.events import EventStorage
 from detectron2.utils.logger import setup_logger
+import datetime
+
+os.environ['NCCL_DEBUG'] = 'INFO'
+os.environ['NCCL_TIMEOUT'] = '0'
+os.environ['NCCL_IB_TIMEOUT'] = '0'
+os.environ['NCCL_SOCKET_TIMEOUT'] = '0'
+os.environ['NCCL_ASYNC_ERROR_HANDLING'] = '1'
+
 
 logger = logging.getLogger("cubercnn")
 
@@ -144,6 +152,10 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
     do_eval = cfg.TEST.EVAL_PERIOD > 0
 
     model.train()
+    
+    # Convert BatchNorm to SyncBatchNorm for better multi-GPU training
+    if comm.get_world_size() > 1:
+        model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
 
     optimizer = build_optimizer(cfg, model)
     scheduler = build_lr_scheduler(cfg, optimizer)
@@ -198,8 +210,13 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
     with EventStorage(start_iter) as storage:
         
         while True:
+            try:
+                data = next(data_iter)
+            except StopIteration:
+                # Recreate data iterator when exhausted
+                data_iter = iter(data_loader)
+                data = next(data_iter)
 
-            data = next(data_iter)
             storage.iter = iteration
 
             # forward
@@ -228,18 +245,19 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
                     max_h = max([x["nocs"].shape[1] for x in data])
                     max_w = max([x["nocs"].shape[2] for x in data])
                     
-                    # Create padded NOCS tensor - NOCS typically has 3 channels (x,y,z)
+                    # Create padded NOCS tensor
                     nocs_maps = torch.zeros((batch_size, 3, max_h, max_w), device=data[0]["nocs"].device)
                     
                     # Fill in the NOCS values
                     for idx, x in enumerate(data):
                         nocs = x["nocs"]  # shape: [3, H, W]
                         h, w = nocs.shape[1:]
-                        nocs_maps[idx, :, :h, :w] = nocs 
+                        nocs_maps[idx, :, :h, :w] = nocs
                 
                 loss_dict = model(data, prompt_depth=depths, prompt_nocs=nocs_maps)
             else:
                 loss_dict = model(data)
+
             losses = sum(loss_dict.values())
 
             # reduce
@@ -250,7 +268,6 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
             comm.synchronize()
 
             if recent_loss is None:
-
                 # init recent loss fairly high
                 recent_loss = losses_reduced*2.0
 
@@ -297,7 +314,12 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
             diverging_model = torch.tensor(float(diverging_model)).cuda()
 
             if world_size > 1:
-                dist.all_reduce(diverging_model)
+                # Add timeout to avoid hanging
+                try:
+                    dist.all_reduce(diverging_model, timeout=datetime.timedelta(seconds=30))
+                except Exception as e:
+                    logger.warning(f'NCCL all_reduce failed: {str(e)}')
+                    diverging_model = torch.tensor(1.0).cuda()  # Assume diverging to be safe
 
             # sync up
             comm.synchronize()
@@ -307,6 +329,9 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
                 iterations_explode += 1
 
             else:
+                # Gradient clipping to prevent explosion
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+                
                 optimizer.step()
                 storage.put_scalar("lr", optimizer.param_groups[0]["lr"], smoothing_hint=False)
                 iterations_success += 1
@@ -323,7 +348,11 @@ def do_train(cfg, model, dataset_id_to_unknown_cats, dataset_id_to_src, resume=F
             retry = torch.tensor(float(retry)).cuda()
             
             if world_size > 1:
-                dist.all_reduce(retry)
+                try:
+                    dist.all_reduce(retry, timeout=datetime.timedelta(seconds=30))
+                except Exception as e:
+                    logger.warning(f'NCCL all_reduce failed: {str(e)}')
+                    retry = torch.tensor(1.0).cuda()  # Assume retry needed to be safe
 
             # sync up
             comm.synchronize()

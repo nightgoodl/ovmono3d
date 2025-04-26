@@ -131,7 +131,8 @@ def simple_register(dataset_name, filter_settings, filter_empty=False, datasets_
         datasets_root_path = path_to_json = os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS', 'Omni3D',)
     
     path_to_json = os.path.join(datasets_root_path, dataset_name + '.json')
-    path_to_image_root = '/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes'
+    dataset_base_name = dataset_name.split('_')[0]
+    path_to_image_root = os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS', dataset_base_name)
 
     DatasetCatalog.register(dataset_name, lambda: load_omni3d_json(
         path_to_json, path_to_image_root, 

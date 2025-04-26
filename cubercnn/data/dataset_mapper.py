@@ -18,20 +18,36 @@ import os
 class DatasetMapper3D(DatasetMapper):
     def __init__(self, cfg, is_train = True):
         super().__init__(cfg, is_train)
-        self.depth_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_vggt"
+        self.base_data_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS"
         self.use_depth = cfg.MODEL.FPN.USE_DEPTH_FUSION
-        self.nocs_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARKitScenes/ARKitScenes_nocs"
         self.use_nocs = cfg.MODEL.FPN.USE_NOCS_FUSION 
+        self.depth_dir = None  
+        self.nocs_dir = None  
 
     def __call__(self, dataset_dict):
         
         dataset_dict = copy.deepcopy(dataset_dict)  # it will be modified by code below
         
+        # Determine depth and nocs directories based on dataset_name
+        dataset_name = os.path.basename(os.path.dirname(dataset_dict["file_path"]))
+        if dataset_name == "ARKitScenes":
+            self.depth_dir = os.path.join(self.base_data_dir, "ARKitScenes", "ARKitScenes_depth")
+            self.nocs_dir = os.path.join(self.base_data_dir, "ARKitScenes", "ARKitScenes_nocs")
+        elif dataset_name == "KITTI_object":
+            self.depth_dir = os.path.join(self.base_data_dir, "KITTI", "KITTI_object_depth")
+            self.nocs_dir = os.path.join(self.base_data_dir, "KITTI", "KITTI_object_nocs")
+        elif dataset_name == "hypersim":
+            self.depth_dir = os.path.join(self.base_data_dir, "Hypersim", "hypersim_depth")
+            self.nocs_dir = os.path.join(self.base_data_dir, "Hypersim", "hypersim_nocs")
+        else:
+            self.depth_dir = None
+            self.nocs_dir = None
+
         image = detection_utils.read_image(dataset_dict["file_path"], format=self.image_format)
         detection_utils.check_image_size(dataset_dict, image)
 
-
-        if self.use_depth:
+        depth = None
+        if self.use_depth and self.depth_dir is not None:
             depth_path = os.path.join(self.depth_dir, dataset_dict["file_name"]+ '.npy')
             
             try:
@@ -70,11 +86,10 @@ class DatasetMapper3D(DatasetMapper):
             except Exception as e:
                 print(f"Error reading depth file: {depth_path}, Error: {str(e)}")
                 depth = torch.zeros(image.shape[:2], dtype=torch.float32)
-        else:
-            depth = None
 
         # Load NOCS map from PNG image
-        if self.use_nocs:
+        nocs = None
+        if self.use_nocs and self.nocs_dir is not None:
             nocs_path = os.path.join(self.nocs_dir, dataset_dict["file_name"] + '_nocs.png')
             try:
                 nocs_image = detection_utils.read_image(nocs_path, format="RGB")
@@ -91,8 +106,6 @@ class DatasetMapper3D(DatasetMapper):
             except Exception as e:
                 print(f"Error reading NOCS file: {nocs_path}, Error: {str(e)}")
                 nocs = torch.zeros((*image.shape[:2], 3), dtype=torch.float32)
-        else:
-            nocs = None
 
         aug_input = T.AugInput(image)
         transforms = self.augmentations(aug_input)

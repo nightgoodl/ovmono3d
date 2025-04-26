@@ -33,10 +33,10 @@ def get_cfg_defaults(cfg):
     # or if the 3D full projected boxes should be used.
     cfg.DATASETS.TRUNC_2D_BOXES = True
 
-    cfg.DATASETS.TEST_BASE = ('ARKitScenes_test',) 
-    cfg.DATASETS.TEST_NOVEL = ('ARKitScenes_test_novel',) 
-    cfg.DATASETS.CATEGORY_NAMES_BASE = ("toilet", "table", "bed", "sofa", "television", "refrigerator", "chair", "cabinet", "stove", "oven", "shelves", "sink", "machine", "bathtub")
-    cfg.DATASETS.CATEGORY_NAMES_NOVEL = ('fireplace',)
+    cfg.DATASETS.TEST_BASE = ('ARKitScenes_test', 'Hypersim_test') 
+    cfg.DATASETS.TEST_NOVEL = ('ARKitScenes_test_novel', 'KITTI_test_novel') 
+    cfg.DATASETS.CATEGORY_NAMES_BASE = ('books', 'chair', 'towel', 'blinds', 'window', 'lamp', 'shelves', 'mirror', 'sink', 'cabinet', 'bathtub', 'door', 'desk', 'box', 'bookcase', 'picture', 'table', 'counter', 'bed', 'night stand', 'pillow', 'sofa', 'television', 'floor mat', 'curtain', 'clothes', 'stationery', 'refrigerator', 'stove', 'oven', 'machine')
+    cfg.DATASETS.CATEGORY_NAMES_NOVEL = ('fireplace','tram')
 
     # Oracle 2D files for evaluation
     cfg.DATASETS.ORACLE2D_FILES = CN()
@@ -52,13 +52,13 @@ def get_cfg_defaults(cfg):
         novel_datasets = {
             #'SUNRGBD_test_novel': 'sunrgbd',
             'ARKitScenes_test_novel': 'arkitscenes', 
-            #'KITTI_test_novel': 'kitti'
+            'KITTI_test_novel': 'kitti'
         }
         
         # Oracle 2D file for the Base class dataset
         base_datasets = {
             #'SUNRGBD_test': 'sunrgbd',
-            #'Hypersim_test': 'hypersim',
+            'Hypersim_test': 'hypersim',
             'ARKitScenes_test': 'arkitscenes',
             #'Objectron_test': 'objectron',
             #'KITTI_test': 'kitti',
@@ -77,7 +77,7 @@ def get_cfg_defaults(cfg):
 
     cfg.MODEL.FPN.IN_FEATURE = None
     cfg.MODEL.FPN.SQUARE_PAD = 0
-    cfg.MODEL.FPN.USE_DEPTH_FUSION = False
+    cfg.MODEL.FPN.USE_DEPTH_FUSION = True
     cfg.MODEL.FPN.USE_NOCS_FUSION = False
     # Threshold used for matching and filtering boxes
     # inside of ignore regions, within the RPN and ROIHeads
