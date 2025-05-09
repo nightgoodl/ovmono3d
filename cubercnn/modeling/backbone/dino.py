@@ -13,237 +13,168 @@ import unittest
 class DepthFusionBlock(nn.Module):
     def __init__(self, features):
         super().__init__()
-        
-        # depth feature extraction
+        # depth feature extraction with normalization
         self.depth_conv = nn.Sequential(
             nn.Conv2d(1, features // 4, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(features // 4),
             nn.ReLU(True),
             nn.Conv2d(features // 4, features // 2, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(features // 2),
             nn.ReLU(True),
             nn.Conv2d(features // 2, features, kernel_size=3, stride=1, padding=1)
         )
-        
-        # zero init depth fusion
-        for m in self.depth_conv[-1].modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.zeros_(m.weight)
-                nn.init.zeros_(m.bias)
-        
-        # net after depth fusion
-        self.fusion_conv = nn.Conv2d(
-            features, features, kernel_size=3, stride=1, padding=1
-        )
-        
-        self.skip_add = nn.quantized.FloatFunctional()
-    
+        # zero init last conv to start with identity behavior (depth zero)
+        nn.init.zeros_(self.depth_conv[-1].weight)
+        nn.init.zeros_(self.depth_conv[-1].bias)
+
+        # fusion conv initialized to identity
+        self.fusion_conv = nn.Conv2d(features, features, kernel_size=3, stride=1, padding=1)
+        # identity init: delta kernel
+        with torch.no_grad():
+            k = self.fusion_conv.kernel_size[0]
+            self.fusion_conv.weight.zero_()
+            for c in range(features):
+                self.fusion_conv.weight[c, c, k//2, k//2] = 1.0
+            self.fusion_conv.bias.zero_()
+
     def forward(self, x, depth):
-        if depth.shape[-2:] != x.shape[-2:]:
-            depth = F.interpolate(depth, size=x.shape[-2:], mode='bilinear', align_corners=False)
-        
-        # extract depth feature
+        # assume depth already resized outside
         depth_feat = self.depth_conv(depth)
-        
-        # depth fusion
-        fused = self.skip_add.add(x, depth_feat)
-        
-        # feature fusion
+        fused = x + depth_feat
         out = self.fusion_conv(fused)
-        
         return out
 
 class NOCSFusionBlock(nn.Module):
     def __init__(self, features):
         super().__init__()
-        
-        # NOCS feature extraction (3 channels for RGB NOCS representation)
         self.nocs_conv = nn.Sequential(
             nn.Conv2d(3, features // 4, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(features // 4),
             nn.ReLU(True),
             nn.Conv2d(features // 4, features // 2, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(features // 2),
             nn.ReLU(True),
             nn.Conv2d(features // 2, features, kernel_size=3, stride=1, padding=1)
         )
-        
-        # zero init NOCS fusion
-        for m in self.nocs_conv[-1].modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.zeros_(m.weight)
-                nn.init.zeros_(m.bias)
-        
-        # net after NOCS fusion
-        self.fusion_conv = nn.Conv2d(
-            features, features, kernel_size=3, stride=1, padding=1
-        )
-        
-        self.skip_add = nn.quantized.FloatFunctional()
-    
+        nn.init.zeros_(self.nocs_conv[-1].weight)
+        nn.init.zeros_(self.nocs_conv[-1].bias)
+
+        self.fusion_conv = nn.Conv2d(features, features, kernel_size=3, stride=1, padding=1)
+        with torch.no_grad():
+            k = self.fusion_conv.kernel_size[0]
+            self.fusion_conv.weight.zero_()
+            for c in range(features):
+                self.fusion_conv.weight[c, c, k//2, k//2] = 1.0
+            self.fusion_conv.bias.zero_()
+
     def forward(self, x, nocs):
-        if nocs.shape[-2:] != x.shape[-2:]:
-            nocs = F.interpolate(nocs, size=x.shape[-2:], mode='bilinear', align_corners=False)
-        
-        # extract NOCS feature
         nocs_feat = self.nocs_conv(nocs)
-        
-        # NOCS fusion
-        fused = self.skip_add.add(x, nocs_feat)
-        
-        # feature fusion
+        fused = x + nocs_feat
         out = self.fusion_conv(fused)
-        
         return out
 
 class DINOBackbone(Backbone):
     def __init__(self, cfg, input_shape, dino_name="dino", model_name="vitb16", output="dense", layer=-1, return_multilayer=False, out_feature="last_feat",):
         super().__init__()
-        feat_dims = {
-            "vitb8": 768,
-            "vitb16": 768,
-            "vitb14": 768,
-            "vitb14_reg": 768,
-            "vitl14": 1024,
-            "vitg14": 1536,
-        }
+        feat_dims = {"vitb8": 768, "vitb16": 768, "vitb14": 768, "vitb14_reg": 768, "vitl14": 1024, "vitg14": 1536}
 
-        # get model
+        # load model
         self.model_name = dino_name
         self.checkpoint_name = f"{dino_name}_{model_name}"
         dino_vit = torch.hub.load(f"facebookresearch/{dino_name}", self.checkpoint_name)
         self.vit = dino_vit
-        self.has_registers = "_reg" in model_name
-
-        assert output in ["cls", "gap", "dense", "dense-cls"]
-        self.output = output
         self.patch_size = self.vit.patch_embed.proj.kernel_size[0]
 
         feat_dim = feat_dims[model_name]
-        feat_dim = feat_dim * 2 if output == "dense-cls" else feat_dim
+        if output == "dense-cls":
+            feat_dim *= 2
 
         num_layers = len(self.vit.blocks)
-        multilayers = [
-            num_layers // 4 - 1,
-            num_layers // 2 - 1,
-            num_layers // 4 * 3 - 1,
-            num_layers - 1,
-        ]
-        
+        multilayers = [num_layers//4-1, num_layers//2-1, num_layers//4*3-1, num_layers-1]
+
         self.use_depth_fusion = cfg.MODEL.FPN.USE_DEPTH_FUSION
         self.use_nocs_fusion = cfg.MODEL.FPN.USE_NOCS_FUSION
-        
-        # use depth fusion
         if self.use_depth_fusion:
             self.depth_fusion_block = DepthFusionBlock(feat_dim)
-            
-        # use NOCS fusion
         if self.use_nocs_fusion:
             self.nocs_fusion_block = NOCSFusionBlock(feat_dim)
 
         if return_multilayer:
-            self.feat_dim = [feat_dim, feat_dim, feat_dim, feat_dim]
+            self.feat_dim = [feat_dim]*4
             self.multilayers = multilayers
         else:
             self.feat_dim = feat_dim
             layer = multilayers[-1] if layer == -1 else layer
             self.multilayers = [layer]
 
-        # define layer name (for logging)
-        self.layer = "-".join(str(_x) for _x in self.multilayers)
-
         self._out_feature_channels = {out_feature: feat_dim}
         self._out_feature_strides = {out_feature: self.patch_size}
         self._out_features = [out_feature]
 
     def forward(self, images, prompt_depth=None, prompt_nocs=None):
-        h, w = images.shape[-2:]
-        h, w = h // self.patch_size, w // self.patch_size
+        B, _, H, W = images.shape
+        h, w = H//self.patch_size, W//self.patch_size
 
-        if self.model_name == "dinov2":
-            x = self.vit.prepare_tokens_with_masks(images, None)
-        else:
-            x = self.vit.prepare_tokens(images)
-
+        x = self.vit.prepare_tokens(images)
         embeds = []
         for i, blk in enumerate(self.vit.blocks):
             x = blk(x)
             if i in self.multilayers:
                 embeds.append(x)
-                if len(embeds) == len(self.multilayers):
-                    break
+                if len(embeds) == len(self.multilayers): break
 
-        num_spatial = h * w
         outputs = {}
-        
+        num_spatial = h * w
         for idx, x_i in enumerate(embeds):
             cls_tok = x_i[:, 0]
-            spatial = x_i[:, -1 * num_spatial:]
+            spatial = x_i[:, -num_spatial:]
             x_i = tokens_to_output(self.output, spatial, cls_tok, (h, w))
-            
-            # Apply fusion at the last layer only
-            if idx == len(embeds) - 1:
-                # depth fusion
-                if self.use_depth_fusion and prompt_depth is not None:
-                    x_i = self.depth_fusion_block(x_i, prompt_depth)
-                
-                # NOCS fusion
-                if self.use_nocs_fusion and prompt_nocs is not None:
-                    x_i = self.nocs_fusion_block(x_i, prompt_nocs)
-                
+
+            if self.use_depth_fusion and prompt_depth is not None:
+                depth_scaled = F.interpolate(prompt_depth, size=x_i.shape[-2:], mode='bilinear', align_corners=False)
+                x_i = self.depth_fusion_block(x_i, depth_scaled)
+            if self.use_nocs_fusion and prompt_nocs is not None:
+                nocs_scaled = F.interpolate(prompt_nocs, size=x_i.shape[-2:], mode='bilinear', align_corners=False)
+                x_i = self.nocs_fusion_block(x_i, nocs_scaled)
+
             outputs[self._out_features[idx]] = x_i
-
         return outputs
-
 
 @BACKBONE_REGISTRY.register()
 def build_dino_backbone(cfg, input_shape: ShapeSpec, priors=None):
-    dino_name = cfg.MODEL.DINO.NAME
-    model_name = cfg.MODEL.DINO.MODEL_NAME
-    output = cfg.MODEL.DINO.OUTPUT
-    layer = cfg.MODEL.DINO.LAYER
-    return_multilayer = cfg.MODEL.DINO.RETURN_MULTILAYER
-
-    bottom_up = DINOBackbone(
-        cfg,
-        input_shape,
-        dino_name=dino_name,
-        model_name=model_name,
-        output=output,
-        layer=layer,
-        return_multilayer=return_multilayer,
-    )
-
-    in_feature = cfg.MODEL.FPN.IN_FEATURE
-    out_channels = cfg.MODEL.FPN.OUT_CHANNELS
-    scale_factors = (2.0, 1.0, 0.5)
-    backbone = SimpleFeaturePyramid(
+    bottom_up = DINOBackbone(cfg, input_shape,
+                             dino_name=cfg.MODEL.DINO.NAME,
+                             model_name=cfg.MODEL.DINO.MODEL_NAME,
+                             output=cfg.MODEL.DINO.OUTPUT,
+                             layer=cfg.MODEL.DINO.LAYER,
+                             return_multilayer=cfg.MODEL.DINO.RETURN_MULTILAYER)
+    return SimpleFeaturePyramid(
         net=bottom_up,
-        in_feature=in_feature,
-        out_channels=out_channels,
-        scale_factors=scale_factors,
+        in_feature=cfg.MODEL.FPN.IN_FEATURE,
+        out_channels=cfg.MODEL.FPN.OUT_CHANNELS,
+        scale_factors=(2.0,1.0,0.5),
         norm=cfg.MODEL.FPN.NORM,
         top_block=None,
         square_pad=cfg.MODEL.FPN.SQUARE_PAD
     )
-    return backbone
 
 def tokens_to_output(output_type, dense_tokens, cls_token, feat_hw):
+    # unchanged
     if output_type == "cls":
-        assert cls_token is not None
-        output = cls_token
+        return cls_token
     elif output_type == "gap":
-        output = dense_tokens.mean(dim=1)
+        return dense_tokens.mean(dim=1)
     elif output_type == "dense":
-        h, w = feat_hw
-        dense_tokens = E.rearrange(dense_tokens, "b (h w) c -> b c h w", h=h, w=w)
-        output = dense_tokens.contiguous()
+        h,w = feat_hw
+        return E.rearrange(dense_tokens, "b (h w) c -> b c h w", h=h, w=w).contiguous()
     elif output_type == "dense-cls":
-        assert cls_token is not None
-        h, w = feat_hw
-        dense_tokens = E.rearrange(dense_tokens, "b (h w) c -> b c h w", h=h, w=w)
-        cls_token = cls_token[:, :, None, None].repeat(1, 1, h, w)
-        output = torch.cat((dense_tokens, cls_token), dim=1).contiguous()
+        h,w = feat_hw
+        dense = E.rearrange(dense_tokens, "b (h w) c -> b c h w", h=h, w=w)
+        cls = cls_token[:,:,None,None].repeat(1,1,h,w)
+        return torch.cat((dense, cls), dim=1).contiguous()
     else:
         raise ValueError()
 
-    return output
 
 class TestDINOBackbone(unittest.TestCase):
     def setUp(self):
