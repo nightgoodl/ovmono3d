@@ -18,7 +18,7 @@ import os
 class DatasetMapper3D(DatasetMapper):
     def __init__(self, cfg, is_train = True):
         super().__init__(cfg, is_train)
-        self.base_data_dir = "/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS"
+        self.base_data_dir = "/home/hugoycj/PrivateStorage4/dataset/NOCS/"
         self.use_depth = cfg.MODEL.FPN.USE_DEPTH_FUSION
         self.use_nocs = cfg.MODEL.FPN.USE_NOCS_FUSION 
         self.depth_dir = None  

@@ -1,51 +1,47 @@
 nohup: ignoring input
-2025-05-09 13:07:58.799507: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2025-05-09 13:07:59.534220: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-05-09 13:08:07.498579: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-Command Line Args: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=False, machine_rank=0, num_gpus=1, num_machines=1, opts=['OUTPUT_DIR', '/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARK_Hyper/ovmono3d_depth/', 'VIS_PERIOD', '10000', 'TEST.EVAL_PERIOD', '10000', 'MODEL.STABILIZE', '0.03', 'SOLVER.BASE_LR', '0.012', 'SOLVER.CHECKPOINT_PERIOD', '9999', 'SOLVER.IMS_PER_BATCH', '16'], resume=False)
-[05/09 13:08:23 detectron2]: Rank of current process: 0. World size: 1
-[05/09 13:08:25 detectron2]: Environment info:
--------------------------------  -----------------------------------------------------------------------------------------------------
+Command Line Args: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:50168', eval_only=False, machine_rank=0, num_gpus=1, num_machines=1, opts=['OUTPUT_DIR', '/home/hugoycj/PrivateStorage4/dataset/NOCS/ARK_Hyper/ovmono3d_depth', 'VIS_PERIOD', '10000', 'TEST.EVAL_PERIOD', '10000', 'MODEL.STABILIZE', '0.03', 'SOLVER.BASE_LR', '0.0001', 'SOLVER.CHECKPOINT_PERIOD', '9999', 'SOLVER.IMS_PER_BATCH', '2'], resume=False)
+[05/11 14:01:54 detectron2]: Rank of current process: 0. World size: 1
+[05/11 14:01:56 detectron2]: Environment info:
+-------------------------------  -------------------------------------------------------------------------------------------
 sys.platform                     linux
 Python                           3.8.20 (default, Oct  3 2024, 15:24:27) [GCC 11.2.0]
-numpy                            1.24.3
-detectron2                       0.6 @/baai-cwm-1/baai_cwm_ml/cwm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/detectron2
+numpy                            1.24.1
+detectron2                       0.6 @/home/yingbo/Work/ovmono3d/detectron2/detectron2
 Compiler                         GCC 9.4
-CUDA compiler                    CUDA 12.1
-detectron2 arch flags            8.9
+CUDA compiler                    CUDA 12.0
+detectron2 arch flags            8.6
 DETECTRON2_ENV_MODULE            <not set>
-PyTorch                          2.4.1 @/baai-cwm-1/baai_cwm_ml/cwm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torch
+PyTorch                          2.4.1+cu121 @/home/yingbo/miniconda3/envs/ovmono3d/lib/python3.8/site-packages/torch
 PyTorch debug build              False
 torch._C._GLIBCXX_USE_CXX11_ABI  False
 GPU available                    Yes
-GPU 0,1                          NVIDIA L20 (arch=8.9)
-Driver version                   535.154.05
+GPU 0                            NVIDIA GeForce RTX 3090 (arch=8.6)
+Driver version
 CUDA_HOME                        /usr/local/cuda
-Pillow                           10.4.0
-torchvision                      0.19.1 @/baai-cwm-1/baai_cwm_ml/cwm/chongjie.ye/envs/ovmono3d/lib/python3.8/site-packages/torchvision
+Pillow                           10.2.0
+torchvision                      0.19.1+cu121 @/home/yingbo/miniconda3/envs/ovmono3d/lib/python3.8/site-packages/torchvision
 torchvision arch flags           5.0, 6.0, 7.0, 7.5, 8.0, 8.6, 9.0
 fvcore                           0.1.5.post20221221
 iopath                           0.1.9
 cv2                              4.11.0
--------------------------------  -----------------------------------------------------------------------------------------------------
+-------------------------------  -------------------------------------------------------------------------------------------
 PyTorch built with:
   - GCC 9.3
   - C++ Version: 201703
-  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) oneAPI Math Kernel Library Version 2022.2-Product Build 20220804 for Intel(R) 64 architecture applications
   - Intel(R) MKL-DNN v3.4.2 (Git Hash 1137e04ec0b5251ca2b4400a4fd3c667ce843d67)
   - OpenMP 201511 (a.k.a. OpenMP 4.5)
   - LAPACK is enabled (usually provided by MKL)
   - NNPACK is enabled
-  - CPU capability usage: AVX512
-  - CUDA Runtime 12.4
-  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
-  - CuDNN 90.1
+  - CPU capability usage: AVX2
+  - CUDA Runtime 12.1
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 90.1  (built against CUDA 12.4)
   - Magma 2.6.1
-  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.4, CUDNN_VERSION=9.1.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.4.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.1, CUDNN_VERSION=9.1.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.4.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=1, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
 
-[05/09 13:08:25 detectron2]: Command line arguments: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=False, machine_rank=0, num_gpus=1, num_machines=1, opts=['OUTPUT_DIR', '/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARK_Hyper/ovmono3d_depth/', 'VIS_PERIOD', '10000', 'TEST.EVAL_PERIOD', '10000', 'MODEL.STABILIZE', '0.03', 'SOLVER.BASE_LR', '0.012', 'SOLVER.CHECKPOINT_PERIOD', '9999', 'SOLVER.IMS_PER_BATCH', '16'], resume=False)
-[05/09 13:08:25 detectron2]: Contents of args.config_file=configs/OVMono3D_dinov2_SFP.yaml:
+[05/11 14:01:56 detectron2]: Command line arguments: Namespace(config_file='configs/OVMono3D_dinov2_SFP.yaml', dist_url='tcp://127.0.0.1:50168', eval_only=False, machine_rank=0, num_gpus=1, num_machines=1, opts=['OUTPUT_DIR', '/home/hugoycj/PrivateStorage4/dataset/NOCS/ARK_Hyper/ovmono3d_depth', 'VIS_PERIOD', '10000', 'TEST.EVAL_PERIOD', '10000', 'MODEL.STABILIZE', '0.03', 'SOLVER.BASE_LR', '0.0001', 'SOLVER.CHECKPOINT_PERIOD', '9999', 'SOLVER.IMS_PER_BATCH', '2'], resume=False)
+[05/11 14:01:56 detectron2]: Contents of args.config_file=configs/OVMono3D_dinov2_SFP.yaml:
 [38;5;204m_BASE_[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186mBase.yaml[39m[38;5;186m"[39m
 [38;5;204mSOLVER[39m[38;5;15m:[39m
 [38;5;15m  [39m[38;5;204mTYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186msgd[39m[38;5;186m"[39m
@@ -92,7 +88,7 @@ PyTorch built with:
 [38;5;15m    [39m[38;5;204mNUM_CLASSES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m34[39m
 [38;5;15m    [39m[38;5;204mIN_FEATURES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;186m'[39m[38;5;186mp2[39m[38;5;186m'[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186mp3[39m[38;5;186m'[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186mp4[39m[38;5;186m'[39m[38;5;15m][39m
 
-[05/09 13:08:25 detectron2]: Running with full config:
+[05/11 14:01:56 detectron2]: Running with full config:
 [38;5;204mCUDNN_BENCHMARK[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
 [38;5;204mDATALOADER[39m[38;5;15m:[39m
 [38;5;15m  [39m[38;5;204mASPECT_RATIO_GROUPING[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
@@ -184,18 +180,18 @@ PyTorch built with:
 [38;5;15m    [39m[38;5;204mEVAL_MODE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtarget_aware[39m
 [38;5;15m    [39m[38;5;204mprevious_metric[39m[38;5;15m:[39m
 [38;5;15m      [39m[38;5;204mbase[39m[38;5;15m:[39m
-[38;5;15m        [39m[38;5;204mARKitScenes_test[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/gdino_previous_eval_arkitscenes_base_oracle_2d.json[39m
-[38;5;15m        [39m[38;5;204mHypersim_test[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/gdino_previous_eval_hypersim_base_oracle_2d.json[39m
+[38;5;15m        [39m[38;5;204mARKitScenes_test[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/gdino_previous_eval_arkitscenes_base_oracle_2d.json[39m
+[38;5;15m        [39m[38;5;204mHypersim_test[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/gdino_previous_eval_hypersim_base_oracle_2d.json[39m
 [38;5;15m      [39m[38;5;204mnovel[39m[38;5;15m:[39m
-[38;5;15m        [39m[38;5;204mARKitScenes_test_novel[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/gdino_novel_previous_metric_arkitscenes_novel_oracle_2d.json[39m
-[38;5;15m        [39m[38;5;204mKITTI_test_novel[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/gdino_novel_previous_metric_kitti_novel_oracle_2d.json[39m
+[38;5;15m        [39m[38;5;204mARKitScenes_test_novel[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/gdino_novel_previous_metric_arkitscenes_novel_oracle_2d.json[39m
+[38;5;15m        [39m[38;5;204mKITTI_test_novel[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/gdino_novel_previous_metric_kitti_novel_oracle_2d.json[39m
 [38;5;15m    [39m[38;5;204mtarget_aware[39m[38;5;15m:[39m
 [38;5;15m      [39m[38;5;204mbase[39m[38;5;15m:[39m
-[38;5;15m        [39m[38;5;204mARKitScenes_test[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/gdino_arkitscenes_base_oracle_2d.json[39m
-[38;5;15m        [39m[38;5;204mHypersim_test[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/gdino_hypersim_base_oracle_2d.json[39m
+[38;5;15m        [39m[38;5;204mARKitScenes_test[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/gdino_arkitscenes_base_oracle_2d.json[39m
+[38;5;15m        [39m[38;5;204mHypersim_test[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/gdino_hypersim_base_oracle_2d.json[39m
 [38;5;15m      [39m[38;5;204mnovel[39m[38;5;15m:[39m
-[38;5;15m        [39m[38;5;204mARKitScenes_test_novel[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/gdino_arkitscenes_novel_oracle_2d.json[39m
-[38;5;15m        [39m[38;5;204mKITTI_test_novel[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/gdino_kitti_novel_oracle_2d.json[39m
+[38;5;15m        [39m[38;5;204mARKitScenes_test_novel[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/gdino_arkitscenes_novel_oracle_2d.json[39m
+[38;5;15m        [39m[38;5;204mKITTI_test_novel[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/gdino_kitti_novel_oracle_2d.json[39m
 [38;5;15m  [39m[38;5;204mPRECOMPUTED_PROPOSAL_TOPK_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1000[39m
 [38;5;15m  [39m[38;5;204mPRECOMPUTED_PROPOSAL_TOPK_TRAIN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2000[39m
 [38;5;15m  [39m[38;5;204mPROPOSAL_FILES_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;15m][39m
@@ -309,6 +305,7 @@ PyTorch built with:
 [38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp4[39m
 [38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp5[39m
 [38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp6[39m
+[38;5;15m    [39m[38;5;204mMULTILEVEL_FUSION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
 [38;5;15m    [39m[38;5;204mNORM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mLN[39m
 [38;5;15m    [39m[38;5;204mOUT_CHANNELS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
 [38;5;15m    [39m[38;5;204mSQUARE_PAD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m896[39m
@@ -568,12 +565,12 @@ PyTorch built with:
 [38;5;15m    [39m[38;5;204mPATCH_SIZE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m14[39m
 [38;5;15m  [39m[38;5;204mWEIGHTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186m'[39m
 [38;5;15m  [39m[38;5;204mWEIGHTS_PRETRAIN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186m'[39m
-[38;5;204mOUTPUT_DIR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARK_Hyper/ovmono3d_depth/[39m
+[38;5;204mOUTPUT_DIR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m/home/hugoycj/PrivateStorage4/dataset/NOCS/ARK_Hyper/ovmono3d_depth[39m
 [38;5;204mSEED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m-1[39m
 [38;5;204mSOLVER[39m[38;5;15m:[39m
 [38;5;15m  [39m[38;5;204mAMP[39m[38;5;15m:[39m
 [38;5;15m    [39m[38;5;204mENABLED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
-[38;5;15m  [39m[38;5;204mBASE_LR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.012[39m
+[38;5;15m  [39m[38;5;204mBASE_LR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0001[39m
 [38;5;15m  [39m[38;5;204mBASE_LR_END[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
 [38;5;15m  [39m[38;5;204mBIAS_LR_FACTOR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
 [38;5;15m  [39m[38;5;204mCHECKPOINT_PERIOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m9999[39m
@@ -583,7 +580,7 @@ PyTorch built with:
 [38;5;15m    [39m[38;5;204mENABLED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
 [38;5;15m    [39m[38;5;204mNORM_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2.0[39m
 [38;5;15m  [39m[38;5;204mGAMMA[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.1[39m
-[38;5;15m  [39m[38;5;204mIMS_PER_BATCH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m16[39m
+[38;5;15m  [39m[38;5;204mIMS_PER_BATCH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2[39m
 [38;5;15m  [39m[38;5;204mLR_SCHEDULER_NAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mWarmupMultiStepLR[39m
 [38;5;15m  [39m[38;5;204mMAX_ITER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m116000[39m
 [38;5;15m  [39m[38;5;204mMOMENTUM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.9[39m
@@ -630,24 +627,6 @@ PyTorch built with:
 [38;5;204mVERSION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2[39m
 [38;5;204mVIS_PERIOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m10000[39m
 
-[05/09 13:08:25 detectron2]: Full config saved to /baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/ARK_Hyper/ovmono3d_depth/config.yaml
-[05/09 13:08:25 d2.utils.env]: Using a generated random seed 28947659
-[05/09 13:08:25 cubercnn]: Preprocessing Training Datasets
-loading ARKitScenes_train annotations into memory...
-Done (t=139.31s)
-loading ARKitScenes_val annotations into memory...
-Done (t=11.92s)
-loading Hypersim_train annotations into memory...
-Done (t=155.61s)
-loading Hypersim_val annotations into memory...
-Done (t=4.10s)
-creating index...
-index created!
-[05/09 13:16:21 cubercnn]: Available categories for ARKitScenes Train
-[05/09 13:16:21 cubercnn]: ['machine', 'fireplace', 'chair', 'shelves', 'sink', 'cabinet', 'bathtub', 'toilet', 'table', 'bed', 'sofa', 'television', 'refrigerator', 'stove', 'oven']
-[05/09 13:16:21 cubercnn]: Available categories for ARKitScenes Validation
-[05/09 13:16:21 cubercnn]: ['machine', 'fireplace', 'chair', 'shelves', 'sink', 'cabinet', 'bathtub', 'toilet', 'table', 'bed', 'sofa', 'television', 'refrigerator', 'stove', 'oven']
-[05/09 13:16:21 cubercnn]: Available categories for Hypersim Train
-[05/09 13:16:21 cubercnn]: ['books', 'chair', 'towel', 'blinds', 'window', 'lamp', 'shelves', 'mirror', 'sink', 'cabinet', 'bathtub', 'door', 'toilet', 'desk', 'box', 'bookcase', 'picture', 'table', 'counter', 'bed', 'night stand', 'pillow', 'sofa', 'television', 'floor mat', 'curtain', 'clothes', 'stationery', 'refrigerator']
-[05/09 13:16:21 cubercnn]: Available categories for Hypersim Validation
-[05/09 13:16:21 cubercnn]: ['books', 'chair', 'towel', 'blinds', 'window', 'lamp', 'shelves', 'mirror', 'sink', 'cabinet', 'bathtub', 'door', 'toilet', 'desk', 'box', 'bookcase', 'picture', 'table', 'counter', 'bed', 'night stand', 'pillow', 'sofa', 'television', 'floor mat', 'curtain', 'clothes', 'stationery', 'refrigerator']
+[05/11 14:01:56 detectron2]: Full config saved to /home/hugoycj/PrivateStorage4/dataset/NOCS/ARK_Hyper/ovmono3d_depth/config.yaml
+[05/11 14:01:56 d2.utils.env]: Using a generated random seed 59514733
+[05/11 14:01:56 cubercnn]: Preprocessing Training Datasets

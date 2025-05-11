@@ -68,17 +68,18 @@ def get_cfg_defaults(cfg):
         # Set the file path for the novel class
         for dataset, dataset_name in novel_datasets.items():
             prefix = 'gdino_novel_previous_metric' if mode == 'previous_metric' else 'gdino'
-            cfg.DATASETS.ORACLE2D_FILES[mode].novel[dataset] = f'/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/{prefix}_{dataset_name}_novel_oracle_2d.json'
+            cfg.DATASETS.ORACLE2D_FILES[mode].novel[dataset] = f'/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/{prefix}_{dataset_name}_novel_oracle_2d.json'
 
         # Set the file path for the base class
         for dataset, dataset_name in base_datasets.items():
             prefix = 'gdino_previous_eval' if mode == 'previous_metric' else 'gdino'
-            cfg.DATASETS.ORACLE2D_FILES[mode].base[dataset] = f'/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS/Omni3D/{prefix}_{dataset_name}_base_oracle_2d.json'
+            cfg.DATASETS.ORACLE2D_FILES[mode].base[dataset] = f'/home/hugoycj/PrivateStorage4/dataset/NOCS/Omni3D/{prefix}_{dataset_name}_base_oracle_2d.json'
 
     cfg.MODEL.FPN.IN_FEATURE = None
     cfg.MODEL.FPN.SQUARE_PAD = 0
     cfg.MODEL.FPN.USE_DEPTH_FUSION = True
     cfg.MODEL.FPN.USE_NOCS_FUSION = False
+    cfg.MODEL.FPN.MULTILEVEL_FUSION = True
     # Threshold used for matching and filtering boxes
     # inside of ignore regions, within the RPN and ROIHeads
     cfg.MODEL.RPN.IGNORE_THRESHOLD = 0.5
@@ -88,7 +89,7 @@ def get_cfg_defaults(cfg):
     cfg.MODEL.DINO.MODEL_NAME = 'vitb14'
     cfg.MODEL.DINO.OUTPUT = 'dense'
     cfg.MODEL.DINO.LAYER = -1
-    cfg.MODEL.DINO.RETURN_MULTILAYER = False
+    cfg.MODEL.DINO.RETURN_MULTILAYER = True
 
     cfg.MODEL.MAE = CN()
     cfg.MODEL.MAE.CHECKPOINT = 'facebook/vit-mae-base'

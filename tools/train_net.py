@@ -556,7 +556,7 @@ def allreduce_dict(input_dict, average=True):
 
 def setup_training_dataset(cfg, filter_settings):
     # setup and join the data.
-    dataset_paths = [os.path.join('/baai-cwm-nas/algorithm/chongjie.ye/data/OmniNOCS', 'Omni3D', name + '.json') for name in cfg.DATASETS.TRAIN]
+    dataset_paths = [os.path.join('/home/hugoycj/PrivateStorage4/dataset/NOCS/', 'Omni3D', name + '.json') for name in cfg.DATASETS.TRAIN]
     datasets = data.Omni3D(dataset_paths, filter_settings=filter_settings)
 
     # determine the meta data given the datasets used. 
