@@ -79,6 +79,7 @@ def get_cfg_defaults(cfg):
     cfg.MODEL.FPN.SQUARE_PAD = 0
     cfg.MODEL.FPN.USE_DEPTH_FUSION = True
     cfg.MODEL.FPN.USE_NOCS_FUSION = False
+    cfg.MODEL.FPN.MULTILEVEL_FUSION = True
     # Threshold used for matching and filtering boxes
     # inside of ignore regions, within the RPN and ROIHeads
     cfg.MODEL.RPN.IGNORE_THRESHOLD = 0.5
@@ -88,7 +89,7 @@ def get_cfg_defaults(cfg):
     cfg.MODEL.DINO.MODEL_NAME = 'vitb14'
     cfg.MODEL.DINO.OUTPUT = 'dense'
     cfg.MODEL.DINO.LAYER = -1
-    cfg.MODEL.DINO.RETURN_MULTILAYER = False
+    cfg.MODEL.DINO.RETURN_MULTILAYER = True
 
     cfg.MODEL.MAE = CN()
     cfg.MODEL.MAE.CHECKPOINT = 'facebook/vit-mae-base'
